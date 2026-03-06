@@ -26,11 +26,11 @@ Group:          Productivity/Text/Utilities
 Url:            http://www.lesbonscomptes.com/recoll/
 Source:         http://www.lesbonscomptes.com/recoll/%{rname}-%{version}.tar.gz
 BuildRequires:  plasma-framework-devel
-BuildRequires:  kconfig-devel
-BuildRequires:  kpackage-devel
-BuildRequires:  krunner-devel
-BuildRequires:  ki18n-devel
-BuildRequires:  knotifications-devel
+BuildRequires:  kf6-kconfig-devel
+BuildRequires:  kf6-kpackage-devel
+BuildRequires:  kf6-krunner-devel
+BuildRequires:  kf6-ki18n-devel
+BuildRequires:  kf6-knotifications-devel
 BuildRequires:  libxapian-devel
 Requires:       recoll = %{version}
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build

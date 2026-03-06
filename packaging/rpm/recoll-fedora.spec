@@ -1,4 +1,4 @@
-%global         gsspver 1.1.3
+%global         gsspver 1.1.4
 %global         __cmake_in_source_build 1
 
 %if 0%{?fedora} < 42 && 0%{?rhel} < 11
@@ -180,7 +180,6 @@ echo "%{_libdir}/recoll" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/recoll-%{_arc
 %{_mandir}/man1/recoll.1*
 %{_mandir}/man1/recollq.1*
 %{_mandir}/man1/recollindex.1*
-%{_mandir}/man1/xadump.1*
 %{_mandir}/man5/recoll.conf.5*
 %{_unitdir}/recollindex@.service
 %{_userunitdir}/recollindex.service
@@ -212,7 +211,6 @@ echo "%{_libdir}/recoll" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/recoll-%{_arc
 %{_bindir}/gssp-recoll.py
 %{_datadir}/dbus-1/services/org.recoll.Recoll.SearchProvider.service
 %{_datadir}/gnome-shell/search-providers/org.recoll.Recoll.search-provider.ini
-%{_datadir}/applications/org.recoll.Recoll.SearchProvider.desktop
 
 %changelog
 * Tue Aug 26 2025 FeRD (Frank Dana) <ferdnyc@gmail.com> - 1.43.4-4

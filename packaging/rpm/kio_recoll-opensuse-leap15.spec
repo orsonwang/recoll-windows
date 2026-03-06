@@ -26,9 +26,9 @@ Summary:        KIO slave for the Recoll full text search tool
 Group:          Productivity/Text/Utilities
 Url:            http://www.lesbonscomptes.com/recoll/
 Source:         http://www.lesbonscomptes.com/recoll/%{rname}-%{version}.tar.gz
-BuildRequires:  kio-devel
-BuildRequires:  ki18n-devel
-BuildRequires:  knotifications-devel
+BuildRequires:  kf6-kio-devel
+BuildRequires:  kf6-ki18n-devel
+BuildRequires:  kf6-knotifications-devel
 Requires:       recoll = %{version}
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 

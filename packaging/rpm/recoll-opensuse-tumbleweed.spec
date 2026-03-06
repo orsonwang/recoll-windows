@@ -9,7 +9,7 @@ Group:          Applications/Databases
 License:        GPLv2+
 URL:            http://www.lesbonscomptes.com/recoll/
 Source0:        http://www.lesbonscomptes.com/recoll/recoll-%{version}.tar.gz
-Source10:       qmake-qt5.sh
+Source10:       qmake-qt6.sh
 
 BuildRequires:  aspell-devel
 BuildRequires:  chmlib-devel
@@ -27,6 +27,7 @@ BuildRequires:  libxslt-devel
 BuildRequires:  meson
 BuildRequires:  python3-devel
 BuildRequires:  zlib-devel
+BuildRequires:  jsoncpp-devel
 
 Requires:       xdg-utils
 Requires:       aspell
