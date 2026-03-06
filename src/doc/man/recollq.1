@@ -19,6 +19,9 @@ recollq \- command line / standard output Recoll query command.
 .B \-b
 ]
 [
+.B \-C
+]
+[
 .B \-d
 ]
 [
@@ -108,6 +111,10 @@ stream.
 If 
 .B \-d
 is set, the text for the result files contents will be dumped to stdout.
+.PP
+With 
+.B \-C
+the program will only show a single result for multiple identical documents (same data hash).
 .PP
 If 
 .B \-m
