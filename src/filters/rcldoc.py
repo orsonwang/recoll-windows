@@ -108,6 +108,7 @@ class WordFilter:
         self.execdir = td
         self.rtfprolog = b"{\\rtf1"
         self.docprolog = b"\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1"
+        self.wpdprolog = b"\xffWPC"
         self.hasSoffice = None
 
     def reset(self):
@@ -135,6 +136,8 @@ class WordFilter:
             return "text/rtf"
         elif data[0:8] == self.docprolog:
             return "application/msword"
+        elif data[0:4] == self.wpdprolog:
+            return "application/vnd.wordperfect"
         elif self.hasControlChars(data):
             return "application/octet-stream"
         else:
@@ -162,6 +165,10 @@ class WordFilter:
             elif mt == "text/rtf":
                 return ([sys.executable, os.path.join(self.execdir, "rclrtf.py"), "-s"],
                         WordPassData(self.em))
+            elif mt == "application/vnd.wordperfect":
+                cmd = rclexecm.which("wpd2html")
+                if cmd:
+                    return ([cmd,], WordPassData(self.em))
             elif mt == "application/msword":
                 if self.hasSoffice is None:
                     cmd = rclexecm.which("soffice")
