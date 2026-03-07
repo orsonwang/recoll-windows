@@ -305,24 +305,17 @@ bool MimeHandlerExecMultiple::next_document()
         m_metaData[cstr_dj_keyipath] = ipath;
         if (mtype.empty()) {
             LOGDEB0("MHExecMultiple: no mime type from filter, using ipath for a guess\n");
-            mtype = mimetype(ipath, m_config, false);
+            mtype = mimetype(m_config, ipath, nullptr, m_metaData[cstr_dj_keycontent]);
             if (mtype.empty()) {
-                // mimetype() won't call idFile when there is no file. Do it
-                mtype = idFileMem(m_metaData[cstr_dj_keycontent]);
-                if (mtype.empty()) {
-                    // Note this happens for example for directory zip members
-                    // We could recognize them by the end /, but wouldn't know
-                    // what to do with them anyway.
-                    LOGINFO("MHExecMultiple: cant guess mime type\n");
-                    mtype = "application/octet-stream";
-                }
+                // Note this happens for example for directory zip members We could recognize them
+                // by the end /, but wouldn't know what to do with them anyway.
+                LOGINFO("MHExecMultiple: cant guess mime type\n");
+                mtype = "application/octet-stream";
             }
-            /* If we identify text/plain from the suffix (as opposed
-               to the handler setting the type), we use text/plain1
-               instead. As directed in mimeconf, this will cause the
-               text handler to be applied (instead of internfile just
-               ending things there), allowing splitting and default
-               charset conversions. */
+            // If we identify text/plain from the suffix (as opposed to the handler setting the
+            // type), we use text/plain1 instead. As directed in mimeconf, this will cause the text
+            // handler to be applied (instead of internfile just ending things there), allowing
+            // splitting and default charset conversions.
             if (mtype == "text/plain") {
                 mtype = "text/plain1";
             }

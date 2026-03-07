@@ -166,8 +166,6 @@ void FileInterner::init(const string &f, const struct PathStat& stp,
     cnf->setKeyDir(path_getfather(m_fn));
 
     string l_mime;
-    bool usfci = false;
-    cnf->getConfParam("usesystemfilecommand", &usfci);
 
     // In general, even when the input mime type is set (when
     // previewing), we can't use it: it's the type for the actual
@@ -183,11 +181,10 @@ void FileInterner::init(const string &f, const struct PathStat& stp,
         l_mime = *imime;
     } else {
         LOGDEB("FileInterner::init fn [" << f << "] mime [" <<
-               (imime ? imime->c_str() : "(null)") << "] preview " <<
-               m_forPreview << "\n");
+               (imime ? imime->c_str() : "(null)") << "] preview " << m_forPreview << "\n");
 
         // Run mime type identification in any case (see comment above).
-        l_mime = mimetype(m_fn, m_cfg, usfci, stp);
+        l_mime = mimetype(m_cfg, m_fn, &stp);
 
         // If identification fails, try to use the input parameter. This
         // is then normally not a compressed type (it's the mime type from
@@ -225,7 +222,7 @@ void FileInterner::init(const string &f, const struct PathStat& stp,
                 } else {
                     docsize = ucstat.pst_size;
                 }
-                l_mime = mimetype(m_fn, m_cfg, usfci, ucstat);
+                l_mime = mimetype(m_cfg, m_fn, &ucstat);
                 if (l_mime.empty() && imime)
                     l_mime = *imime;
             } else {
@@ -1144,10 +1141,9 @@ bool FileInterner::isCompressed(const string& fn, RclConfig *cnf)
         LOGERR("FileInterner::isCompressed: can't stat [" << fn << "]\n");
         return false;
     }
-    string l_mime = mimetype(fn, cnf, true, st);
+    string l_mime = mimetype(cnf, fn, &st, std::string(), true);
     if (l_mime.empty()) {
-        LOGERR("FileInterner::isUncompressed: can't get mime for [" << fn <<
-               "]\n");
+        LOGERR("FileInterner::isUncompressed: can't get mime for [" << fn << "]\n");
         return false;
     }
 
@@ -1168,10 +1164,9 @@ bool FileInterner::maybeUncompressToTemp(TempFile& temp, const string& fn,
         LOGERR("FileInterner::maybeUncompressToTemp: can't stat [" <<fn<<"]\n");
         return false;
     }
-    string l_mime = mimetype(fn, cnf, true, st);
+    string l_mime = mimetype(cnf, fn, &st, std::string(), true);
     if (l_mime.empty()) {
-        LOGERR("FileInterner::maybeUncompress.: can't id. mime for [" <<
-               fn << "]\n");
+        LOGERR("FileInterner::maybeUncompress.: can't id. mime for [" << fn << "]\n");
         return false;
     }
 

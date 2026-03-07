@@ -16,6 +16,7 @@
  */
 
 #include "autoconfig.h"
+#include "mimetype.h"
 
 #include <string>
 
@@ -27,15 +28,12 @@ static std::mutex magiclock;
 #include "execmd.h"
 #endif
 
-#include "mimetype.h"
 #include "log.h"
 #include "rclconfig.h"
 #include "smallut.h"
 #include "idfile.h"
 #include "pxattr.h"
 #include "rclutil.h"
-
-using namespace std;
 
 // Some document types have losely defined MIME types, about which xdg-mime, file, and libmagic may
 // differ. Map them to our own choice.
@@ -55,24 +53,29 @@ static std::map<std::string, std::string> mimealiases{
 //
 // As a last resort we either call into libmagic or execute 'file' or its configured replacement
 // (except if forbidden by config)
-static string mimetypefromdata(RclConfig *cfg, const string &fn, bool usfc)
+static std::string mimetypefromdata(
+    RclConfig *cfg, const std::string &fn, bool usfc, const std::string& data)
 {
     LOGDEB1("mimetypefromdata: fn [" << fn << "]\n");
-    PRETEND_USE(cfg);
 
-    // First try the internal identifying routine
-    string mime = idFile(fn.c_str());
+    // First try the internal identifying routine. Can use file access or memory data. Only checks
+    // for email data, for which libmagic is not that good.
+    std::string mime;
+    if (data.empty()) {
+        mime = idFile(fn.c_str());
+    } else {
+        mime = idFileMem(data);
+    }
     if (!mime.empty()) {
         return mime;
     }
     if (!usfc) {
         LOGDEB1("mimetypefromdata: usfc unset: not using libmagic or MIME guess command\n");
-        return string();
+        return std::string();
     }
 
-    // Last resort: use either libmagic or "file -i" or its configured replacement.
-
 #ifdef ENABLE_LIBMAGIC
+    PRETEND_USE(cfg);
     // We now use a cached descriptor and global locking around libmagic. The lock is because
     // libmagic is not as thread-safe as it's rumoured to be (crashes on Mac ARM, see issue
     // 340). The caching is because we get better performance this way. We don't bother about ever
@@ -97,22 +100,18 @@ static string mimetypefromdata(RclConfig *cfg, const string &fn, bool usfc)
             }
         }
         if (mgtoken) {
-            mime = magic_file(mgtoken, fn.c_str());
+            if (data.empty()) {
+                mime = magic_file(mgtoken, fn.c_str());
+            } else {
+                mime = magic_buffer(mgtoken, data.c_str(), data.size());
+            }                
         }
     }
 
 #else /* Not using libmagic, use command -> */
 
     // 'file' fallback if the configured command (default: xdg-mime) is not found
-    static const vector<string> tradfilecmd = {{FILE_PROG},
-#ifdef __APPLE__
-        // On the Mac, /usr/bin/file wants a -I to print the MIME type, but we may be using
-        // a MacPorts or Homebrew version, needing -i. Fortunately both accept --mime-type
-                                               {"--mime-type"}
-#else // !APPLE->
-                                               {"-i"}
-#endif // __APPPLE__
-    };
+    static const vector<string> tradfilecmd = {{FILE_PROG}, {"--mime-type"}};
 
     vector<string> cmd;
     string scommand;
@@ -175,24 +174,40 @@ static string mimetypefromdata(RclConfig *cfg, const string &fn, bool usfc)
     return mime;
 }
 
+std::string mimeFromSuffix(RclConfig *cfg, const std::string& fn)
+{
+    std::string mtype;
+    auto dot = fn.find_first_of(".");
+    while (dot != std::string::npos) {
+        std::string suff = stringtolower(fn.substr(dot));
+        mtype = cfg->getMimeTypeFromSuffix(suff);
+        if (!mtype.empty() || dot >= fn.size() - 1)
+            break;
+        dot = fn.find_first_of(".", dot + 1);
+    }
+    return mtype;
+}
+
 // Guess mime type, first from suffix, then from file data. We also have a list of suffixes that we
 // don't touch at all.
-string mimetype(const string &fn, RclConfig *cfg, bool usfc, const struct PathStat& stp)
+std::string mimetype(
+    RclConfig *cfg, const std::string &fn, const struct PathStat *stp, const std::string& data,
+    bool forcemagic)
 {
     // Use stat data if available to check for non regular files
-    if (stp.pst_type != PathStat::PST_INVALID) {
-        if (stp.pst_type == PathStat::PST_DIR)
+    if (stp) {
+        if (stp->pst_type == PathStat::PST_DIR)
             return "inode/directory";
-        if (stp.pst_type == PathStat::PST_SYMLINK)
+        if (stp->pst_type == PathStat::PST_SYMLINK)
             return "inode/symlink";
-        if (stp.pst_type != PathStat::PST_REGULAR)
+        if (stp->pst_type != PathStat::PST_REGULAR)
             return "inode/x-fsspecial";
         // Empty files are just this: avoid further errors with actual filters.
-        if (stp.pst_size == 0) 
+        if (stp->pst_size == 0) 
             return "inode/x-empty";
     }
 
-    string mtype;
+    std::string mtype;
     if (cfg && cfg->inStopSuffixes(fn)) {
         LOGDEB("mimetype: fn [" << fn << "] in stopsuffixes\n");
         return mtype;
@@ -214,20 +229,22 @@ string mimetype(const string &fn, RclConfig *cfg, bool usfc, const struct PathSt
         return mtype;
     }
 
-    // Compute file name suffix and search the mimetype map
-    string::size_type dot = fn.find_first_of(".");
-    while (dot != string::npos) {
-        string suff = stringtolower(fn.substr(dot));
-        mtype = cfg->getMimeTypeFromSuffix(suff);
-        if (!mtype.empty() || dot >= fn.size() - 1)
-            break;
-        dot = fn.find_first_of(".", dot + 1);
+    // Determine MIME type from file name suffix or data contents.
+    // NOTE: it would be tempting to give the priority to determination from data, but this does not
+    // work well because libmagic identifies all zip-based formats as application/zip, which
+    // precludes further specific processing for, e.g. libreoffice or openxml files.
+    // Using the data can be completely prevented by setting "usesystemfilecommand" to false (name
+    // is historic), except that we always try to identify mbox/email data if the data is at all
+    // accessible.
+    mtype = mimeFromSuffix(cfg, fn);
+    if (mtype.empty() && (stp || !data.empty())) {
+        bool usfc = false;
+        if (forcemagic) {
+            usfc = true;
+        } else {
+            cfg->getConfParam("usesystemfilecommand", &usfc);
+        }
+        mtype = mimetypefromdata(cfg, fn, usfc, data);
     }
-
-    // If the type was not determined from the suffix, examine file data. Can only do this if we
-    // have an actual file (as opposed to a pure name).
-    if (mtype.empty() && stp.pst_type != PathStat::PST_INVALID)
-        mtype = mimetypefromdata(cfg, fn, usfc);
-
     return mtype;
 }
