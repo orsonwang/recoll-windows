@@ -121,6 +121,10 @@
 .tgz = application/x-tar
 .tbz = application/x-tar
 .tar.bz2 = application/x-tar
+# These only work with Python 3.14+, so, not enabled for now. enable in your local
+# mimemap if you have the right Python.
+# .tar.zst = application/x-tar
+# .tar.zstd = application/x-tar
 
 .hwp = application/x-hwp
 
