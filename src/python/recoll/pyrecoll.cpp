@@ -988,7 +988,8 @@ Query_iternext(PyObject *_self)
     result->rcldb = self->connection->rcldb;
     // We used to check against rowcount here, but this was wrong: xapian result count estimate are
     // sometimes wrong, we must go on fetching until we fail
-    if (!self->query->getDoc(self->next, *result->doc, self->fetchtext)) {
+    if (!self->query->getDoc(self->next, *result->doc, self->fetchtext)) { 
+        Py_DECREF(result);
         return 0;
     }
     self->next++;
