@@ -89,7 +89,7 @@ static std::string mimetypefromdata(
         if (mgtoken == NULL) {
             mgtoken = magic_open(MAGIC_MIME_TYPE);
 #ifdef _WIN32
-            string magicfile = path_cat(path_rclpkgdatadir(), "magic.mgc");
+            std::string magicfile = path_cat(path_rclpkgdatadir(), "magic.mgc");
             int ret = magic_load(mgtoken, magicfile.c_str());
 #else
             int ret = magic_load(mgtoken, nullptr);
