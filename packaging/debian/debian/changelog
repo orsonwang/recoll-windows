@@ -1,3 +1,13 @@
+recoll (1.43.14-1~ppaPPAVERS~SERIES1) SERIES; urgency=low
+
+  * Python: queries would lose one Db object when iternext hit the end of
+    results. Long running processes like the WEBUI would end up getting random
+    open errors when the process ran out of descriptors.
+  * rcldoc.py ms-word handler: retry misidentified wordperfect documents.
+  * Image OCR: tesseract: add gif to supported formats.
+  
+ -- Jean-Francois Dockes <jf@dockes.org>  Mon, 16 Mar 2026 18:50:00 +0100
+
 recoll (1.43.13-1~ppaPPAVERS~SERIES1) SERIES; urgency=low
 
   * GUI: interface languages: add English so that it can be forced in
