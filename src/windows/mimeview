@@ -2,7 +2,8 @@
 
 xallexcepts = \
  text/html|epub \
- application/x-fsdirectory|parentopen inode/directory|parentopen
+ application/x-fsdirectory|parentopen \
+ inode/directory|parentopen
 
 [view]
 # Pseudo entry used if the 'use desktop' preference is set in the GUI
@@ -12,16 +13,18 @@ xallexcepts = \
 application/x-all = rclstartw %u
 
 ####### Special ones
+
 # Open the parent epub document for epub parts instead of opening them as
 # html documents. This is almost always what we want.
 text/html|epub = rclstartw %F;ignoreipath=1
+
 # Parent open for fs file.
-application/x-fsdirectory|parentopen = rclstartw %f
-inode/directory|parentopen = rclstartw %f
+application/x-fsdirectory|parentopen = C:/Windows/explorer.exe /select,%(childurl)
+inode/directory|parentopen = C:/Windows/explorer.exe /select,%(childurl)
 
 # PDF examples. These can be set from the GUI preferences "editor applications" section. Select
-# application/pdf, check "exception to desktop preferences, and enter something similar to the below
-# values.
+# application/pdf, check "exception to desktop preferences", and enter something similar to the
+# below values. 
 #
 #  Evince: this is usually installed with a version-specific path and in the user directory, so the
 #  exact command value will need some tweaking (user name and version number). 
