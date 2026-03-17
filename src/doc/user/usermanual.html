@@ -224,7 +224,7 @@ alink="#0000FF">
                   </dl>
                 </dd>
                 <dt><span class="sect2">2.7.3. <a href=
-                "#RCL.INDEXING.OCR">Running OCR on image
+                "#RCL.INDEXING.OCR">Running OCR on PDF and image
                 documents</a></span></dt>
                 <dd>
                   <dl>
@@ -2934,9 +2934,9 @@ metadatacmds = ; <em class=
                 text is empty. This is done by executing an
                 external program and is now described in a
                 <a class="link" href="#RCL.INDEXING.OCR" title=
-                "2.7.3.&nbsp;Running OCR on image documents">separate
-                section</a>, because the OCR framework can also be
-                used with non-PDF image files.</p>
+                "2.7.3.&nbsp;Running OCR on PDF and image documents">
+                separate section</a>, because the OCR framework can
+                also be used with non-PDF image files.</p>
               </li>
             </ul>
           </div>
@@ -3051,7 +3051,7 @@ class MetaFixer(object):
               <div>
                 <h3 class="title"><a name="RCL.INDEXING.OCR" id=
                 "RCL.INDEXING.OCR"></a>2.7.3.&nbsp;Running OCR on
-                image documents</h3>
+                PDF and image documents</h3>
               </div>
             </div>
           </div>
@@ -3059,10 +3059,11 @@ class MetaFixer(object):
           handler (<span class=
           "command"><strong>rclpdf.py</strong></span>), and the
           alternate image handler (<span class=
-          "command"><strong>rclimg.py</strong></span>) have the
-          ability to call an external OCR program (only as of
-          <span class="application">Recoll</span> 1.43.3 for the
-          latter).</p>
+          "command"><strong>rclimg.py</strong></span> or
+          <span class="command"><strong>rclimgp.py</strong></span>)
+          have the ability to call an external OCR program (only as
+          of <span class="application">Recoll</span> 1.43.3 for
+          images).</p>
           <p>The operation details are slightly different for PDF
           and other image documents.</p>
           <p>To enable the <span class="application">Recoll</span>
@@ -3154,22 +3155,36 @@ tesseractlang = eng</pre>
             </div>
             <p>As of <span class="application">Recoll</span>
             1.43.3, the alternate Python <span class=
-            "command"><strong>rclimg.py</strong></span> handler can
-            execute OCR on image files. The default image handler
-            is the Perl-based <span class=
-            "command"><strong>rclimg</strong></span> script and has
-            not been OCR-enabled. So, for performing image OCR, you
-            need to tell <span class="application">Recoll</span> to
-            use the alternate handler and also to enable OCR by
-            setting the <code class="literal">imgocr</code>
-            variable. This is done by editing two text files in the
-            index configuration directory (by default <code class=
+            "command"><strong>rclimg.py</strong></span> and
+            <span class=
+            "command"><strong>rclimgp.py</strong></span> handlers
+            can execute OCR on image files.</p>
+            <p>The default image handler is the Perl/exiftool-based
+            <span class="command"><strong>rclimg</strong></span>
+            script which has not been extended for running OCR, but
+            it is quite better for extracting metadata tags.</p>
+            <p>The difference between the two alternate handlers is
+            that <span class=
+            "command"><strong>rclimg.py</strong></span> uses the
+            Python exiv2 interface and <span class=
+            "command"><strong>rclimgp.py</strong></span> actually
+            executes the Perl handler for extracting tags. On
+            <span class="application">Windows</span> only the
+            latter is supported.</p>
+            <p>For performing image OCR, you need to tell
+            <span class="application">Recoll</span> to use the
+            alternate handler and also to enable OCR by setting the
+            <code class="literal">imgocr</code> variable. This is
+            done by editing two text files in the index
+            configuration directory (by default <code class=
             "filename">~/.recoll</code> under <span class=
             "application">Unix</span>-like systems or <span class=
             "application">MacOS</span> systems, or <code class=
             "filename">C:/users/[you]/AppData/Local/Recoll</code>
             under <span class="application">Windows</span>.</p>
-            <p>Example configuration:</p>
+            <p>Example configuration for <span class=
+            "application">Unix</span>-like systems or <span class=
+            "application">MacOS</span> systems:</p>
             <p>In <code class="filename">mimeconf</code> (e.g.
             <em class=
             "replaceable"><code>~/.recoll/mimeconf</code></em>):</p>
@@ -3183,27 +3198,33 @@ image/x-nikon-nef = execm rclimg.py
 image/x-xcf = execm rclimg.py
 </pre>
             <p>Of course you can also only use a subset of the
-            image types.</p>
+            image types, and the <span class=
+            "command"><strong>rclimgp.py</strong></span> handler
+            could be used instead.</p>
+            <p>On <span class="application">Windows</span> you must
+            use <span class=
+            "command"><strong>rclimgp.py</strong></span> (because
+            there is no <span class="application">Recoll</span>
+            support for the exiv2 library):</p>
+            <pre class="programlisting">[index]
+image/gif = execm rclimgp.py
+image/jp2 = execm rclimgp.py
+image/jpeg = execm rclimgp.py
+image/png = execm rclimgp.py
+image/tiff = execm rclimgp.py
+image/x-nikon-nef = execm rclimgp.py
+image/x-xcf = execm rclimgp.py
+</pre>
             <p>In <code class="filename">recoll.conf</code>, by
-            example for Windows, the <code class=
-            "literal">tesseractcmd</code> setting is usually not
-            needed otherwise:</p>
+            example for Windows:</p>
             <pre class="programlisting">ocrprogs = tesseract
 tesseractcmd = C:/Program Files(x86)/Tesseract-OCR/tesseract.exe
 tesseractlang = eng
-[/path/to/my/images/directory]          
+[c:/path/to/my/images/folder]
 imgocr = 1</pre>
-            <p>If you are running an older <span class=
-            "application">Recoll</span> release, you can grab an up
-            to date copy of <code class="filename">rclimg.py</code>
-            from the <a class="ulink" href=
-            "https://framagit.org/medoc92/recoll/-/blob/master/src/filters/rclimg.py?ref_type=heads"
-            target="_top">git repository</a>. You will have to copy
-            it to the <span class="application">Recoll</span>
-            <code class="filename">filters/</code> directory and
-            make it executable. The script needs to run from the
-            installation directory because of how it runs the OCR
-            script.</p>
+            <p>the <code class="literal">tesseractcmd</code>
+            setting is usually not needed on other platforms (the
+            command will be in the PATH)</p>
           </div>
         </div>
         <div class="sect2">
@@ -9713,8 +9734,8 @@ db.purge()</pre>
           <div class="titlepage">
             <div>
               <div>
-                <h3 class="title"><a name="id5193" id=
-                "id5193"></a>GUI settings</h3>
+                <h3 class="title"><a name="id5203" id=
+                "id5203"></a>GUI settings</h3>
               </div>
             </div>
           </div>
@@ -9730,8 +9751,8 @@ db.purge()</pre>
           <div class="titlepage">
             <div>
               <div>
-                <h3 class="title"><a name="id5200" id=
-                "id5200"></a>Index configuration parameters</h3>
+                <h3 class="title"><a name="id5210" id=
+                "id5210"></a>Index configuration parameters</h3>
               </div>
             </div>
           </div>
@@ -10307,27 +10328,33 @@ defaultcharset = utf-8</pre>
               "RCL.CONFIG.RECOLLCONF.USESYSTEMFILECOMMAND" id=
               "RCL.CONFIG.RECOLLCONF.USESYSTEMFILECOMMAND"></a><span class="term"><code class="varname">usesystemfilecommand</code></span></dt>
               <dd>
-                <p>Use a system mechanism as last resort to guess a
-                MIME type. Depending on platform and version, a
-                compile-time configuration will decide if this
-                actually executes a command or uses libmagic. This
-                last-resort identification (if the suffix-based one
-                failed) is generally useful, but will cause the
-                indexing of many bogus extension-less "text" files.
-                Also see "systemfilecommand".</p>
+                <p>Try to guess MIME type from data. The name is
+                historical and kept for compatibility, old versions
+                used to execute 'file' or 'xdg-mime' to determine a
+                MIME type when not using the extension. Current
+                Recoll versions use libmagic for this. (A
+                compile-time configuration can still restore the
+                old behaviour, disabling libmagic and using a
+                command). This identification method can be more
+                accurate in some cases than the suffix-based one,
+                but it's slower and will cause the indexing of many
+                bogus extension-less "text" files. In addition it
+                will identify all zip-based formats (e.g.
+                libreoffice) as application/zip, which is of course
+                wrong, so it can only be a secondary step. Also see
+                "systemfilecommand".</p>
               </dd>
               <dt><a name="RCL.CONFIG.RECOLLCONF.SYSTEMFILECOMMAND"
               id=
               "RCL.CONFIG.RECOLLCONF.SYSTEMFILECOMMAND"></a><span class="term"><code class="varname">systemfilecommand</code></span></dt>
               <dd>
-                <p>Command to use for guessing the MIME type if the
-                internal methods fail. This is ignored on Windows
-                or with Recoll 1.38+ if compiled with libmagic
-                enabled (the default). Otherwise, this should be a
-                "file -i" workalike. The file path will be added as
-                a last parameter to the command line. "xdg-mime"
-                works better than the traditional "file" command,
-                and is now the configured default (with a
+                <p>Command to use for guessing the MIME type (if
+                not compiled to use libmagic). The default is now
+                to use libmagic instead. If in use, this should be
+                a "file --mime-type" workalike. The file path will
+                be added as a last parameter to the command line.
+                "xdg-mime" works better than the traditional "file"
+                command, and is now the configured default (with a
                 hard-coded fallback to "file")</p>
               </dd>
               <dt><a name="RCL.CONFIG.RECOLLCONF.PROCESSWEBQUEUE"
@@ -11745,7 +11772,7 @@ defaultcharset = utf-8</pre>
                 compatibility with the previous version, if this is
                 not defined at all, the default value is
                 "tesseract". Use an explicit empty value if needed.
-                The value be redefined in subtrees.</p>
+                The value can be redefined in subtrees.</p>
               </dd>
               <dt><a name="RCL.CONFIG.RECOLLCONF.OCRCACHEDIR" id=
               "RCL.CONFIG.RECOLLCONF.OCRCACHEDIR"></a><span class=
@@ -11767,8 +11794,8 @@ defaultcharset = utf-8</pre>
                 tesseract Web sitedocumentation for language codes
                 and how to download additional language packs. When
                 specifying multiple languages, use a '+' separator
-                and no spaces, e.g. eng+fra. The value be redefined
-                in subtrees.</p>
+                and no spaces, e.g. eng+fra. The value can be
+                redefined in subtrees.</p>
               </dd>
               <dt><a name="RCL.CONFIG.RECOLLCONF.TESSERACTCMD" id=
               "RCL.CONFIG.RECOLLCONF.TESSERACTCMD"></a><span class=

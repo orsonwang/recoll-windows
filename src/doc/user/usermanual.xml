@@ -1613,11 +1613,11 @@ class MetaFixer(object):
       </sect2>
 
       <sect2 xml:id="RCL.INDEXING.OCR">
-        <title>Running OCR on image documents</title>
+        <title>Running OCR on PDF and image documents</title>
 
         <para>The &RCL; PDF handler (<command>rclpdf.py</command>), and the alternate image handler
-        (<command>rclimg.py</command>) have the ability to call an external OCR program (only as of
-        &RCL; 1.43.3 for the latter).</para>
+        (<command>rclimg.py</command> or <command>rclimgp.py</command>) have the ability to call an
+        external OCR program (only as of &RCL; 1.43.3 for images).</para>
 
         <para>The operation details are slightly different for PDF and other image documents.</para>
 
@@ -1676,15 +1676,26 @@ tesseractlang = eng</programlisting>
 
         <sect3>
           <title>OCR for image documents</title>
-          <para>As of &RCL; 1.43.3, the alternate Python <command>rclimg.py</command> handler can
-          execute OCR on image files. The default image handler is the Perl-based
-          <command>rclimg</command> script and has not been OCR-enabled. So, for performing image
-          OCR, you need to tell &RCL; to use the alternate handler and also to enable OCR by setting
-          the <literal>imgocr</literal> variable. This is done by editing two text files in the
-          index configuration directory (by default <filename>~/.recoll</filename> under &LIN; or
-          &MAC;, or <filename>C:/users/[you]/AppData/Local/Recoll</filename> under &WIN;.</para>
 
-          <para>Example configuration:</para>
+          <para>As of &RCL; 1.43.3, the alternate Python <command>rclimg.py</command> and
+          <command>rclimgp.py</command> handlers can execute OCR on image files.</para>
+
+          <para>The default image handler is the Perl/exiftool-based <command>rclimg</command>
+          script which has not been extended for running OCR, but it is quite better for extracting
+          metadata tags.</para>
+
+          <para>The difference between the two alternate handlers is that
+          <command>rclimg.py</command> uses the Python exiv2 interface and
+          <command>rclimgp.py</command> actually executes the Perl handler for extracting tags. On
+          &WIN; only the latter is supported.</para>
+
+          <para>For performing image OCR, you need to tell &RCL; to use the alternate handler and
+          also to enable OCR by setting the <literal>imgocr</literal> variable. This is done by
+          editing two text files in the index configuration directory (by default
+          <filename>~/.recoll</filename> under &LIN; or &MAC;, or
+          <filename>C:/users/[you]/AppData/Local/Recoll</filename> under &WIN;.</para>
+
+          <para>Example configuration for &LIN; or &MAC;:</para>
           <para>In <filename>mimeconf</filename>
           (e.g. <replaceable>~/.recoll/mimeconf</replaceable>): 
 <programlisting>[index]
@@ -1696,24 +1707,29 @@ image/tiff = execm rclimg.py
 image/x-nikon-nef = execm rclimg.py
 image/x-xcf = execm rclimg.py
 </programlisting>
-          Of course you can also only use a subset of the image types.
-          </para>
-          <para>In <filename>recoll.conf</filename>, by example for Windows, the
-          <literal>tesseractcmd</literal> setting is usually not needed otherwise:
+          Of course you can also only use a subset of the image types, and the
+          <command>rclimgp.py</command> handler could be used instead.</para>
+
+          <para>On &WIN; you must use <command>rclimgp.py</command> (because there is no &RCL;
+          support for the exiv2 library):
+<programlisting>[index]
+image/gif = execm rclimgp.py
+image/jp2 = execm rclimgp.py
+image/jpeg = execm rclimgp.py
+image/png = execm rclimgp.py
+image/tiff = execm rclimgp.py
+image/x-nikon-nef = execm rclimgp.py
+image/x-xcf = execm rclimgp.py
+</programlisting>
+</para>
+          <para>In <filename>recoll.conf</filename>, by example for Windows: 
           <programlisting>ocrprogs = tesseract
 tesseractcmd = C:/Program Files(x86)/Tesseract-OCR/tesseract.exe
 tesseractlang = eng
-[/path/to/my/images/directory]          
+[c:/path/to/my/images/folder]
 imgocr = 1</programlisting>
-          </para>
-
-          <para>If you are running an older &RCL; release, you can grab an up to date copy of
-          <filename>rclimg.py</filename> from the <link
-          xl:href="https://framagit.org/medoc92/recoll/-/blob/master/src/filters/rclimg.py?ref_type=heads">git
-          repository</link>. You will have to copy it to the &RCL; <filename>filters/</filename>
-          directory and make it executable. The script needs to run from the installation directory
-          because of how it runs the OCR script.</para>
-          
+          the <literal>tesseractcmd</literal> setting is usually not needed on other platforms (the
+          command will be in the PATH)</para>
           
         </sect3>
         

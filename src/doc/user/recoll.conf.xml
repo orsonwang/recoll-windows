@@ -172,17 +172,22 @@ unsupported MIME type.
 </para></listitem></varlistentry>
 <varlistentry id="RCL.CONFIG.RECOLLCONF.USESYSTEMFILECOMMAND">
 <term><varname>usesystemfilecommand</varname></term>
-<listitem><para>Use a system mechanism as last resort to guess a MIME type. Depending on platform and version, a compile-time configuration will decide if this
-actually executes a command or uses libmagic.  This last-resort identification (if the
-suffix-based one failed) is generally useful, but will cause the indexing of many bogus
-extension-less "text" files. Also see "systemfilecommand". 
+<listitem><para>Try to guess MIME type from data. The name is historical and kept for compatibility, old versions used to execute 'file'
+or 'xdg-mime' to determine a MIME type when not using the extension. Current Recoll versions
+use libmagic for this. (A compile-time configuration can still restore the old behaviour,
+disabling libmagic and using a command).
+This identification method can be more accurate in some cases than the suffix-based one, but it's
+slower and will cause the indexing of many bogus extension-less "text" files. In addition it will
+identify all zip-based formats (e.g. libreoffice) as application/zip, which is of course wrong, so
+it can only be a secondary step.
+Also see "systemfilecommand". 
 </para></listitem></varlistentry>
 <varlistentry id="RCL.CONFIG.RECOLLCONF.SYSTEMFILECOMMAND">
 <term><varname>systemfilecommand</varname></term>
-<listitem><para>Command to use for guessing the MIME type if the internal methods fail. This is ignored on Windows or with Recoll 1.38+ if compiled with libmagic enabled (the
-default). Otherwise, this should be a "file -i" workalike.  The file path will be added as a last
-parameter to the command line. "xdg-mime" works better than the traditional "file" command, and is
-now the configured default (with a hard-coded fallback to "file")
+<listitem><para>Command to use for guessing the MIME type (if not compiled to use libmagic). The default is now to use libmagic instead. If in use, this should be a "file --mime-type"
+workalike. The file path will be added as a last parameter to the command line. "xdg-mime" works
+better than the traditional "file" command, and is now the configured default (with a hard-coded
+fallback to "file")
 </para></listitem></varlistentry>
 <varlistentry id="RCL.CONFIG.RECOLLCONF.PROCESSWEBQUEUE">
 <term><varname>processwebqueue</varname></term>
@@ -976,7 +981,7 @@ manual. imgocr can be defined for subdirectories.
 which reports being capable of performing OCR on the input file. Modules for tesseract (tesseract)
 and ABBYY FineReader (abbyy) are present in the standard distribution. For compatibility with the
 previous version, if this is not defined at all, the default value is "tesseract". Use an explicit
-empty value if needed. The value be redefined in subtrees.
+empty value if needed. The value can be redefined in subtrees.
 </para></listitem></varlistentry>
 <varlistentry id="RCL.CONFIG.RECOLLCONF.OCRCACHEDIR">
 <term><varname>ocrcachedir</varname></term>
@@ -989,7 +994,7 @@ OCR data under $RECOLL_CONFDIR/ocrcache.
 file in the currently processed directory. See the rclocrtesseract.py script. Example values: eng,
 fra... See the tesseract Web sitedocumentation for language codes and how to download additional
 language packs. When specifying multiple languages, use a '+' separator and no spaces, e.g.
-eng+fra. The value be redefined in subtrees.
+eng+fra. The value can be redefined in subtrees.
 </para></listitem></varlistentry>
 <varlistentry id="RCL.CONFIG.RECOLLCONF.TESSERACTCMD">
 <term><varname>tesseractcmd</varname></term>
