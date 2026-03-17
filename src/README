@@ -6374,11 +6374,15 @@ x-my-tag = mailmytag
 
    mimemap specifies the file name extension to MIME type mappings.
 
-   For file names without an extension, or with an unknown one, recent
-   Recoll versions will use libmagic. Older versions would execute a
-   system command (file -i, or xdg-mime) will be executed to determine the
-   MIME type (this can be switched off, or the command changed inside the
-   main configuration file).
+   For file names without an extension, or with an unknown one, the MIME
+   type is optionally determined by inspecting the file contents. This is
+   controlled by the usesystemfilecommand configuration variable.
+   Depending on a compile time option, Recoll then either executes a
+   system command, or uses the magic library.
+
+   On most platforms, and always on Windows, Recoll is built to use
+   libmagic. Otherwise, the command used is either file or xdg-mime, and
+   can be configured by setting the systemfilecommand variable.
 
    All extension values in mimemap must be entered in lower case. File
    names extensions are lower-cased for comparison during indexing,
@@ -6391,10 +6395,8 @@ x-my-tag = mailmytag
 [~/.kde/share/apps/okular/docdata]
 .xml = application/x-okular-notes
 
-   The recoll_noindex mimemap variable has been moved to recoll.conf and
-   renamed to noContentSuffixes, while keeping the same function, as of
-   Recoll version 1.21. For older Recoll versions, see the documentation
-   for noContentSuffixes but use recoll_noindex in mimemap.
+   See also the noContentSuffixes configuration variable, for specifying
+   file name extensions for which no content indexing will be performed.
 
 5.6. The mimeconf file
 
@@ -7092,7 +7094,7 @@ References
  122. file:///home/dockes/projets/fulltext/recoll/src/doc/user/usermanual.html#RCL.CONFIG.RECOLLCONF.MISC
  123. file:///home/dockes/projets/fulltext/recoll/src/doc/user/usermanual.html#RCL.CONFIG.RECOLLCONF.QUERY
  124. file:///home/dockes/projets/fulltext/recoll/src/doc/user/usermanual.html#RCL.CONFIG.RECOLLCONF.PDF
- 125. file:///home/dockes/projets/fulltext/recoll/src/doc/user/usermanual.html#RCL.CONFIG.RECOLLCONF.ZIP
+ 125. file:///home/dockes/projets/fulltext/recoll/src/doc/user/usermanual.html#RCL.CONFIG.RECOLLCONF.ZP
  126. file:///home/dockes/projets/fulltext/recoll/src/doc/user/usermanual.html#RCL.CONFIG.RECOLLCONF.ORGHANDLERPARAMS
  127. file:///home/dockes/projets/fulltext/recoll/src/doc/user/usermanual.html#RCL.CONFIG.RECOLLCONF.MOZMAILHANDLERPARAMS
  128. file:///home/dockes/projets/fulltext/recoll/src/doc/user/usermanual.html#RCL.CONFIG.RECOLLCONF.OCR

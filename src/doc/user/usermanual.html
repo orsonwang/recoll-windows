@@ -528,7 +528,7 @@ alink="#0000FF">
                 "#RCL.CONFIG.RECOLLCONF.PDF">Parameters for the PDF
                 handler</a></span></dt>
                 <dt><span class="sect2">5.3.8. <a href=
-                "#RCL.CONFIG.RECOLLCONF.ZIP">Parameters for the ZIP
+                "#RCL.CONFIG.RECOLLCONF.ZP">Parameters for the ZIP
                 file handler</a></span></dt>
                 <dt><span class="sect2">5.3.9. <a href=
                 "#RCL.CONFIG.RECOLLCONF.ORGHANDLERPARAMS">Parameters
@@ -11640,8 +11640,8 @@ defaultcharset = utf-8</pre>
             <div>
               <div>
                 <h3 class="title"><a name=
-                "RCL.CONFIG.RECOLLCONF.ZIP" id=
-                "RCL.CONFIG.RECOLLCONF.ZIP"></a>5.3.8.&nbsp;Parameters
+                "RCL.CONFIG.RECOLLCONF.ZP" id=
+                "RCL.CONFIG.RECOLLCONF.ZP"></a>5.3.8.&nbsp;Parameters
                 for the ZIP file handler</h3>
               </div>
             </div>
@@ -12031,15 +12031,21 @@ x-my-tag = mailmytag</pre>
         <p><code class="filename">mimemap</code> specifies the file
         name extension to MIME type mappings.</p>
         <p>For file names without an extension, or with an unknown
-        one, recent <span class="application">Recoll</span>
-        versions will use libmagic. Older versions would execute a
-        system command (<span class=
-        "command"><strong>file</strong></span> <code class=
-        "option">-i</code>, or <span class=
-        "command"><strong>xdg-mime</strong></span>) will be
-        executed to determine the MIME type (this can be switched
-        off, or the command changed inside the main configuration
-        file).</p>
+        one, the MIME type is optionally determined by inspecting
+        the file contents. This is controlled by the <code class=
+        "varname">usesystemfilecommand</code> configuration
+        variable. Depending on a compile time option, <span class=
+        "application">Recoll</span> then either executes a system
+        command, or uses the <code class="literal">magic</code>
+        library.</p>
+        <p>On most platforms, and always on <span class=
+        "application">Windows</span>, <span class=
+        "application">Recoll</span> is built to use <code class=
+        "literal">libmagic</code>. Otherwise, the command used is
+        either <span class="command"><strong>file</strong></span>
+        or <span class="command"><strong>xdg-mime</strong></span>,
+        and can be configured by setting the <code class=
+        "varname">systemfilecommand</code> variable.</p>
         <p>All extension values in <code class=
         "filename">mimemap</code> must be entered in lower case.
         File names extensions are lower-cased for comparison during
@@ -12054,17 +12060,10 @@ x-my-tag = mailmytag</pre>
         <pre class=
         "programlisting">[~/.kde/share/apps/okular/docdata]
 .xml = application/x-okular-notes</pre>
-        <p>The <code class="varname">recoll_noindex</code>
-        <code class="filename">mimemap</code> variable has been
-        moved to <code class="filename">recoll.conf</code> and
-        renamed to <code class="varname">noContentSuffixes</code>,
-        while keeping the same function, as of <span class=
-        "application">Recoll</span> version 1.21. For older
-        <span class="application">Recoll</span> versions, see the
-        documentation for <code class=
-        "varname">noContentSuffixes</code> but use <code class=
-        "varname">recoll_noindex</code> in <code class=
-        "filename">mimemap</code>.</p>
+        <p>See also the <code class=
+        "varname">noContentSuffixes</code> configuration variable,
+        for specifying file name extensions for which no content
+        indexing will be performed.</p>
       </div>
       <div class="sect1">
         <div class="titlepage">

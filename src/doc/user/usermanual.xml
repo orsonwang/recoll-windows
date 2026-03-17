@@ -6631,37 +6631,32 @@ x-my-tag = mailmytag</programlisting>
       <sect1 xml:id="RCL.CONFIG.MIMEMAP">
         <title>The mimemap file</title>
 
-        <para><filename>mimemap</filename> specifies the
-        file name extension to MIME type mappings.</para> 
+        <para><filename>mimemap</filename> specifies the file name extension to MIME type
+        mappings.</para>
         
-        <para>For file names without an extension, or with an unknown one,
-          recent &RCL; versions will use libmagic. Older versions would execute a system command
-          (<command>file</command> <option>-i</option>, or <command>xdg-mime</command>) will be
-          executed to determine the MIME type (this can be switched off, or the command changed
-          inside the main configuration file).</para>
+        <para>For file names without an extension, or with an unknown one, the MIME type is
+        optionally determined by inspecting the file contents. This is controlled by the
+        <varname>usesystemfilecommand</varname> configuration variable. Depending on a compile time
+        option, &RCL; then either executes a system command, or uses the <literal>magic</literal>
+        library.</para>
 
-        <para>All extension values in <filename>mimemap</filename> must be
-        entered in lower case. File names extensions are lower-cased for
-        comparison during indexing, meaning that an upper case
-        <filename>mimemap</filename> entry will never be matched.</para>
+        <para>On most platforms, and always on &WIN;, &RCL; is built to use
+        <literal>libmagic</literal>. Otherwise, the command used is either <command>file</command>
+        or <command>xdg-mime</command>, and can be configured by setting the
+        <varname>systemfilecommand</varname> variable.</para>
 
-        <para>The mappings can be specified on a per-subtree basis,
-        which may be useful in some cases. Example:
-        <application>okular</application> notes have a
-        <filename>.xml</filename> extension but 
-        should be handled specially, which is possible because they
-        are usually all located in one place. Example:
-        <programlisting>[~/.kde/share/apps/okular/docdata]
+        <para>All extension values in <filename>mimemap</filename> must be entered in lower
+        case. File names extensions are lower-cased for comparison during indexing, meaning that an
+        upper case <filename>mimemap</filename> entry will never be matched.</para>
+
+        <para>The mappings can be specified on a per-subtree basis, which may be useful in some
+        cases. Example: <application>okular</application> notes have a <filename>.xml</filename>
+        extension but should be handled specially, which is possible because they are usually all
+        located in one place. Example: <programlisting>[~/.kde/share/apps/okular/docdata]
 .xml = application/x-okular-notes</programlisting></para>
 
-        <para>The <varname>recoll_noindex</varname>
-        <filename>mimemap</filename> variable has been moved to
-        <filename>recoll.conf</filename> and renamed to
-        <varname>noContentSuffixes</varname>, while keeping the same
-        function, as of &RCL; version 1.21. For older &RCL; versions,
-        see the documentation for <varname>noContentSuffixes</varname>
-        but use <varname>recoll_noindex</varname> in
-        <filename>mimemap</filename>.</para>
+        <para>See also the <varname>noContentSuffixes</varname> configuration variable, for
+        specifying file name extensions for which no content indexing will be performed.</para>
 
       </sect1>
 

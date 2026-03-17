@@ -928,7 +928,7 @@ each document, so that the object can keep state for, e.g. eliminating
 duplicate values.
 </para></listitem></varlistentry>
 </variablelist></sect2>
-<sect2  id="RCL.CONFIG.RECOLLCONF.ZIP">
+<sect2  id="RCL.CONFIG.RECOLLCONF.ZP">
 <title>Parameters for the ZIP file handler </title><variablelist>
 <varlistentry id="RCL.CONFIG.RECOLLCONF.ZIPUSESKIPPEDNAMES">
 <term><varname>zipUseSkippedNames</varname></term>
