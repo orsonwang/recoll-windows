@@ -1,6 +1,6 @@
 5 results
-text/plain	[file:///home/dockes/projets/fulltext/testrecoll/tar/tarfile.tar.gz]	[fic2.txt]	15	bytes	
-text/plain	[file:///home/dockes/projets/fulltext/testrecoll/tar/tarfile.tgz]	[fic2.txt]	15	bytes	
-text/plain	[file:///home/dockes/projets/fulltext/testrecoll/tar/tarfile.tar.bz2]	[fic2.txt]	15	bytes	
-text/plain	[file:///home/dockes/projets/fulltext/testrecoll/tar/tarfile.tbz]	[fic2.txt]	15	bytes	
 text/plain	[file:///home/dockes/projets/fulltext/testrecoll/tar/tarfile.tar]	[fic2.txt]	15	bytes	
+text/plain	[file:///home/dockes/projets/fulltext/testrecoll/tar/tarfile.tar.bz2]	[fic2.txt]	15	bytes	
+text/plain	[file:///home/dockes/projets/fulltext/testrecoll/tar/tarfile.tar.gz]	[fic2.txt]	15	bytes	
+text/plain	[file:///home/dockes/projets/fulltext/testrecoll/tar/tarfile.tbz]	[fic2.txt]	15	bytes	
+text/plain	[file:///home/dockes/projets/fulltext/testrecoll/tar/tarfile.tgz]	[fic2.txt]	15	bytes	
