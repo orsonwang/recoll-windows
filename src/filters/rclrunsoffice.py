@@ -26,10 +26,14 @@
 import sys
 import subprocess
 import os
+import posixpath
+import platform
 
 import rclexecm
 from rclexecm import logmsg as _deb
 import conftree
+
+_platsys = platform.system()
 
 def findsoffice():
     import rclconfig
@@ -53,10 +57,28 @@ def findsoffice():
     #_deb(f"sofficecmd {sofficecmd}")
     return sofficecmd
 
+
+def _path2fileurl(path):
+    if _platsys == "Windows":
+        if path[0] == "/":
+            # //server/bla ? Is this at all possible ? How many slashes in the final url??
+            return "file://" + path
+        else:
+            # c:/some/path -> file:///c:/some/path
+            return "file:///" + path
+    else:
+        return "file://" + path
+
+
 class SofficeRunner(object):
     def __init__(self, sofficecmd):
         self.tmpdir = rclexecm.SafeTmpDir("rclrsoff")
+        # We use a separate soffice configuration to avoid polluting the normal user one. 
+        # This is also necessary because simultaneous execs by multithreaded recoll *must*
+        # use separate install directories, else errors happen.
+        sofficeconfig = _path2fileurl(posixpath.join(self.tmpdir.getpath(), "soffice-profile"))
         self.cmdbase = sofficecmd + ["--norestore", "--safe-mode", "--headless",
+                                     f"-env:UserInstallation={sofficeconfig}",
                                      "--convert-to", "html", "--outdir"]
 
     def runsoffice(self, inpath):
