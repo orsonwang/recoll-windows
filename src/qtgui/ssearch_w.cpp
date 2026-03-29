@@ -246,8 +246,7 @@ void SSearch::init()
 
     connect(historyPB, SIGNAL(clicked()), this, SLOT(onHistoryClicked()));
 
-    int searchtype = prefs.ssearchTypSav ? prefs.ssearchTyp : SSearch::SST_LANG;
-    onSearchTypeChanged(searchtype);
+    onSearchTypeChanged(prefs.ssearchTyp);
     
     setupButtons();
     onNewShortcuts();

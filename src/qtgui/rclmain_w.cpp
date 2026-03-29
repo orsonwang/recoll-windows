@@ -334,6 +334,10 @@ void RclMain::init()
     setUIPrefs();
     reslist->resetList();
 
+    // Set search type in menu: this is normally done through a signal, but the type was set in
+    // ssearch init before the signal is connected, so do it by hand here.
+    onSSTypCMB(prefs.ssearchTyp);
+
 #ifdef RCL_SHOW_FOCUS_CHANGES
     // Help with understanding where the focus goes... The focus order should probably be
     // explicitly set with QWidget::setTabOrder().
@@ -778,7 +782,9 @@ void RclMain::fileExit()
     restable->saveColState();
     settings.setValue(settingskey_sidefilterssize, sideFiltersSPLT->saveState());
 
-    prefs.ssearchTyp = sSearch->getSearchType();
+    if(prefs.ssearchTypSav) {
+        prefs.ssearchTyp = sSearch->getSearchType();
+    }
 
     rwSettings(true);
 
