@@ -456,17 +456,19 @@ void UIPrefsDialog::accept()
     prefs.darkMode = darkMode;
     prefs.qssFile = qssFile;
     prefs.snipCssFile = snipCssFile;
-    prefs.reslistformat =  paraFormat;
     prefs.reslistheadertext =  headerText;
+
+    prefs.reslistformat =  paraFormat;
     if (prefs.reslistformat.trimmed().isEmpty()) {
         prefs.reslistformat = prefs.dfltResListFormat;
         paraFormat = prefs.reslistformat;
     }
+    prefs.creslistformat = qs2utf8s(prefs.reslistformat);
+
     prefs.snipwMaxLength = snipwMaxLenSB->value();
     prefs.snipwSortByPage = snipwByPageCB->isChecked();
     prefs.alwaysSnippets = alwaysSnippetsCB->isChecked();
 
-    prefs.creslistformat = (const char*)prefs.reslistformat.toUtf8();
 
     if (stemLangCMB->currentIndex() == 0) {
         prefs.queryStemLang = "";
@@ -565,8 +567,7 @@ void UIPrefsDialog::accept()
 void UIPrefsDialog::editParaFormat()
 {
     EditDialog dialog(this);
-    dialog.setWindowTitle(tr("Result list paragraph format "
-                             "(erase all to reset to default)"));
+    dialog.setWindowTitle(tr("Result list paragraph format (erase all to reset to default)"));
     dialog.plainTextEdit->setPlainText(paraFormat);
     int result = dialog.exec();
     if (result == QDialog::Accepted)

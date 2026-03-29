@@ -73,15 +73,13 @@ const char *PrefsPack::dfltResListFormat =
 // The global preferences structure
 PrefsPack prefs;
 
-// Using the same macro to read/write a setting. insurance against typing 
-// mistakes
-#define SETTING_RW(var, nm, tp, def)            \
-    if (writing) {                              \
-        settings.setValue(nm , var);            \
-    } else {                                    \
-        var = settings.value(nm, def).to##tp    \
-            ();                                 \
-    }                                           
+// Using the same macro to read/write a setting. insurance against typing mistakes
+#define SETTING_RW(var, nm, tp, def)                    \
+    if (writing) {                                      \
+        settings.setValue(nm , var);                    \
+    } else {                                            \
+        var = settings.value(nm, def).to##tp ();        \
+    }
 
 /** 
  * Saving and restoring user preferences. These are stored in a global
@@ -193,12 +191,18 @@ void rwSettings(bool writing)
         }
     }
 
-    SETTING_RW(u8s2qs(prefs.reslistdateformat), "/Recoll/prefs/reslist/dateformat", 
-               String, "&nbsp;%Y-%m-%d&nbsp;%H:%M:%S&nbsp;%z");
-    if (!writing && prefs.reslistdateformat == "")
-        prefs.reslistdateformat = "&nbsp;%Y-%m-%d&nbsp;%H:%M:%S&nbsp;%z";
+    const char *dfltdateformat = "&nbsp;%Y-%m-%d&nbsp;%H:%M:%S&nbsp;%z";
+    if (writing) {
+        settings.setValue("/Recoll/prefs/reslist/dateformat", u8s2qs(prefs.reslistdateformat));
+    } else {
+        prefs.reslistdateformat = qs2u8s(
+            settings.value("/Recoll/prefs/reslist/dateformat", dfltdateformat).toString());
+    }
+    if (prefs.reslistdateformat.empty()) {
+        prefs.reslistdateformat = dfltdateformat;
+    }
 
-    SETTING_RW(prefs.reslistfontfamily, "/Recoll/prefs/reslist/fontFamily", 
+    SETTING_RW(prefs.reslistfontfamily, "/Recoll/prefs/reslist/fontFamily",
                String, defaultfontfamily);
 
     // While building the kio, we don't really care about QT Gui
@@ -215,14 +219,12 @@ void rwSettings(bool writing)
     QString rlfDflt = QString::fromUtf8(prefs.dfltResListFormat);
     if (writing) {
         if (prefs.reslistformat.compare(rlfDflt)) {
-            settings.setValue("/Recoll/prefs/reslist/format", 
-                              prefs.reslistformat);
+            settings.setValue("/Recoll/prefs/reslist/format", prefs.reslistformat);
         } else {
             settings.remove("/Recoll/prefs/reslist/format");
         }
     } else {
-        prefs.reslistformat = 
-            settings.value("/Recoll/prefs/reslist/format", rlfDflt).toString();
+        prefs.reslistformat = settings.value("/Recoll/prefs/reslist/format", rlfDflt).toString();
         prefs.creslistformat = qs2utf8s(prefs.reslistformat);
     }
 
