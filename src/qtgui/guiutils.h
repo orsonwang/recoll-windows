@@ -175,6 +175,7 @@ public:
     QString uilanguage;
     bool previewdarkbg{false};
     bool startWithFragsToolOpen{false};
+    bool noSizeFilter{false};
     /*INSERTHERE*/
 
     // See widgets/qxtconfirmationmessage.

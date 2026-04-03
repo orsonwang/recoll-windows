@@ -77,6 +77,13 @@ void RclMain::populateSideFilters(SideFilterUpdateReason reason)
         connect(sizeFilterCB, SIGNAL(toggled(bool)), maxSizeFilterSB, SLOT(setEnabled(bool)));
         connect(sizeFilterCB, SIGNAL(toggled(bool)), minSizeFilterCMB, SLOT(setEnabled(bool)));
         connect(sizeFilterCB, SIGNAL(toggled(bool)), maxSizeFilterCMB, SLOT(setEnabled(bool)));
+        if (prefs.noSizeFilter) {
+            sizeFilterCB->hide();
+            minSizeFilterSB->hide();
+            maxSizeFilterSB->hide();
+            minSizeFilterCMB->hide();
+            maxSizeFilterCMB->hide();
+        }
 
 #ifdef EXT4_BIRTH_TIME
         birthDateFilterCB->show();

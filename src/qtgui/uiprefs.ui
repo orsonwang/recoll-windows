@@ -392,7 +392,7 @@
                 <string>Show choice in menu only.</string>
                </property>
                <property name="text">
-                <string>Simple search type</string>
+                <string>Search type</string>
                </property>
                <property name="checked">
                 <bool>false</bool>
@@ -402,7 +402,20 @@
              <item>
               <widget class="QCheckBox" name="noClearSearchCB">
                <property name="text">
-                <string>Clear/Search buttons</string>
+                <string>Clear/Search</string>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="noSizeFilterCB">
+               <property name="toolTip">
+                <string>Do not show the File Size tool in the side filters section</string>
+               </property>
+               <property name="text">
+                <string>File Size side filter</string>
                </property>
                <property name="checked">
                 <bool>false</bool>

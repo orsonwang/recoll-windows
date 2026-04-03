@@ -319,6 +319,7 @@ void rwSettings(bool writing)
 #endif
     SETTING_RW(prefs.previewdarkbg, "/Recoll/preview/previewdarkbg", Bool, false)
     SETTING_RW(prefs.startWithFragsToolOpen, "/Recoll/ui/startWithFragsToolOpen", Bool, false)
+    SETTING_RW(prefs.noSizeFilter, "/Recoll/ui/noSizeFilter", Bool, false)
     /*INSERTHERE*/
     
     // See qxtconfirmationmessage. Needs to be -1 for the dialog to show.
