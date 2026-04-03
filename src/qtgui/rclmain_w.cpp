@@ -1309,6 +1309,20 @@ void RclMain::catgFilter(int id)
     initiateQuery();
 }
 
+static int sizeUnitToValue(const QString& txt)
+{
+    if (txt == "") {
+        return 1;
+    } else if (txt == "KB") {
+        return 1000;
+    } else if (txt == "MB") {
+        return 1000*1000;
+    } else if (txt == "GB") {
+        return 1000*1000*1000;
+    }
+    return 0;
+}
+                               
 void RclMain::setFiltSpec()
 {
     m_filtspec.reset();
@@ -1362,6 +1376,23 @@ void RclMain::setFiltSpec()
             std::string clause = std::string("date:") + qs2utf8s(mindate) + "/" + qs2utf8s(maxdate);
             LOGDEB1("RclMain::setFiltSpec: date clause " << clause << "\n");
             m_filtspec.orCrit(DocSeqFiltSpec::DSFS_QLANG, clause);
+        }
+        if (sizeFilterCB->isChecked()) {
+            auto sz = minSizeFilterSB->value();
+            auto factor = sizeUnitToValue(minSizeFilterCMB->currentText());
+            auto minsize = sz * factor;
+            std::string sizeclause;
+            if (minsize) {
+                sizeclause = std::string("size>=") + std::to_string(minsize);
+                m_filtspec.orCrit(DocSeqFiltSpec::DSFS_QLANG, sizeclause);
+            }
+            sz = maxSizeFilterSB->value();
+            factor = sizeUnitToValue(maxSizeFilterCMB->currentText());
+            auto maxsize = sz * factor;
+            if (maxsize) {
+                sizeclause = std::string("size<=") + std::to_string(maxsize);
+                m_filtspec.orCrit(DocSeqFiltSpec::DSFS_QLANG, sizeclause);
+            }
         }
     }
 #ifdef EXT4_BIRTH_TIME

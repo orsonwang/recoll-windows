@@ -70,6 +70,14 @@ void RclMain::populateSideFilters(SideFilterUpdateReason reason)
         connect(dateFilterCB, SIGNAL(toggled(bool)), minDateFilterDTEDT, SLOT(setEnabled(bool)));
         connect(dateFilterCB, SIGNAL(toggled(bool)), maxDateFilterDTEDT, SLOT(setEnabled(bool)));
 
+        connect(sizeFilterCB, SIGNAL(toggled(bool)), this, SLOT(sideFilterChanged()));
+        minSizeFilterCMB->insertItems(0, {"", "KB", "MB", "GB"});
+        maxSizeFilterCMB->insertItems(0, {"", "KB", "MB", "GB"});
+        connect(sizeFilterCB, SIGNAL(toggled(bool)), minSizeFilterSB, SLOT(setEnabled(bool)));
+        connect(sizeFilterCB, SIGNAL(toggled(bool)), maxSizeFilterSB, SLOT(setEnabled(bool)));
+        connect(sizeFilterCB, SIGNAL(toggled(bool)), minSizeFilterCMB, SLOT(setEnabled(bool)));
+        connect(sizeFilterCB, SIGNAL(toggled(bool)), maxSizeFilterCMB, SLOT(setEnabled(bool)));
+
 #ifdef EXT4_BIRTH_TIME
         birthDateFilterCB->show();
         minBirthDateFilterDTEDT->show();
@@ -110,6 +118,10 @@ void RclMain::enableSideFilters(bool enable)
     dateFilterCB->setEnabled(enable);
     minDateFilterDTEDT->setEnabled(enable && dateFilterCB->isChecked());
     maxDateFilterDTEDT->setEnabled(enable && dateFilterCB->isChecked());
+    minSizeFilterSB->setEnabled(enable && sizeFilterCB->isChecked());
+    maxSizeFilterSB->setEnabled(enable && sizeFilterCB->isChecked());
+    minSizeFilterCMB->setEnabled(enable && sizeFilterCB->isChecked());
+    maxSizeFilterCMB->setEnabled(enable && sizeFilterCB->isChecked());
 }
 
 void RclMain::clearDirFilter()

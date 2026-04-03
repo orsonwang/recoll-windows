@@ -114,6 +114,67 @@
            </layout>
           </item>
           <item>
+           <widget class="Line" name="line3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="sizeFilterCB">
+            <property name="text">
+             <string>Filter file sizes</string>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="hLayoutSizesFilter">
+            <item>
+             <widget class="QSpinBox" name="minSizeFilterSB">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="toolTip">
+               <string>Minimum size (leave at 0 to disable)</string>
+              </property>
+              <property name="maximum">
+               <number>99999</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="minSizeFilterCMB">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="maxSizeFilterSB">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="toolTip">
+               <string>Maximum size (leave at 0 to disable)</string>
+              </property>
+              <property name="maximum">
+               <number>99999</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="maxSizeFilterCMB">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
            <widget class="QTreeView" name="idxTreeView">
             <property name="frameShape">
              <enum>QFrame::NoFrame</enum>
@@ -149,7 +210,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>32</height>
+     <height>23</height>
     </rect>
    </property>
    <addaction name="separator"/>
