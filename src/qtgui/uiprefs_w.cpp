@@ -230,6 +230,7 @@ void UIPrefsDialog::setFromPrefs()
     if (prefs.colorscheme < colorschemeCMB->count())
         colorschemeCMB->setCurrentIndex(prefs.colorscheme);
     previewdarkbgCB->setChecked(prefs.previewdarkbg);
+    startWithFragsToolOpenCB->setChecked(prefs.startWithFragsToolOpen);
     /*INSERTHERE_LOAD*/
 
     // See qxtconfirmationmessage. Needs to be -1 for the dialog to show.
@@ -518,6 +519,7 @@ void UIPrefsDialog::accept()
     prefs.uilanguage = uilanguageCMB->currentData().toString();
     prefs.colorscheme = colorschemeCMB->currentIndex();
     prefs.previewdarkbg = previewdarkbgCB->isChecked();
+    prefs.startWithFragsToolOpen = startWithFragsToolOpenCB->isChecked();
     /*INSERTHERE_ACCEPT*/
 
     // -1 is the qxtconf... predefined value to show the dialog

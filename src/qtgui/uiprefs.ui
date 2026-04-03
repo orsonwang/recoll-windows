@@ -37,8 +37,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>886</width>
-            <height>724</height>
+            <width>881</width>
+            <height>733</height>
            </rect>
           </property>
           <layout class="QVBoxLayout">
@@ -149,14 +149,47 @@
             </layout>
            </item>
            <item>
-            <widget class="QCheckBox" name="initStartAdvCB">
-             <property name="text">
-              <string>Start with advanced search dialog open.</string>
-             </property>
-             <property name="checked">
-              <bool>false</bool>
-             </property>
-            </widget>
+            <layout class="QHBoxLayout" stretch="0,1,1">
+             <item>
+              <widget class="QLabel" name="startLBL">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>1</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Things we open when starting up.</string>
+               </property>
+               <property name="text">
+                <string>Open at start:</string>
+               </property>
+               <property name="wordWrap">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="initStartAdvCB">
+               <property name="text">
+                <string>Advanced Search dialog</string>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="startWithFragsToolOpenCB">
+               <property name="text">
+                <string>Query Fragments window</string>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
            <item>
             <widget class="QCheckBox" name="keepSortCB">
@@ -272,7 +305,7 @@
                 <string>Decide if document filters are shown as radio buttons, toolbar combobox, or menu.</string>
                </property>
                <property name="text">
-                <string>Document filter choice style:</string>
+                <string>Document category choice style:</string>
                </property>
               </widget>
              </item>
@@ -718,11 +751,11 @@
             <layout class="QHBoxLayout">
              <item>
               <widget class="QLabel" name="uilanguageLBL">
-               <property name="text">
-                <string>Interface language (needs restart):</string>
-               </property>
                <property name="toolTip">
                 <string>Note: most translations are incomplete. Leave empty to use the system environment.</string>
+               </property>
+               <property name="text">
+                <string>Interface language (needs restart):</string>
                </property>
                <property name="wordWrap">
                 <bool>false</bool>
@@ -1220,7 +1253,7 @@
          </property>
         </widget>
        </item>
-      <item>
+       <item>
         <widget class="QCheckBox" name="previewdarkbgCB">
          <property name="toolTip">
           <string>When displaying HTML in dark mode, try to use a dark background (and light color).&lt;br&gt;This conflicts with many documents which will override our light setting with their own CSS (dark) foreground color, resulting in an unreadable document, so it is off by default.</string>

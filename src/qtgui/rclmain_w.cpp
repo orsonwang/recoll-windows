@@ -658,6 +658,8 @@ void RclMain::initDbOpen()
 
     if (prefs.startWithAdvSearchOpen)
         showAdvSearchDialog();
+    if (prefs.startWithFragsToolOpen)
+        showFragButs();
     // If we have something in the search entry, it comes from a
     // command line argument
     if (!nodb && sSearch->hasSearchString())

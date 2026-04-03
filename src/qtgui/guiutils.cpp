@@ -318,6 +318,7 @@ void rwSettings(bool writing)
     SETTING_RW(prefs.colorscheme, "/Recoll/ui/colorscheme", Int ,PrefsPack::CS_LIGHT)
 #endif
     SETTING_RW(prefs.previewdarkbg, "/Recoll/preview/previewdarkbg", Bool, false)
+    SETTING_RW(prefs.startWithFragsToolOpen, "/Recoll/ui/startWithFragsToolOpen", Bool, false)
     /*INSERTHERE*/
     
     // See qxtconfirmationmessage. Needs to be -1 for the dialog to show.

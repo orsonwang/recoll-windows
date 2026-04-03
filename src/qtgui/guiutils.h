@@ -174,6 +174,7 @@ public:
     int previewLinesOverAnchor{4};
     QString uilanguage;
     bool previewdarkbg{false};
+    bool startWithFragsToolOpen{false};
     /*INSERTHERE*/
 
     // See widgets/qxtconfirmationmessage.
