@@ -451,28 +451,14 @@ void SSearch::searchTextChanged(const QString& text)
     }
 }
 
-void SSearch::onSearchTypeChanged(int typ)
+QString SSearch::o_qlCheatSheet;
+QString SSearch::qlCheatSheet()
 {
-    LOGDEB1("SSearch::onSearchTypeChanged: type now " << typ << "\n");
-
-    // This may come from the menus or the combobox. Ensure that things are in sync. No loop because
-    // we are connected to combobox or menu activated(), not currentIndexChanged()
-    searchTypCMB->setCurrentIndex(typ);
-    
-    // Adjust context help
-    if (typ == SST_LANG) {
-        HelpClient::installMap(qs2u8s(objectName()), "RCL.SEARCH.LANG");
-    } else {
-        HelpClient::installMap(qs2u8s(objectName()), "RCL.SEARCH.GUI.SIMPLE");
-    }
-    // Also fix tooltips
-    switch (typ) {
-    case SST_LANG:
-        queryText->setToolTip(
-            // Do not modify the text here, test with the
-            // sshelp/qhelp.html file and a browser, then use
-            // sshelp/helphtmltoc.sh to turn to code and insert here
-            tr("<html><head><style>") +
+    if (o_qlCheatSheet.isEmpty()) {
+        // Do not modify the text here, test with the
+        // sshelp/qhelp.html file and a browser, then use
+        // sshelp/helphtmltoc.sh to turn to code and insert here
+        o_qlCheatSheet = tr("<html><head><style>") +
             tr("table, th, td {") +
             tr("border: 1px solid black;") +
             tr("border-collapse: collapse;") +
@@ -504,8 +490,29 @@ void SSearch::onSearchTypeChanged(int typ)
             tr("<tr><td>Date intervals</td><td>date:2018-01-01/2018-31-12<br>") +
             tr("date:2018&nbsp;&nbsp;date:2018-01-01/P12M</td></tr>") +
             tr("<tr><td>Size</td><td>size&gt;100k size&lt;1M</td></tr>") +
-            tr("</table></body></html>")
-            );
+            tr("</table></body></html>");
+    }
+    return o_qlCheatSheet;
+}
+
+void SSearch::onSearchTypeChanged(int typ)
+{
+    LOGDEB1("SSearch::onSearchTypeChanged: type now " << typ << "\n");
+
+    // This may come from the menus or the combobox. Ensure that things are in sync. No loop because
+    // we are connected to combobox or menu activated(), not currentIndexChanged()
+    searchTypCMB->setCurrentIndex(typ);
+    
+    // Adjust context help
+    if (typ == SST_LANG) {
+        HelpClient::installMap(qs2u8s(objectName()), "RCL.SEARCH.LANG");
+    } else {
+        HelpClient::installMap(qs2u8s(objectName()), "RCL.SEARCH.GUI.SIMPLE");
+    }
+    // Also fix tooltips
+    switch (typ) {
+    case SST_LANG:
+        queryText->setToolTip(qlCheatSheet());
         break;
     case SST_FNM:
         queryText->setToolTip(tr("Enter file name wildcard expression."));

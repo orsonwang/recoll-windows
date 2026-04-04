@@ -87,7 +87,8 @@ public:
     virtual bool eventFilter(QObject *target, QEvent *event);
     virtual void setupButtons();
     SSearchType getSearchType();
-
+    QString qlCheatSheet();
+                        
 public slots:
     virtual void onSearchTypeChanged(int);
     virtual void setSearchString(const QString& text);
@@ -125,6 +126,8 @@ private:
     /* We save multiword entries because the completer replaces them with
        the completion */
     QString m_savedEditText;
+    static QString o_qlCheatSheet;
+    
      /* Saved xml version of the search, as we start it */
     std::string m_xml;
 };

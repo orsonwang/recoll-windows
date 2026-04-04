@@ -336,6 +336,14 @@
     <cstring>onlineManualAction</cstring>
    </property>
   </action>
+  <action name="qlCheatSheetAction">
+   <property name="text">
+    <string>Query Language cheat sheet</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>qlCheatSheetAction</cstring>
+   </property>
+  </action>
   <action name="toolsDoc_HistoryAction">
    <property name="icon">
     <iconset resource="recoll.qrc">

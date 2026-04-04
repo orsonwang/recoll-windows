@@ -139,6 +139,15 @@ void RclMain::showIndexStatistics()
     spellform->setMode(SpellW::TYPECMB_STATS);
 }
 
+void RclMain::showQLCheatSheet()
+{
+    if (nullptr == qlcheatsheet) {
+        qlcheatsheet = new HtmlDialog(this);
+        qlcheatsheet->browser->setHtml(sSearch->qlCheatSheet());
+    }
+    qlcheatsheet->show();
+}
+
 void RclMain::showFragButs()
 {
     if (fragbuts && fragbuts->isStale(0)) {

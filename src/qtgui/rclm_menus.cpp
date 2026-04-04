@@ -176,6 +176,7 @@ void RclMain::buildMenus()
     curid->setChecked(true);
     
     helpMenu->addAction(userManualAction);
+    helpMenu->addAction(qlCheatSheetAction);
     helpMenu->addAction(onlineManualAction);
     helpMenu->addAction(showMissingHelpers_Action);
     helpMenu->addAction(showActiveTypes_Action);

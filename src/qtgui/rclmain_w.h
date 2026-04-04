@@ -33,6 +33,7 @@
 #include "pathut.h"
 #include "guiutils.h"
 #include "rclutil.h"
+#include "htmldialog.h"
 
 class SnippetsW;
 class IdxSchedW;
@@ -117,6 +118,7 @@ public slots:
     virtual void showWebcacheDialog();
     virtual void showIndexStatistics();
     virtual void showFragButs();
+    virtual void showQLCheatSheet();
     virtual void showSpecIdx();
     virtual void showAboutDialog();
     virtual void showMissingHelpers();
@@ -226,6 +228,7 @@ private:
     RTIToolW       *rtiTool{0};
     SpellW         *spellform{0};
     FragButs       *fragbuts{0};
+    HtmlDialog     *qlcheatsheet{0};
     SpecIdxW       *specidx{0};
     QTimer         *periodictimer{0};
     WebcacheEdit   *webcache{0};
