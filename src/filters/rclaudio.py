@@ -538,6 +538,8 @@ class AudioTagExtractor(RclBaseHandler):
         output_array = []
         result_dict = {}
 
+        global rclocrcache, json, gc, whisper, torch
+
         import rclocrcache
         import json
         import gc
