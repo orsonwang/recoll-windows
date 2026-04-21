@@ -548,7 +548,8 @@ ConfSubPanelW::ConfSubPanelW(QWidget *parent, ConfNull **config, RclConfig *rclc
                      rclconf, config, "noContentSuffixes",
                      std::bind(&RclConfig::getStopSuffixes, rclconf), &m_sk)),
         QObject::tr("Ignored endings"),
-        QObject::tr("These are file name endings for files which will be "
+        QObject::tr("noContentSuffixes configuration variable: these are file name endings for "
+                    "files which will be "
                     "indexed by name only \n(no MIME type identification "
                     "attempt, no decompression, no content indexing)."));
     encs->setImmediate();
