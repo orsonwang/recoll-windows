@@ -7,22 +7,35 @@
 # #!/bin/sh
 # echo 3.8 3.9 3.10 3.11 3.12 3.13
 
+fatal()
+{
+    echo $*
+    exit 1
+}
 
 DOCKHOME=/home/dockes/tmp/distrohomes/deb11
+RCLDISTS=/home/dockes/projets/fulltext/web-recoll
+RCLSRC=/home/dockes/projets/fulltext/recoll
 
 FROMGIT=0
-RECOLL_VERSION=1.43.7
-if test $FROMGIT -ne 0; then
-    RECOLL=/home/dockes/projets/fulltext/recoll/src
-else
-    RECOLL=$DOCKHOME/recoll-${RECOLL_VERSION}
-fi
+RECOLL_VERSION=1.43.14
+
 UNRTF=$DOCKHOME/unrtf-0.21.11
 ANTIWORD=$DOCKHOME/antiword
 
 APPDIR=$DOCKHOME/AppDir/
 DEPLOYBINDIR=$DOCKHOME/.local/bin
 BUILDDIR=$DOCKHOME/build
+# NOTE: delete the builddir when changing versions. Not done automatically because complicated
+#rm -rf $BUILDDIR
+
+if test $FROMGIT -ne 0; then
+    RECOLL=/home/dockes/projets/fulltext/recoll/src
+else
+    RECOLL=$DOCKHOME/recoll-${RECOLL_VERSION}
+    test -d $RECOLL || (cd $DOCKHOME && tar xf $RCLDISTS/recoll-${RECOLL_VERSION}.tar.gz) || \
+        fatal source extraction
+fi
 
 auxprogs()
 {
@@ -54,7 +67,7 @@ fi
 RECOLL_VERSION=`cat RECOLL-VERSION.txt`
 
 # The -Dappimage=true is not used after 2025-11-20, but needed for recoll-1.43.7
-meson setup --prefix=/usr -Dappimage=true ${BUILDDIR}
+meson setup --prefix=/usr ${BUILDDIR}
 ninja -C ${BUILDDIR}
 
 echo;echo INSTALLING TO $APPDIR
@@ -71,6 +84,10 @@ cp ${BUILDDIR}/python/pyaspell/*.so $APPDIR/usr/lib/python3/dist-packages/ || ex
 auxprogs
 
 cd
-$DEPLOYBINDIR/linuxdeploy-x86_64.AppImage --appdir $APPDIR --output appimage --plugin qt
+$DEPLOYBINDIR/linuxdeploy-x86_64.AppImage \
+    --appdir $APPDIR \
+    --custom-apprun=$RCLSRC/packaging/appimage/AppRun \
+    --plugin qt --output appimage
+                                          
 dte=`date +%Y%m%d`
 mv Recoll-x86_64.AppImage Recoll-${RECOLL_VERSION}-${dte}-${hash}-x86_64.AppImage
