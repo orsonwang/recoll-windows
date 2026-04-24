@@ -96,15 +96,12 @@ the patterns will be considered for indexing. Can be redefined per subtree. Does
 directories.
 .TP
 .BI "noContentSuffixes = "string
-List of name endings (not necessarily dot-separated suffixes) for
-which we don't try MIME type identification, and don't uncompress or
-index content. Only the names will be indexed. This
-complements the now obsoleted recoll_noindex list from the mimemap file,
-which will go away in a future release (the move from mimemap to
-recoll.conf allows editing the list through the GUI). This is different
-from skippedNames because these are name ending matches only (not
-wildcard patterns), and the file name itself gets indexed normally. This
-can be redefined for subdirectories.
+List of name endings (not necessarily dot-separated suffixes) for which we only index the
+names ("Ignored endings" in the GUI preferences). Only the names will be indexed. This complements the now obsoleted recoll_noindex list from
+the mimemap file, which will go away in a future release (the move from mimemap to recoll.conf
+allows editing the list through the GUI). This is different from skippedNames because these are
+name ending matches only (not wildcard patterns), and the file name itself gets indexed
+normally. This can be redefined for subdirectories.
 .TP
 .BI "noContentSuffixes- = "string
 List of name endings to remove from the default noContentSuffixes
