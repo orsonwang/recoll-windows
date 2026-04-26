@@ -1,3 +1,22 @@
+recoll (1.43.15-1~ppaPPAVERS~SERIES1) SERIES; urgency=low
+
+  * Windows: the test for file system occupation was inverted.
+  * When using soffice to extract text, use a separate UserInstallation
+    directory to avoid interfering with interactive sessions.
+  * GUI: the result list date format preference was not saved.
+  * GUI: add file size filter tool, and option to not show it.
+  * GUI: fix simple search mode start preference (was not actually saved).
+  * GUI: add option to open the query fragments tool when starting.
+  * GUI: add help menu entry to show the query language cheatsheet.
+  * Fix the OpenAI whisper interface module.
+  * appimage: arrange to allow running recollindex instead of the GUI
+    (RECOLL_APPIMAGE_COMMAND environment variable
+  * Add configuration parameter with list of MIME wildcard exprs for MIME
+    types which should use the stored text for previewing instead of
+    re-extracting the text. 
+  
+ -- Jean-Francois Dockes <jf@dockes.org>  Sun, 26 Apr 2026 17:17:00 +0200
+
 recoll (1.43.14-1~ppaPPAVERS~SERIES1) SERIES; urgency=low
 
   * Python: queries would lose one Db object when iternext hit the end of

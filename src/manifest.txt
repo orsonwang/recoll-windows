@@ -546,6 +546,8 @@ qtgui/webcache.ui
 qtgui/widgets/
 qtgui/widgets/editdialog.h
 qtgui/widgets/editdialog.ui
+qtgui/widgets/htmldialog.h
+qtgui/widgets/htmldialog.ui
 qtgui/widgets/listdialog.h
 qtgui/widgets/listdialog.ui
 qtgui/widgets/qxtconfirmationmessage.cpp

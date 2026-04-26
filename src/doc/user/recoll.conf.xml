@@ -812,6 +812,12 @@ the PATH.
 indexes. Setting this parameter will make some settings, such as the result
 table setup, specific to the index.
 </para></listitem></varlistentry>
+<varlistentry id="RCL.CONFIG.RECOLLCONF.PREFERSTOREDTEXTMIMES">
+<term><varname>preferStoredTextMimes</varname></term>
+<listitem><para>MIME types for which we prefer stored text to re-extraction at query time. When fetching document text at query time (e.g. for previewing), the default is to always
+run the normal text extraction process if the file is available. This defines a list of MIME
+wildcards for which we will just use stored text if available.
+</para></listitem></varlistentry>
 <varlistentry id="RCL.CONFIG.RECOLLCONF.AUTODIACSENS">
 <term><varname>autodiacsens</varname></term>
 <listitem><para>auto-trigger diacritics sensitivity (raw index only). IF the index is not stripped, decide if we automatically trigger

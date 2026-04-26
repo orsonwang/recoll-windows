@@ -11431,6 +11431,18 @@ defaultcharset = utf-8</pre>
                 make some settings, such as the result table setup,
                 specific to the index.</p>
               </dd>
+              <dt><a name=
+              "RCL.CONFIG.RECOLLCONF.PREFERSTOREDTEXTMIMES" id=
+              "RCL.CONFIG.RECOLLCONF.PREFERSTOREDTEXTMIMES"></a><span class="term"><code class="varname">preferStoredTextMimes</code></span></dt>
+              <dd>
+                <p>MIME types for which we prefer stored text to
+                re-extraction at query time. When fetching document
+                text at query time (e.g. for previewing), the
+                default is to always run the normal text extraction
+                process if the file is available. This defines a
+                list of MIME wildcards for which we will just use
+                stored text if available.</p>
+              </dd>
               <dt><a name="RCL.CONFIG.RECOLLCONF.AUTODIACSENS" id=
               "RCL.CONFIG.RECOLLCONF.AUTODIACSENS"></a><span class=
               "term"><code class=
