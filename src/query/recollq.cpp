@@ -23,6 +23,7 @@
 #include <string.h>
 #include <limits.h>
 #include <getopt.h>
+#include <fnmatch.h>
 
 #include <iostream>
 #include <sstream>
@@ -49,15 +50,29 @@
 static PlainToRich g_hiliter;
 static const std::string cstr_ellipsis("...");
 
+static std::vector<std::string> g_preferstoredtextmimes;
+
 bool dump_contents(RclConfig *rclconfig, Rcl::Doc& idoc)
 {
-    FileInterner interner(idoc, rclconfig, FileInterner::FIF_forPreview);
-    Rcl::Doc fdoc;
-    std::string ipath = idoc.ipath;
-    if (interner.internfile(fdoc, ipath)) {
-        std::cout << fdoc.text << "\n";
+    bool preferStoredText = false;
+    for (const auto& expr : g_preferstoredtextmimes) {
+        if (fnmatch(expr.c_str(), idoc.mimetype.c_str(), 0) == 0) {
+            preferStoredText = true;
+            break;
+        }
+    }
+
+    if (preferStoredText && (atoi(idoc.dbytes.c_str()) == 0 || idoc.text.size())) {
+        std::cout << idoc.text << '\n';
     } else {
-        std::cout << "Cant turn to text:" << idoc.url << " | " << idoc.ipath << "\n";
+        FileInterner interner(idoc, rclconfig, FileInterner::FIF_forPreview);
+        Rcl::Doc fdoc;
+        std::string ipath = idoc.ipath;
+        if (interner.internfile(fdoc, ipath)) {
+            std::cout << fdoc.text << '\n';
+        } else {
+            std::cout << "Cant turn to text:" << idoc.url << " | " << idoc.ipath << "\n";
+        }
     }
     return true;
 }
@@ -311,6 +326,10 @@ int recollq(RclConfig **cfp, int argc, char **argv)
         std::cerr << "Recoll init failed: " << reason << "\n";
         exit(1);
     }
+    std::string value;
+    if (rclconfig->getConfParam("preferStoredTextMimes", value)) {
+        stringToStrings(value, g_preferstoredtextmimes);
+    }
 
     if (argc < 1 && !(op_flags & OPT_P)) {
         Usage();
@@ -437,7 +456,11 @@ int recollq(RclConfig **cfp, int argc, char **argv)
 
     for (int i = firstres; i < firstres + maxcount; i++) {
         Rcl::Doc doc;
-        if (!query.getDoc(i, doc))
+        // If the option to dump the contents (rare) is set, we ask for the doc text. This is only
+        // useful if the MIME matches the list of mimes for which we prefer the stored text to
+        // re-extracting, but we don't have the MIME before getdoc(). This could be optimized but
+        // it's probably not worth the trouble.
+        if (!query.getDoc(i, doc, ((op_flags&OPT_d))))
             break;
         if (paths_only && doc.url.find("file://") != 0) {
             continue;

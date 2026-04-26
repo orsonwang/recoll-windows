@@ -195,11 +195,9 @@ public:
     std::string htmlHeaderContents(int opts=0);
     std::string snipCSS();
     
-    // MIME types for which we prefer to use stored text from preview
-    // rather than extracting the possibly nicer HTML because the
-    // extractor is very slow. This is compiled in and there is no UI
-    // for now.
-    std::set<std::string> preferStoredTextMimes{"application/x-hwp"};
+    // MIME types for which we prefer to use stored text from preview rather than extracting the
+    // possibly nicer HTML because the extractor is very slow. This is stored in recoll.conf
+    std::vector<std::string> preferStoredTextMimes{"application/x-hwp"};
 
     // Scale font-sizes inside css or qss input and return changed sheet. The font-size statements
     // need to be on their own line.

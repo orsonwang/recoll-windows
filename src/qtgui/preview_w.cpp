@@ -18,8 +18,9 @@
 #include "autoconfig.h"
 
 #include <cmath>
-#include <list>
 #include <utility>
+
+#include <fnmatch.h>
 
 #include <qmessagebox.h>
 #include <qthread.h>
@@ -709,9 +710,16 @@ bool Preview::loadDocInCurrentTab(Rcl::Doc &idoc, int docnum)
     connect(&lthr, SIGNAL(finished()), &loop, SLOT(quit()));
 
     bool canGetRawText = rcldb && rcldb->storesDocText();
-    bool preferStoredText = std::find(prefs.preferStoredTextMimes.begin(),
-                                      prefs.preferStoredTextMimes.end(),
-                                      idoc.mimetype) != prefs.preferStoredTextMimes.end();
+    bool preferStoredText = false;
+    for (const auto& expr : prefs.preferStoredTextMimes) {
+        if (fnmatch(expr.c_str(), idoc.mimetype.c_str(), 0) == 0) {
+            preferStoredText = true;
+            break;
+        }
+    }
+
+    LOGDEB("Preview: MIME: " << idoc.mimetype << " preferstoredtext: " << preferStoredText << '\n');
+    
     bool loadok{false};
 
     if (!preferStoredText || !canGetRawText) {

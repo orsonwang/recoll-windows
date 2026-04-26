@@ -436,10 +436,14 @@ int main(int argc, char **argv)
         app.installTranslator(&translator);
 
     
-#ifdef ENABLE_SEMANTIC
+    // Prefs we get from rclconfig instead of the GUI prefs
     {
-        std::string unused;
-        if (theconfig->getConfParam("sem_venv", unused) && !unused.empty()) {
+        std::string value;
+        if (theconfig->getConfParam("preferStoredTextMimes", value)) {
+            stringToStrings(value, prefs.preferStoredTextMimes);
+        }
+#ifdef ENABLE_SEMANTIC
+        if (theconfig->getConfParam("sem_venv", value) && !value.empty()) {
             semantic_enabled = true;
         }
     }
