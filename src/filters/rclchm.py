@@ -40,7 +40,7 @@ def getfile(chmfile, path):
         return ""
     res, doc = chmfile.RetrieveObject(ui)
     if not res:
-        _deb("RetrieveObject failed: %s" % path)
+        _deb(f"RetrieveObject failed: {path}", 2)
         return ""
     return doc
 

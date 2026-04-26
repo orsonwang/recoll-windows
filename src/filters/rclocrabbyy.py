@@ -27,6 +27,7 @@ import subprocess
 import glob
 
 import rclexecm
+from rclexecm import logmsg as _deb
 
 _mswindows = sys.platform == "win32"
 if _mswindows:
@@ -38,10 +39,6 @@ _okexts = (".pdf", ".tif", ".tiff", ".jpg", ".png", ".jpeg")
 
 abbyyocrcmd = ""
 abbyocrdir = ""
-
-
-def _deb(s):
-    rclexecm.logmsg(s)
 
 
 def cleanocr():
@@ -83,7 +80,7 @@ def _guessocrlang(config, path):
         ocrlang = open(langfile, "r").read().strip()
     if ocrlang:
         ocrlang = ocrlang.strip('"')
-        _deb("OCR lang from file: %s" % ocrlang)
+        _deb(f"OCR lang from file: {ocrlang}")
         return ocrlang
 
     # Then look for a config file  option.
@@ -91,7 +88,7 @@ def _guessocrlang(config, path):
     ocrlang = config.getConfParam("abbyylang")
     if ocrlang:
         ocrlang = ocrlang.strip('"')
-        _deb("OCR lang from config: %s" % ocrlang)
+        _deb(f"OCR lang from config: {ocrlang}")
         return ocrlang
 
     # Half-assed trial to guess from LANG then default to english
@@ -108,7 +105,7 @@ def _guessocrlang(config, path):
 
     if not ocrlang:
         ocrlang = "English"
-    _deb("OCR lang (guessed): %s" % ocrlang)
+    _deb(f"OCR lang (guessed): {ocrlang}")
     return ocrlang
 
 
@@ -143,7 +140,7 @@ def runocr(config, path):
             stderr=subprocess.DEVNULL,
         )
     except Exception as e:
-        _deb("%s failed: %s" % (abbyyocrcmd, e))
+        _deb(f"{abbyyocrcmd} failed: {e}", 2)
         return False, ""
     return True, out
 
@@ -156,9 +153,9 @@ if __name__ == "__main__":
     if ocrpossible(config, path):
         ok, data = runocr(config, sys.argv[1])
     else:
-        _deb("ocrpossible returned false")
+        _deb("ocrpossible returned false", 2)
         sys.exit(1)
     if ok:
         sys.stdout.buffer.write(data)
     else:
-        _deb("OCR program failed")
+        _deb("OCR program failed", 2)

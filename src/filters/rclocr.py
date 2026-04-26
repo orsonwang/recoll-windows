@@ -69,7 +69,7 @@ except:
 
 
 def Usage():
-    _deb("Usage: rclocr.py <imagefilename>")
+    _deb("Usage: rclocr.py <imagefilename>", 2)
     sys.exit(1)
 
 
@@ -88,7 +88,7 @@ if incache:
     try:
         breakwrite(sys.stdout.buffer, data)
     except Exception as e:
-        _deb("error writing: %s" % e)
+        _deb(f"Error writing: {e}", 2)
         sys.exit(1)
     sys.exit(0)
 
@@ -102,10 +102,10 @@ if ocrprogs is None:
     # tesseract by default. Use "ocrprogs = " for a really empty list
     ocrprogs = "tesseract"
 if not ocrprogs:
-    _deb("No ocrprogs variable in recoll configuration")
+    _deb("No ocrprogs variable in recoll configuration", 2)
     sys.exit(0)
 
-# _deb("ocrprogs: %s" % ocrprogs)
+_deb(f"ocrprogs: {ocrprogs}")
 
 proglist = conftree.stringToStrings(ocrprogs)
 ok = False
@@ -117,14 +117,14 @@ for ocrprog in proglist:
             ok = True
             break
     except Exception as err:
-        _deb("While loading %s: got: %s" % (modulename, err))
+        _deb(f"While loading {modulename}: got: {err}", 2)
         pass
 
 if not ok:
-    _deb("No OCR module could be loaded")
+    _deb("No OCR module could be loaded", 2)
     sys.exit(1)
 
-# _deb("Using ocr module %s" % modulename)
+_deb(f"Using ocr module {modulename}")
 
 # The OCR module will retrieve its specific parameters from the
 # configuration
@@ -135,7 +135,7 @@ try:
 except:
     pass
 if not status:
-    _deb("runocr failed")
+    _deb("runocr failed", 2)
     sys.exit(1)
 
 cache.store(path, data)

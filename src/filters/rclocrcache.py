@@ -185,7 +185,7 @@ class OCRCache(object):
 
     def _hashslice(self, hobj, f, offs, slicesz):
         """Update hash with data slice from file"""
-        # _deb(f"Hashing {slicesz} at {offs}")
+        _deb(f"Hashing {slicesz} at {offs}", 5)
         f.seek(int(offs))
         cnt = 0
         while cnt < slicesz:
@@ -202,7 +202,7 @@ class OCRCache(object):
         If hashmb was set on init, we compute a partial hash in three slices at the start,
         middle and end of the file, with a total size of hashmb * MBs.
         """
-        # _deb("Hashing DATA")
+        _deb("Hashing DATA")
         sz = os.path.getsize(path)
         hobj = hashlib.sha1()
         hashbytes = self.hashmb * 1000000
@@ -214,7 +214,7 @@ class OCRCache(object):
                 for offs in (0, sz / 2 - slicesz / 2, sz - slicesz):
                     self._hashslice(hobj, f, offs, slicesz)
         h = hobj.hexdigest()
-        # _deb(f"DATA hash {h[0:2]} {h[2:]}")
+        _deb(f"DATA hash {h[0:2]} {h[2:]}", 5)
         return h[0:2], h[2:]
 
     def _readpathfile(self, ppf):
@@ -239,7 +239,7 @@ class OCRCache(object):
             dd, df, tm, sz, pth = self._readpathfile(pathfilepath)
             return True, dd, df, tm, sz
         except Exception as ex:
-            #_deb(f"Error while trying to access pathfile {pathfilepath}: {ex}")
+            _deb(f"Error while trying to access pathfile {pathfilepath}: {ex}", 2)
             return False, None, None, None, None
 
     # Compute the path hash, and get the mtime and size for given
@@ -258,8 +258,7 @@ class OCRCache(object):
         if not ret:
             return False, None, None
         pd, pf, ntm, nsz = self._newpathattrs(path)
-        # _deb(" tm %d  sz %d" % (ntm, nsz))
-        # _deb("otm %d osz %d" % (otm, osz))
+        _deb(f"_pathincache: otm {otm} tm {ntm} osz {osz} sz {nsz}")
         if otm != ntm or osz != nsz:
             return False, None, None
         return True, od, of
@@ -274,9 +273,8 @@ class OCRCache(object):
     def _updatepathfile(self, pd, pf, dd, df, tm, sz, path):
         global _tmpdir, _recoll_tmpdir
         if (_tmpdir and path.startswith(_tmpdir)) or (
-            _recoll_tmpdir and path.startswith(_recoll_tmpdir)
-        ):
-            #_deb(f"ocrcache: not storing path data for temporary file {path}")
+                _recoll_tmpdir and path.startswith(_recoll_tmpdir) ):
+            _deb(f"ocrcache: not storing path data for temporary file {path}", 3)
             return
         dir = os.path.join(self.pathdir, pd)
         if not os.path.exists(dir):
@@ -297,7 +295,7 @@ class OCRCache(object):
             os.makedirs(dir)
         dfile = os.path.join(dir, df)
         if force or not os.path.exists(dfile):
-            # _deb("Storing data")
+            _deb("Storing data")
             cpressed = zlib.compress(datatostore)
             with open(dfile, "wb") as f:
                 f.write(cpressed)
@@ -311,19 +309,19 @@ class OCRCache(object):
         try:
             dd, df, tm, sz, orgpath = self._readpathfile(pfn)
         except Exception as ex:
-            #_deb(f"Ocrcache: failed reading path file: {ex}")
+            _deb(f"Ocrcache: failed reading path file: {ex}", 3)
             return False
         dfn = os.path.join(self.objdir, dd, df)
         try:
             os.unlink(pfn)
         except Exception as ex:
             ok = False
-            _deb(f"Ocrcache: failed deleting {pfn}: {ex}")
+            _deb(f"Ocrcache: failed deleting {pfn}: {ex}", 2)
         try:
             os.unlink(dfn)
         except Exception as ex:
             ok = False
-            _deb(f"Ocrcache: failed deleting {dpfn}: {ex}")
+            _deb(f"Ocrcache: failed deleting {dpfn}: {ex}", 2)
         return ok
 
     # Retrieve cached OCR'd data for image path. Possibly update the
@@ -337,12 +335,12 @@ class OCRCache(object):
             dfn, dd, df = self._datafilename(path)
 
         if not os.path.exists(dfn):
-            #_deb(f"ocrcache: no cached data for {path}")
+            _deb(f"ocrcache: no cached data for {path}")
             return False, b""
 
         if not pincache:
             # File may have moved. Create/Update path file for next time
-            #_deb(f"ocrcache::get: data ok but path file for {path} does not exist: creating it")
+            _deb(f"ocrcache::get: data ok but path file for {path} does not exist: creating it")
             pd, pf, tm, sz = self._newpathattrs(path)
             self._updatepathfile(pd, pf, dd, df, tm, sz, path)
 
@@ -358,7 +356,7 @@ class OCRCache(object):
         ntm = int(os.path.getmtime(origpath))
         nsz = int(os.path.getsize(origpath))
         if ntm != otm or nsz != osz:
-            # _deb("Purgepaths otm %d ntm %d osz %d nsz %d"%(otm, ntm, osz, nsz))
+            _deb(f"Purgepaths otm {otm} ntm {ntm} osz {osz} nsz {nsz}")
             return True
         return False
 
@@ -371,7 +369,7 @@ class OCRCache(object):
             dd, df, tm, sz, orgpath = self._readpathfile(pathfile)
             needpurge = self._pathstale(orgpath, tm, sz)
             if needpurge:
-                #_deb("purgepaths: removing %s (%s)" % (pathfile, orgpath))
+                _deb(f"purgepaths: removing {pathfile} ({orgpath})")
                 os.remove(pathfile)
 
     def _walk(self, topdir, cb):
@@ -386,7 +384,7 @@ class OCRCache(object):
     def _pgdt_pathcb(self, f):
         """Get a pathfile name, read it, and record datafile identifier
         (concatenate data file subdir and file name)"""
-        # _deb("_pgdt_pathcb: %s" % f)
+        _deb(f"_pgdt_pathcb: {f}", 5)
         dd, df, tm, sz, orgpath = self._readpathfile(f)
         self._pgdt_alldatafns.add(dd + df)
 
@@ -397,10 +395,10 @@ class OCRCache(object):
         p2, dn = os.path.split(p1)
         tst = dn + fn
         if tst in self._pgdt_alldatafns:
-            #_deb("purgedata: ok         : %s" % datafn)
+            _deb(f"purgedata: ok         : {datafn}")
             pass
         else:
-            #_deb("purgedata: removing   : %s" % datafn)
+            _deb(f"purgedata: removing   : {datafn}")
             os.remove(datafn)
 
     def purgedata(self):

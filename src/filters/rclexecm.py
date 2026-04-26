@@ -33,10 +33,17 @@ _g_execdir = os.path.dirname(sys.argv[0])
 
 _g_config = rclconfig.RclConfig()
 _g_debugfile = _g_config.getConfParam("filterdebuglog")
+_g_debuglevel = _g_config.getConfParam("filterdebuglevel")
+if _g_debuglevel:
+    _g_debuglevel = int(_g_debuglevel)
+else:
+    _g_debuglevel = 2
 _g_errfout = None
 
 
-def logmsg(msg):
+def logmsg(msg, loglevel=4):
+    if loglevel > _g_debuglevel:
+        return
     global _g_debugfile, _g_errfout
     if _g_debugfile and not _g_errfout:
         try:

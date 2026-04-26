@@ -53,7 +53,7 @@ def _maybemaketmpdir():
     global tmpdir
     if tmpdir:
         if not tmpdir.vacuumdir():
-            _deb("openfile: vacuumdir %s failed" % tmpdir.getpath())
+            _deb(f"openfile: vacuumdir {tmpdir.getpath()} failed", 2)
             return False
     else:
         tmpdir = rclexecm.SafeTmpDir("rclocrtesseract")
@@ -83,12 +83,12 @@ def ocrpossible(config, path):
                 tesseractcmd = [tesseractcmd,]
         else:
             tesseractcmd = [rclexecm.which("tesseract"),]
-        #_deb(f"tesseractcmd {tesseractcmd}")
+        _deb(f"tesseractcmd {tesseractcmd}")
         if not tesseractcmd:
-            _deb("tesseractcmd not found")
+            _deb("tesseractcmd not found", 2)
             return False
     if not os.path.isfile(tesseractcmd[0]):
-        _deb(f"tesseractcmd {tesseractcmd[0]} is not a file")
+        _deb(f"tesseractcmd {tesseractcmd[0]} is not a file", 2)
         return False
 
     # Check input format
@@ -127,7 +127,7 @@ def _guesstesseractlang(config, path):
     if tesseractlang:
         # Just in case the lang was mistakenly quoted
         tesseractlang = tesseractlang.strip('"')
-        #_deb("Tesseract lang from file: %s" % tesseractlang)
+        _deb(f"Tesseract lang from file: {tesseractlang}")
         return tesseractlang
 
     # Then look for a config file  option.
@@ -136,7 +136,7 @@ def _guesstesseractlang(config, path):
     if tesseractlang:
         # Just in case the lang was mistakenly quoted
         tesseractlang = tesseractlang.strip('"')
-        #_deb("Tesseract lang from config: %s" % tesseractlang)
+        _deb(f"Tesseract lang from config: {tesseractlang}")
         return tesseractlang
 
     # Half-assed trial to guess from LANG then default to english
@@ -153,7 +153,7 @@ def _guesstesseractlang(config, path):
 
     if not tesseractlang:
         tesseractlang = "eng"
-    #_deb("Tesseract lang (guessed): %s" % tesseractlang)
+    _deb(f"Tesseract lang (guessed): {tesseractlang}")
     return tesseractlang
 
 
@@ -186,10 +186,10 @@ def _pdftesseract(config, path):
         cmd = [pdftoppmcmd, "-r", "300", path, tmpfile]
     try:
         tmpdir.vacuumdir()
-            # _deb("Executing %s" % cmd)
+            _deb(f"Executing {cmd}")
         subprocess.check_call(cmd)
     except Exception as e:
-        _deb(f"{cmd} (image conversion) failed: {e}")
+        _deb(f"{cmd} (image conversion) failed: {e}", 2)
         return b""
 
     # Note: unfortunately, pdftoppm silently fails if the temp file
@@ -200,7 +200,7 @@ def _pdftesseract(config, path):
     for f in pages:
         size = os.path.getsize(f)
         if os.path.getsize(f) == 0:
-            _deb("pdftoppm created empty files. " "Suspecting full file system, failing")
+            _deb("pdftoppm created empty files. " "Suspecting full file system, failing", 2)
             return False, ""
 
     nenv = os.environ.copy()
@@ -218,11 +218,11 @@ def _pdftesseract(config, path):
             fullcmd = tesseractcmd + [f, f, "-l", tesseractlang]
             out = subprocess.check_output(fullcmd, stderr=subprocess.STDOUT, env=nenv)
         except Exception as e:
-            _deb(f"{fullcmd} failed: {e}")
+            _deb(f"{fullcmd} failed: {e}", 2)
 
         errlines = out.split(b"\n")
         if len(errlines) > 5:
-            _deb(f"Tesseract error output: {len(errlines)} {out}")
+            _deb(f"Tesseract error output: {len(errlines)} {out}", 2)
 
     # Concatenate the result files
     txtfiles = glob.glob(tmpfile + "*" + ".txt")
@@ -239,7 +239,7 @@ def _simpletesseract(config, path):
         fullcmd = tesseractcmd + [path, "stdout", "-l", tesseractlang]
         out = subprocess.check_output(fullcmd, stderr=subprocess.DEVNULL)
     except Exception as e:
-        _deb(f"{fullcmd} failed: {e}")
+        _deb(f"{fullcmd} failed: {e}", 2)
         return False, ""
     return True, out
 
@@ -263,9 +263,9 @@ if __name__ == "__main__":
     if ocrpossible(config, path):
         ok, data = runocr(config, sys.argv[1])
     else:
-        _deb("ocrpossible returned false")
+        _deb("ocrpossible returned false", 2)
         sys.exit(1)
     if ok:
         sys.stdout.buffer.write(data)
     else:
-        _deb("OCR program failed")
+        _deb("OCR program failed", 2)

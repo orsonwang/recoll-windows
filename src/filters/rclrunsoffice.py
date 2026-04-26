@@ -47,14 +47,14 @@ def findsoffice():
             sofficecmd = [sofficecmd,]
     else:
         sofficecmd = [rclexecm.which("soffice"),]
-    #_deb(f"sofficecmd {sofficecmd}")
+    _deb(f"sofficecmd {sofficecmd}")
     if not sofficecmd or not sofficecmd[0]:
-        _deb("sofficecmd not found")
+        _deb("sofficecmd not found", 2)
         return None
     if not os.path.isfile(sofficecmd[0]):
-        _deb(f"sofficecmd {sofficecmd[0]} is not a file")
+        _deb(f"sofficecmd {sofficecmd[0]} is not a file", 2)
         return None
-    #_deb(f"sofficecmd {sofficecmd}")
+    _deb(f"sofficecmd {sofficecmd}")
     return sofficecmd
 
 
@@ -92,7 +92,7 @@ class SofficeRunner(object):
             inbase = os.path.splitext(infn)[0]
             htmlfn = os.path.join(self.tmpdir.getpath(), inbase) + ".html"
             if not os.path.exists(htmlfn):
-                _deb("rclrunsoffice: HTML file not found after running command")
+                _deb("rclrunsoffice: HTML file not found after running command", 2)
                 return ""
             return open(htmlfn).read()
         except Exception as ex:
