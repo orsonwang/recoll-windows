@@ -446,8 +446,8 @@ int main(int argc, char **argv)
         if (theconfig->getConfParam("sem_venv", value) && !value.empty()) {
             semantic_enabled = true;
         }
-    }
 #endif // SEMANTIC        
+    }
 
     string historyfile = path_cat(theconfig->getConfDir(), "history");
     g_dynconf = new RclDynConf(historyfile);
