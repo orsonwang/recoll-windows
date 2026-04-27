@@ -186,7 +186,7 @@ def _pdftesseract(config, path):
         cmd = [pdftoppmcmd, "-r", "300", path, tmpfile]
     try:
         tmpdir.vacuumdir()
-            _deb(f"Executing {cmd}")
+        _deb(f"Executing {cmd}")
         subprocess.check_call(cmd)
     except Exception as e:
         _deb(f"{cmd} (image conversion) failed: {e}", 2)
