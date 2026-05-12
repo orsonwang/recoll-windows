@@ -24,9 +24,9 @@
 #include <magic.h>
 #include <mutex>
 static std::mutex magiclock;
-#else
-#include "execmd.h"
 #endif
+
+#include "execmd.h"
 
 #include "log.h"
 #include "rclconfig.h"
@@ -74,8 +74,10 @@ static std::string mimetypefromdata(
         return std::string();
     }
 
+    // Look at document data. This can be done with libmagic or with a configured command.
+    bool datalookupdone{false};
 #ifdef ENABLE_LIBMAGIC
-    PRETEND_USE(cfg);
+
     // We now use a cached descriptor and global locking around libmagic. The lock is because
     // libmagic is not as thread-safe as it's rumoured to be (crashes on Mac ARM, see issue
     // 340). The caching is because we get better performance this way. We don't bother about ever
@@ -83,7 +85,10 @@ static std::string mimetypefromdata(
     // only mystery is why the original Linux code did not crash. We could treat
     // RECOLL_AS_MAC_BUNDLE like _WIN32, but the current version was well tested on Mac ARM (not by
     // me), so let's keep it safe, and magic_load() is only called once anyway.
-    {
+    bool disablemagic = false;
+    cfg->getConfParam("disablelibmagic", &disablemagic);
+    
+    if (!disablemagic) {
         std::unique_lock<std::mutex> lck(magiclock);
         static magic_t mgtoken;
         if (mgtoken == NULL) {
@@ -104,69 +109,71 @@ static std::string mimetypefromdata(
                 mime = magic_file(mgtoken, fn.c_str());
             } else {
                 mime = magic_buffer(mgtoken, data.c_str(), data.size());
-            }                
+            }
+            datalookupdone = true;
         }
     }
 
-#else /* Not using libmagic, use command -> */
+#endif /* libmagic compile-time enabled */
 
-    // 'file' fallback if the configured command (default: xdg-mime) is not found
-    static const vector<string> tradfilecmd = {{FILE_PROG}, {"--mime-type"}};
+    if (!datalookupdone) {
+        // 'file' fallback if the configured command (default: xdg-mime) is not found
+        static const std::vector<std::string> tradfilecmd = {{FILE_PROG}, {"--mime-type"}};
 
-    vector<string> cmd;
-    string scommand;
-    if (cfg->getConfParam("systemfilecommand", scommand)) {
-        LOGDEB2("mimetype: syscmd from config: " << scommand << "\n");
-        stringToStrings(scommand, cmd);
-        string exe;
-        if (cmd.empty()) {
-            cmd = tradfilecmd;
-        } else if (!ExecCmd::which(cmd[0], exe)) {
-            cmd = tradfilecmd;
+        std::vector<std::string> cmd;
+        std::string scommand;
+        if (cfg->getConfParam("systemfilecommand", scommand)) {
+            LOGDEB2("mimetype: syscmd from config: " << scommand << "\n");
+            stringToStrings(scommand, cmd);
+            std::string exe;
+            if (cmd.empty()) {
+                cmd = tradfilecmd;
+            } else if (!ExecCmd::which(cmd[0], exe)) {
+                cmd = tradfilecmd;
+            } else {
+                cmd[0] = exe;
+            }
+            cmd.push_back(fn);
         } else {
-            cmd[0] = exe;
+            LOGDEB("systemfilecommand not found, using " << stringsToString(tradfilecmd) << "\n");
+            cmd = tradfilecmd;
         }
-        cmd.push_back(fn);
-    } else {
-        LOGDEB("systemfilecommand not found, using " << stringsToString(tradfilecmd) << "\n");
-        cmd = tradfilecmd;
-    }
 
-    string result;
-    LOGDEB2("mimetype: executing: [" << stringsToString(cmd) << "]\n");
-    if (!ExecCmd::backtick(cmd, result)) {
-        LOGERR("mimetypefromdata: exec " << stringsToString(cmd) << " failed\n");
-        return string();
-    }
-    trimstring(result, " \t\n\r");
-    LOGDEB2("mimetype: systemfilecommand output [" << result << "]\n");
+        std::string result;
+        LOGDEB2("mimetype: executing: [" << stringsToString(cmd) << "]\n");
+        if (!ExecCmd::backtick(cmd, result)) {
+            LOGERR("mimetypefromdata: exec " << stringsToString(cmd) << " failed\n");
+            return std::string();
+        }
+        trimstring(result, " \t\n\r");
+        LOGDEB2("mimetype: systemfilecommand output [" << result << "]\n");
     
-    // The normal output from "file -i" looks like the following:
-    //   thefilename.xxx: text/plain; charset=us-ascii
-    // Sometimes the semi-colon is missing like in:
-    //     mimetype.cpp: text/x-c charset=us-ascii
-    // And sometimes we only get the mime type. This apparently happens
-    // when 'file' believes that the file name is binary
-    // xdg-mime only outputs the MIME type.
+        // The normal output from "file -i" looks like the following:
+        //   thefilename.xxx: text/plain; charset=us-ascii
+        // Sometimes the semi-colon is missing like in:
+        //     mimetype.cpp: text/x-c charset=us-ascii
+        // And sometimes we only get the mime type. This apparently happens
+        // when 'file' believes that the file name is binary
+        // xdg-mime only outputs the MIME type.
 
-    // If there is no colon and there is a slash, this is hopefully the MIME type
-    if (result.find(":") == string::npos && result.find("/") != string::npos) {
-        return result;
+        // If there is no colon and there is a slash, this is hopefully the MIME type
+        if (result.find(":") == std::string::npos && result.find("/") != std::string::npos) {
+            return result;
+        }
+
+        // Else the result should begin with the file name. Get rid of it:
+        if (result.find(fn) != 0) {
+            // Garbage "file" output. Maybe the result of a charset conversion attempt?
+            LOGERR("mimetype: can't interpret output from [" <<
+                   stringsToString(cmd) << "] : [" << result << "]\n");
+            return std::string();
+        }
+        result = result.substr(fn.size());
+
+        // Now should look like ": text/plain; charset=us-ascii".
+        mime = growmimearoundslash(mime);
     }
 
-    // Else the result should begin with the file name. Get rid of it:
-    if (result.find(fn) != 0) {
-        // Garbage "file" output. Maybe the result of a charset conversion attempt?
-        LOGERR("mimetype: can't interpret output from [" <<
-               stringsToString(cmd) << "] : [" << result << "]\n");
-        return string();
-    }
-    result = result.substr(fn.size());
-
-    // Now should look like ": text/plain; charset=us-ascii".
-    mime = growmimearoundslash(mime);
-
-#endif // Not libmagic
 
     auto it = mimealiases.find(mime);
     if (it != mimealiases.end())

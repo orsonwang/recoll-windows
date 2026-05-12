@@ -10327,21 +10327,31 @@ defaultcharset = utf-8</pre>
               "RCL.CONFIG.RECOLLCONF.USESYSTEMFILECOMMAND" id=
               "RCL.CONFIG.RECOLLCONF.USESYSTEMFILECOMMAND"></a><span class="term"><code class="varname">usesystemfilecommand</code></span></dt>
               <dd>
-                <p>Try to guess MIME type from data. The name is
-                historical and kept for compatibility, old versions
-                used to execute 'file' or 'xdg-mime' to determine a
-                MIME type when not using the extension. Current
-                Recoll versions use libmagic for this. (A
-                compile-time configuration can still restore the
-                old behaviour, disabling libmagic and using a
-                command). This identification method can be more
-                accurate in some cases than the suffix-based one,
-                but it's slower and will cause the indexing of many
-                bogus extension-less "text" files. In addition it
-                will identify all zip-based formats (e.g.
+                <p>Try to guess MIME type from document data. The
+                name is historical and kept for compatibility, old
+                versions used to execute 'file' or 'xdg-mime' to
+                determine a MIME type when not using the extension.
+                By default, current Recoll versions use libmagic
+                for this. Compile-time and run-time configuration
+                parameters can still restore the old behaviour,
+                disabling libmagic and using a command.</p>
+                <p>The identification method based on data can be
+                more accurate in some cases than the suffix-based
+                one, but it's slower and will cause the indexing of
+                many bogus extension-less "text" files. In addition
+                it will identify all zip-based formats (e.g.
                 libreoffice) as application/zip, which is of course
-                wrong, so it can only be a secondary step. Also see
-                "systemfilecommand".</p>
+                wrong, so it can only be a secondary step.</p>
+                <p>Also see "systemfilecommand".</p>
+              </dd>
+              <dt><a name="RCL.CONFIG.RECOLLCONF.DISABLELIBMAGIC"
+              id=
+              "RCL.CONFIG.RECOLLCONF.DISABLELIBMAGIC"></a><span class="term"><code class="varname">disablelibmagic</code></span></dt>
+              <dd>
+                <p>Use command instead of libmagic. Only meaningful
+                if libmagic is compiled in and usesystemfilecommand
+                is set. Prefer running the command to using the
+                lib.</p>
               </dd>
               <dt><a name="RCL.CONFIG.RECOLLCONF.SYSTEMFILECOMMAND"
               id=

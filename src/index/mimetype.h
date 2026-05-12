@@ -38,7 +38,7 @@ class RclConfig;
  * references an actual file.
  * @param data file contents. This is only set by mh_execm when identifying subdocs (we always have
  * a memory copy of the data then). stp is nullptr in this case
- * @param forcemagic act as if usefilesystemcommand was true.
+ * @param forcemagic act as if usefilesystemcommand was true. Used to look at compressed data mostly.
  */
 std::string mimetype(RclConfig *cfg, const std::string &filename,
                      const struct PathStat *stp = nullptr, const std::string& data = std::string(),
