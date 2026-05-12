@@ -29,11 +29,5 @@ meson.build
 #EOF
 
 sed -i -E -e "/<releases>/a\
-\ \ \ \ <release version=\"$VERSION\" date=\"$DATE\">\\
-      <description>\\
-        <ul>\\
-          <li>New recoll release</li>\\
-        </ul>\\
-      </description>\\
-    </release>" \
+\ \ \ \ <release version=\"$VERSION\" date=\"$DATE\"/>" \
 desktop/org.recoll.recoll.appdata.xml
