@@ -1264,6 +1264,46 @@ static PyObject *Query_makedocabstract(recoll_QueryObject* self, PyObject *args,
     return PyUnicode_Decode(abstract.c_str(), abstract.size(), "UTF-8", "replace");
 }
 
+
+PyDoc_STRVAR(doc_Query_getFirstMatchPage,
+             "getfirstmatchpage(doc)\n"
+             "Return the first hit page number and term for query and doc\n"
+    );
+
+static PyObject *Query_getFirstMatchPage(recoll_QueryObject* self, PyObject *args, PyObject *kwargs)
+{
+    LOGDEB0("Query_getFirstMatchPage\n");
+    static const char *kwlist[] = {"doc", NULL};
+    recoll_DocObject *pydoc = 0;
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "O!:Query_getFirstMatchPage", (char **)kwlist,
+                                     &recoll_DocType, &pydoc)) {
+        return 0;
+    }
+
+    if (nullptr == pydoc->doc) {
+        LOGERR("Query_getFirstMatchPage: doc not found\n");
+        PyErr_SetString(PyExc_AttributeError, "doc");
+        return 0;
+    }
+    if (nullptr == self->query) {
+        LOGERR("Query_getFirstMatchPage: query not found\n");
+        PyErr_SetString(PyExc_AttributeError, "query");
+        return 0;
+    }
+
+    std::string term;
+    int pagenum = self->query->getFirstMatchPage(*pydoc->doc, term);
+
+    // Return a tuple (pagenum,term)
+    PyObject *pterm = PyUnicode_FromString(term.c_str());
+    PyObject *ppagenum = PyLong_FromLong(pagenum);
+    PyObject *tup = PyTuple_New(2);
+    PyTuple_SetItem(tup, 0, ppagenum);
+    PyTuple_SetItem(tup, 1, pterm);
+    return tup;
+}
+
+
 PyDoc_STRVAR(doc_Query_getsnippets,
              "getsnippets(doc, maxoccs = -1, ctxwords = -1, sortbypage=False, "
              "methods = object, nohl=False))\n"
@@ -1433,6 +1473,8 @@ static PyMethodDef Query_methods[] = {
      doc_Query_getgroups},
     {"makedocabstract", (PyCFunction)Query_makedocabstract, 
      METH_VARARGS|METH_KEYWORDS, doc_Query_makedocabstract},
+    {"getfirstmatchpage", (PyCFunction)Query_getFirstMatchPage, 
+     METH_VARARGS|METH_KEYWORDS, doc_Query_getFirstMatchPage},
     {"getsnippets", (PyCFunction)Query_getsnippets, 
      METH_VARARGS|METH_KEYWORDS, doc_Query_getsnippets},
     {"scroll", (PyCFunction)Query_scroll, 
