@@ -161,7 +161,7 @@ windows {
   FORMS += \
     winschedtool.ui
 
-  INCLUDEPATH += ../common ../index ../internfile ../query ../unac \
+  INCLUDEPATH += ../windows ../common ../index ../internfile ../query ../unac \
               ../utils ../aspell ../rcldb ../qtgui ../xaposix \
               confgui widgets
     
