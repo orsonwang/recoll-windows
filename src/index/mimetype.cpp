@@ -116,6 +116,9 @@ static std::string mimetypefromdata(
 
 #endif /* libmagic compile-time enabled */
 
+#ifndef _WIN32
+    // We never use a command for this on Windows, FILE_PROG is undefined.
+    // ENABLE_LIBMAGIC is normally set in autoconfig-win.h
     if (!datalookupdone) {
         // 'file' fallback if the configured command (default: xdg-mime) is not found
         static const std::vector<std::string> tradfilecmd = {{FILE_PROG}, {"--mime-type"}};
@@ -173,7 +176,7 @@ static std::string mimetypefromdata(
         // Now should look like ": text/plain; charset=us-ascii".
         mime = growmimearoundslash(mime);
     }
-
+#endif // !_WIN32
 
     auto it = mimealiases.find(mime);
     if (it != mimealiases.end())
