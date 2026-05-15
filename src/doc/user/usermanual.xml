@@ -1689,6 +1689,12 @@ tesseractlang = eng</programlisting>
           <command>rclimgp.py</command> actually executes the Perl handler for extracting tags. On
           &WIN; only the latter is supported.</para>
 
+          <para>Especially on &WIN;, using <command>rclimgp.py</command> makes image tag processing
+          much slower. This is not significant when actually performing OCR, which takes even much
+          more time, but it means that it is better, if possible, to use a separate index for image
+          OCR (there is no way to use different handlers for different areas of the file system
+          within a single index).</para>
+
           <para>For performing image OCR, you need to tell &RCL; to use the alternate handler and
           also to enable OCR by setting the <literal>imgocr</literal> variable. This is done by
           editing two text files in the index configuration directory (by default

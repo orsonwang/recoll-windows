@@ -1,15 +1,12 @@
 #!/usr/bin/env python3
 
 # Python version of the Image Tag extractor for Recoll, using pyexiv2. This is less thorough than
-# the rclimg Perl version using exiftool but may still be useful if you don't want to use Perl.
+# the rclimg Perl version using exiftool and the main use is to interface to image OCR (which the
+# Perl script can't do).
 #
-# The Python extension interfaces with the C++ libexiv2 library by using Boost-Python, which is
-# cumbersome. Its default build uses g++ which probably makes it incompatible with the default
-# Windows Python distributions. I did not try to port it on Windows, where we use the more basic
-# piexif-based rclimg1.py for running OCR.
-#
-# This has been extended to support running OCR, which the Perl script does not do.
-
+# This would be difficult to port to Windows, where we use the rclimgp.py script when enabling image
+# OCR. This executes the Perl script as a command to extract the tags (quite slow, so only enable it
+# for OCR).
 
 import sys
 import os
