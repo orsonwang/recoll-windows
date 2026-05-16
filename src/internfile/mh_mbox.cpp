@@ -24,6 +24,8 @@
 #include <map>
 #include <mutex>
 #include <fstream>
+#include <sstream>
+#include <memory>
 
 #include "cstr.h"
 #include "mimehandler.h"
@@ -278,7 +280,7 @@ public:
     Internal(MimeHandlerMbox *p) : pthis(p) {}
     std::string fn;     // File name
     std::string ipath;
-    ifstream instream;
+    std::unique_ptr<istream> instream;
     int        msgnum{0}; // Current message number in folder. Starts at 1
     int64_t    lineno{0}; // debug 
     int64_t    fsize{0};
@@ -315,13 +317,7 @@ void MimeHandlerMbox::clear_impl()
     m->fn.erase();
     m->ipath.erase();
 
-    // We used to use m->instream = ifstream() which fails with some compilers, as the copy
-    // constructor is marked deleted in standard c++ (works with many compilers though).
-    if (m->instream.is_open()) {
-        m->instream.close();
-    }
-    m->instream.clear();
-
+    m->instream.reset();
     m->msgnum = 0;
     m->lineno = 0;
     m->fsize = 0;
@@ -339,8 +335,8 @@ bool MimeHandlerMbox::set_document_file_impl(const string&, const string &fn)
     LOGDEB("MimeHandlerMbox::set_document_file(" << fn << ")\n");
     clear_impl();
     m->fn = fn;
-    m->instream.open(fn.c_str(), std::ifstream::binary);
-    if (!m->instream.good()) {
+    auto finstream = std::make_unique<std::ifstream>(fn, std::ifstream::binary|std::ios_base::in);
+    if (!finstream->good()) {
         LOGSYSERR("MimeHandlerMail::set_document_file", "ifstream", fn);
         return false;
     }
@@ -354,6 +350,7 @@ bool MimeHandlerMbox::set_document_file_impl(const string&, const string &fn)
 
     m->fsize = path_filesize(fn);
     m_havedoc = true;
+    m->instream = std::unique_ptr<std::istream>(finstream.release());
     
     // Check for location-based quirks:
     string quirks;
@@ -374,27 +371,42 @@ bool MimeHandlerMbox::set_document_file_impl(const string&, const string &fn)
     return true;
 }
 
+bool MimeHandlerMbox::set_document_string_impl(const string&, const string& content)
+{
+    LOGDEB("MimeHandlerMbox::set_document_string\n");
+    if (!m_forPreview) {
+        string md5, xmd5;
+        MD5String(content, md5);
+        m_metaData[cstr_dj_keymd5] = MD5HexPrint(md5, xmd5);
+    }
+
+    m->instream = std::unique_ptr<std::istream>(new std::stringstream(content, std::ios_base::in));
+
+    m->fsize = content.size();
+    m_havedoc = true;
+    return true;
+}
+
 bool MimeHandlerMbox::Internal::tryUseCache(int mtarg)
 {
     bool cachefound = false;
     string line;
     int64_t off;
     
-    LOGDEB0("MimeHandlerMbox::next_doc: mtarg " << mtarg << " m_udi[" <<
-            pthis->m_udi << "]\n");
+    LOGDEB0("MimeHandlerMbox::next_doc: mtarg " << mtarg << " m_udi[" << pthis->m_udi << "]\n");
     if (pthis->m_udi.empty()) {
         goto out;
     }
     if ((off = o_mcache.get_offset(pthis->m_config, pthis->m_udi, mtarg, fsize)) < 0) {
         goto out;
     }
-    instream.seekg(off);
-    if (!instream.good()) {
+    instream->seekg(off);
+    if (!instream->good()) {
         LOGSYSERR("tryUseCache", "seekg", "");
         goto out;
     }
-    getline(instream, line, '\n');
-    if (!instream.good()) {
+    std::getline(*instream.get(), line, '\n');
+    if (!instream->good()) {
         LOGSYSERR("tryUseCache", "getline", "");
         goto out;
     }
@@ -402,7 +414,7 @@ bool MimeHandlerMbox::Internal::tryUseCache(int mtarg)
 
     if ((fromregex(line) || ((quirks & MBOXQUIRK_TBIRD) && minifromregex(line)))  ) {
         LOGDEB0("MimeHandlerMbox: Cache: From_ Ok\n");
-        instream.seekg(off);
+        instream->seekg(off);
         msgnum = mtarg -1;
         cachefound = true;
     } else {
@@ -412,7 +424,7 @@ bool MimeHandlerMbox::Internal::tryUseCache(int mtarg)
 out:
     if (!cachefound) {
         // No cached result: scan.
-        instream.seekg(0);
+        instream->seekg(0);
         msgnum = 0;
     }
     return cachefound;
@@ -420,7 +432,7 @@ out:
 
 bool MimeHandlerMbox::next_document()
 {
-    if (!m->instream.good()) {
+    if (!m->instream->good()) {
         LOGERR("MimeHandlerMbox::next_document: not open\n");
         return false;
     }
@@ -456,10 +468,10 @@ bool MimeHandlerMbox::next_document()
     msgtxt.erase();
     string line;
     for (;;) {
-        message_end = m->instream.tellg();
-        getline(m->instream, line, '\n');
-        if (!m->instream.good()) {
-            ifstream::iostate st = m->instream.rdstate();
+        message_end = m->instream->tellg();
+        getline(*m->instream.get(), line, '\n');
+        if (!m->instream->good()) {
+            ifstream::iostate st = m->instream->rdstate();
             if (st &  std::ifstream::eofbit) {
                 LOGDEB0("MimeHandlerMbox:next: eof at " << message_end << endl);
             } else {
