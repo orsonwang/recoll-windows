@@ -1740,6 +1740,71 @@ Db_getEnclosing(recoll_DbObject *self, PyObject  *args)
 }
 
 static PyObject *
+Db_hasSubDocs(recoll_DbObject *self, PyObject  *args)
+{
+    LOGDEB0("Db_hasSubDocs\n");
+    recoll_DocObject *pydoc = 0;
+    if (!PyArg_ParseTuple(args, "O!:Db_hasSubDocs", &recoll_DocType, &pydoc)) {
+        return 0;
+    }
+    if (!self->rcldb) {
+        PyErr_SetString(PyExc_AttributeError, "db");
+        return 0;
+    }
+    if (pydoc->doc == 0) {
+        LOGERR("Db_hasSubDocs: doc not found " << pydoc->doc << "\n");
+        PyErr_SetString(PyExc_AttributeError, "doc");
+        return 0;
+    }
+
+    auto result = self->rcldb->hasSubDocs(*pydoc->doc);
+    return Py_BuildValue("i", result);
+}
+
+static PyObject *
+Db_getSubDocs(recoll_DbObject *self, PyObject  *args)
+{
+    LOGDEB0("Db_getSubDocs\n");
+    recoll_DocObject *pydoc = 0;
+    if (!PyArg_ParseTuple(args, "O!:Db_getSubDocs", &recoll_DocType, &pydoc)) {
+        return 0;
+    }
+    if (!self->rcldb) {
+        PyErr_SetString(PyExc_AttributeError, "db");
+        return 0;
+    }
+    if (pydoc->doc == 0) {
+        LOGERR("Db_getSubDocs: doc not found " << pydoc->doc << "\n");
+        PyErr_SetString(PyExc_AttributeError, "doc");
+        return 0;
+    }
+    std::vector<Rcl::Doc> subdocs;
+    self->rcldb->getSubDocs(*pydoc->doc, subdocs);
+    
+    PyObject *reslist = PyList_New(0);
+    for (const auto& doc : subdocs) {
+        recoll_DocObject *pydoc =
+            (recoll_DocObject *)PyObject_CallObject((PyObject *)&recoll_DocType, 0);
+        if (!pydoc) {
+            PyErr_SetString(PyExc_EnvironmentError, "doc create failed");
+            return 0;
+        }
+        pydoc->rcldb = self->rcldb;
+        *pydoc->doc = doc;
+        movedocfields(self->rcldb->getConf(), pydoc->doc);
+        PyList_Append(reslist,  (PyObject*)pydoc);
+        Py_DECREF(pydoc);
+    }
+
+    if (PyErr_Occurred()) {
+        Py_DECREF(reslist);
+        return NULL;
+    } else {
+        return reslist;
+    }
+}
+
+static PyObject *
 Db_setAbstractParams(recoll_DbObject *self, PyObject *args, PyObject *kwargs)
 {
     LOGDEB0("Db_setAbstractParams\n");
@@ -2067,6 +2132,14 @@ static PyMethodDef Db_methods[] = {
     {"getEnclosing",(PyCFunction)Db_getEnclosing, METH_VARARGS|METH_KEYWORDS,
      "getEnclosing(doc) -> Doc.\n"
      "Retrieve parent document of document. Returns None if input doc is standalone."
+    },
+    {"hasSubDocs",(PyCFunction)Db_hasSubDocs, METH_VARARGS|METH_KEYWORDS,
+     "hasSubDocs(doc) -> Bool.\n"
+     "Check if document has children documents."
+    },
+    {"getSubDocs",(PyCFunction)Db_getSubDocs, METH_VARARGS|METH_KEYWORDS,
+     "getSubDocs(doc) -> list of docs.\n"
+     "Return list of direct all (recursively) contained documents for doc."
     },
     {"cursor", (PyCFunction)Db_query, METH_NOARGS,
      "cursor() -> Query. Alias for query(). Return query object."
