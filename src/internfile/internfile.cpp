@@ -35,9 +35,9 @@ using namespace std;
 #include "internfile.h"
 #include "rcldoc.h"
 #include "mimetype.h"
+// #define LOGGER_LOCAL_LOGINC 4
 #include "log.h"
 #include "mimehandler.h"
-#include "execmd.h"
 #include "pathut.h"
 #include "rclconfig.h"
 #include "mh_html.h"
@@ -88,7 +88,8 @@ static void dumpmap(std::ostream& o, std::map<std::string, std::string> meta)
 
 // This is used when the user wants to retrieve a search result doc's parent
 // (ie message having a given attachment)
-bool FileInterner::getEnclosingUDI(const Rcl::Doc &doc, string& udi)
+bool FileInterner::getEnclosingUDI(const Rcl::Doc &doc,
+                                std::string& udi, std::string& url, std::string& ipath)
 {
     LOGDEB("FileInterner::getEnclosingUDI(): url [" << doc.url <<"] ipath [" << doc.ipath << "]\n");
     string eipath = doc.ipath;
@@ -100,8 +101,9 @@ bool FileInterner::getEnclosingUDI(const Rcl::Doc &doc, string& udi)
     } else {
         eipath.erase();
     }
-    
-    fileUdi::make_udi(url_gpath(doc.idxurl.empty() ? doc.url : doc.idxurl), eipath, udi);
+    url = doc.idxurl.empty() ? doc.url : doc.idxurl;
+    ipath = eipath;
+    fileUdi::make_udi(url_gpath(url), eipath, udi);
     return true;
 }
 

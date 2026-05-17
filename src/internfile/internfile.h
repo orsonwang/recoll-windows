@@ -194,7 +194,8 @@ public:
      * this would be for exemple the email containing the attachment.
      * This is in internfile because of the ipath computation.
      */
-    static bool getEnclosingUDI(const Rcl::Doc &doc, std::string& udi);
+    static bool getEnclosingUDI(const Rcl::Doc &doc,
+                                std::string& udi, std::string& url, std::string& ipath);
 
     /** Return last element in ipath, like basename */
     static std::string getLastIpathElt(const std::string& ipath);

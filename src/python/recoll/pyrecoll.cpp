@@ -36,6 +36,7 @@
 #include "smallut.h"
 #include "idxstatus.h"
 #include "rcldoc.h"
+#include "internfile.h"
 
 #include "pyrecoll.h"
 
@@ -1695,6 +1696,50 @@ Db_getDoc(recoll_DbObject* self, PyObject *args, PyObject *kwargs)
 }
 
 static PyObject *
+Db_getEnclosing(recoll_DbObject *self, PyObject  *args)
+{
+    LOGDEB0("Db_getEnclosing\n");
+    recoll_DocObject *pydoc = 0;
+    if (!PyArg_ParseTuple(args, "O!:Db_getEnclosing", &recoll_DocType, &pydoc)) {
+        return 0;
+    }
+    if (!self->rcldb) {
+        PyErr_SetString(PyExc_AttributeError, "db");
+        return 0;
+    }
+    if (pydoc->doc == 0) {
+        LOGERR("Db_getEnclosing: doc not found " << pydoc->doc << "\n");
+        PyErr_SetString(PyExc_AttributeError, "doc");
+        return 0;
+    }
+    std::string udi, url, ipath;
+    if (!FileInterner::getEnclosingUDI(*pydoc->doc, udi, url, ipath)) {
+        // Empty ipath
+        Py_RETURN_NONE;
+    }
+    recoll_DocObject *pypdoc =
+        (recoll_DocObject *)PyObject_CallObject((PyObject *)&recoll_DocType, 0);
+    if (!pypdoc)
+        return 0;
+    if (!self->rcldb->getDoc(udi, pydoc->doc->idxi, *(pypdoc->doc), true)) {
+        PyErr_SetString(PyExc_AttributeError, "Parent Doc not found");
+        return 0;
+    }
+    // getDoc() actually never fails. It indicates an unfound doc by setting pc to -1. This can
+    // happen if, e.g., the handler did not set a "self-doc" during indexing.
+    // We fill up url and ipath in this case so that the doc can still be used to retrieve a
+    // further parent.
+    if (pypdoc->doc->pc == -1) {
+        pypdoc->doc->url = url;
+        pypdoc->doc->ipath = ipath;
+        pypdoc->doc->meta["title"] = "";
+        pypdoc->doc->meta["filename"] = "";
+    }
+    pypdoc->rcldb = self->rcldb;
+    return (PyObject *)pypdoc;
+}
+
+static PyObject *
 Db_setAbstractParams(recoll_DbObject *self, PyObject *args, PyObject *kwargs)
 {
     LOGDEB0("Db_setAbstractParams\n");
@@ -2018,6 +2063,10 @@ static PyMethodDef Db_methods[] = {
     {"getDoc",(PyCFunction)Db_getDoc, METH_VARARGS|METH_KEYWORDS,
      "getDoc(udi, idxidx=0) -> Doc.\n"
      "Retrieve document from given udi and index number (default 0, main index)."
+    },
+    {"getEnclosing",(PyCFunction)Db_getEnclosing, METH_VARARGS|METH_KEYWORDS,
+     "getEnclosing(doc) -> Doc.\n"
+     "Retrieve parent document of document. Returns None if input doc is standalone."
     },
     {"cursor", (PyCFunction)Db_query, METH_NOARGS,
      "cursor() -> Query. Alias for query(). Return query object."

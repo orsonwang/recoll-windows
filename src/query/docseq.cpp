@@ -51,11 +51,13 @@ bool DocSequence::getEnclosing(Rcl::Doc& doc, Rcl::Doc& pdoc)
         return false;
     }
     std::unique_lock<std::mutex> locker(o_dblock);
-    string udi;
-    if (!FileInterner::getEnclosingUDI(doc, udi))
+    string udi, url, ipath;
+    if (!FileInterner::getEnclosingUDI(doc, udi, url, ipath))
         return false;
 
     bool dbret =  db->getDoc(udi, doc, pdoc);
+    // We could do like pyrecoll and fill url and ipath and return true for recursive parent walk.
+    // Kept as is for now.
     return dbret && pdoc.pc != -1;
 }
 
