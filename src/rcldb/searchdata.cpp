@@ -244,6 +244,7 @@ void SearchData::simplify()
             m_query[i+j]->setParent(this);
         }
         i += int(clsubp->getSub()->m_query.size()) - 1;
+        delete clsubp;
     }
     //std::cerr << "SIMPLIFY AFTER: "; dump(std::cerr);
 }

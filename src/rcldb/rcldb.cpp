@@ -1323,12 +1323,13 @@ bool Db::hasSubDocs(Doc &idoc)
     }
     LOGDEB1("Db::hasSubDocs: idxi " << idoc.idxi << " inudi [" << inudi << "]\n");
 
-    // Not sure why we perform both the subDocs() call and the test on
-    // has_children. The former will return docs if the input is a
-    // file-level document, but the latter should be true both in this
-    // case and if the input is already a subdoc, so the first test
-    // should be redundant. Does not hurt much in any case, to be
-    // checked one day.
+    // Not sure why we perform both the subDocs() call and the test on has_children. The former will
+    // return docs if the input is a file-level document, but the latter should be true both in this
+    // case and if the input is already a subdoc, so the first test should be redundant. Does not
+    // hurt much in any case, to be checked one day.
+    // Later: actually, subDocs() will only return something if the input doc is a top-level
+    // file. Probably the has_children test was added later and subDocs() kept to catch top-level
+    // docs that were indexed without has_children
     vector<Xapian::docid> docids;
     if (!m_ndb->subDocs(inudi, idoc.idxi, docids)) {
         LOGDEB("Db::hasSubDocs: lower level subdocs failed\n");
