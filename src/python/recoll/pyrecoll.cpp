@@ -2139,7 +2139,7 @@ static PyMethodDef Db_methods[] = {
     },
     {"getSubDocs",(PyCFunction)Db_getSubDocs, METH_VARARGS|METH_KEYWORDS,
      "getSubDocs(doc) -> list of docs.\n"
-     "Return list of direct all (recursively) contained documents for doc."
+     "Return a list of all (recursively) contained documents for doc."
     },
     {"cursor", (PyCFunction)Db_query, METH_NOARGS,
      "cursor() -> Query. Alias for query(). Return query object."

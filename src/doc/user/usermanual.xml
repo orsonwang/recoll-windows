@@ -5,7 +5,7 @@
 <!ENTITY RCLWEB "<ulink url='https://www.recoll.org/'>https://www.recoll.org/</ulink>">
 <!ENTITY FAQS "https://www.recoll.org/faqsandhowtos/">
 <!ENTITY RCLAPPS "<ulink url='https://www.recoll.org/pages/features.html#doctypes'>https://www.recoll.org/pages/features.html</ulink>">
-<!ENTITY RCLVERSION "1.43.1">
+<!ENTITY RCLVERSION "1.44.0">
 <!ENTITY XAP "<application>Xapian</application>">
 <!ENTITY WIN "<application>Windows</application>">
 <!ENTITY LIN "<application>Unix</application>-like systems">
@@ -29,7 +29,7 @@
     </author>
 
     <copyright>
-      <year>2005-2025</year>
+      <year>2005-2026</year>
       <holder role="mailto:jfd@recoll.org">Jean-Francois Dockes</holder>
     </copyright>
 
@@ -5339,7 +5339,7 @@ query = db.query()
 nres = query.execute("some query")
 results = query.fetchmany(20)
 for doc in results:
-    print("%s %s" % (doc.url, doc.title))
+    print(f"{doc.url} {doc.title}")
 ]]></programlisting>
 
         <para>You can also take a look at the source for (in order of complexity) the Recoll
@@ -5499,13 +5499,32 @@ db = recoll.connect(extra_dbs=["/home/me/.someconfdir/xapiandb", "/data/othercon
             </varlistentry>
 
             <varlistentry>
-              <term>Db.getdoc(udi, idxidx=0)</term>
+              <term>Db.getDoc(udi, idxidx=0)</term>
 
               <listitem><para>Retrieve a document given its unique document identifier, and its
               index if external indexes are in use. The main index is always index 0. The
               <parameter>udi</parameter> value could have been obtained from an earlier 
               query as <property>doc.rcludi</property>, or would be known because the application
               is the indexer and generates the values.</para></listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term>Db.getEnclosing(doc)</term>
+              <listitem><para>Retrieve the immediate parent document of the input document, e.g. for
+              a Zip archive member, the document representing the Zip archive itself.  Returns None
+              if the input document is a standalone file.</para></listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term>Db.hasSubDocs(doc)</term>
+              <listitem><para>Check if document has children documents. Returns True or
+              False.</para></listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term>Db.getSubDocs(doc)</term>
+              <listitem><para>Return a list of all (recursively) contained documents for the input
+              document.</para></listitem>
             </varlistentry>
             
             <varlistentry>
