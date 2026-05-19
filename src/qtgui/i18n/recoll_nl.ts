@@ -470,7 +470,7 @@
     </message>
     <message>
         <source>The list of folders/directories to be indexed, recursively with their sub-folders.&lt;br&gt;The &apos;~&apos; character expands to your home directory, which is the default initial value.</source>
-        <translation>De lijst met mappen/directories die recursief geïndexeerd moeten worden, inclusief hun submappen.&lt;br&gt; Het &apos;~&apos; karakter breidt uit naar uw thuismap, wat de standaard initiële waarde is.</translation>
+        <translation type="vanished">De lijst met mappen/directories die recursief geïndexeerd moeten worden, inclusief hun submappen.&lt;br&gt; Het &apos;~&apos; karakter breidt uit naar uw thuismap, wat de standaard initiële waarde is.</translation>
     </message>
     <message>
         <source> (by default, aspell suggests mispellings when a query has no results).</source>
@@ -482,6 +482,10 @@
     </message>
     <message>
         <source>The name or path for a directory where to store the index&lt;br&gt;A non-absolute path is taken relative to the configuration directory. The default is &apos;xapiandb&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The list of folders/directories to be indexed, recursively with their sub-folders.&lt;br&gt;%USERPROFILE% or the &apos;~&apos; character expand to your user profile, which is the default The &apos;~&apos; character expands to your home directory, which is the default initial value.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -547,7 +551,11 @@ This will help searching very big text  files (ie: log files).</source>
     <name>ConfigSwitchDLG</name>
     <message>
         <source>Switch to other configuration</source>
-        <translation>Overschakelen naar een andere configuratie</translation>
+        <translation type="vanished">Overschakelen naar een andere configuratie</translation>
+    </message>
+    <message>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1191,7 +1199,7 @@ Klik op Annuleren als u het configuratiebestand wilt bewerken voordat u het inde
     <message>
         <source>These are file name endings for files which will be indexed by name only 
 (no MIME type identification attempt, no decompression, no content indexing).</source>
-        <translation>Dit zijn bestandsnaam eindes voor bestanden die zullen worden geïndexeerd door alleen de naam (geen MIME-type identificatie poging, geen decompressie, geen inhoud indexering).</translation>
+        <translation type="vanished">Dit zijn bestandsnaam eindes voor bestanden die zullen worden geïndexeerd door alleen de naam (geen MIME-type identificatie poging, geen decompressie, geen inhoud indexering).</translation>
     </message>
     <message>
         <source>&lt;i&gt;The parameters that follow are set either at the top level, if nothing or an empty line is selected in the listbox above, or for the selected subdirectory. You can add or remove directories by clicking the +/- buttons.</source>
@@ -1200,6 +1208,11 @@ Klik op Annuleren als u het configuratiebestand wilt bewerken voordat u het inde
     <message>
         <source>These are patterns for file or directory names which should not be indexed.</source>
         <translation>Dit zijn patronen voor bestands- of mapnamen die niet geïndexeerd moeten worden.</translation>
+    </message>
+    <message>
+        <source>noContentSuffixes configuration variable: these are file name endings for files which will be indexed by name only 
+(no MIME type identification attempt, no decompression, no content indexing).</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2087,6 +2100,10 @@ Do you want to start the preferences dialog ?</source>
         <source> with additional message: </source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Semantic</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RclMainBase</name>
@@ -2476,6 +2493,26 @@ Start real time indexer</translation>
         <source>    With failed files retrying</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Filter file sizes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimum size (leave at 0 to disable)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximum size (leave at 0 to disable)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check Recoll Web site for current Windows version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Query Language cheat sheet</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RclTrayIcon</name>
@@ -2565,6 +2602,14 @@ Start real time indexer</translation>
     <message>
         <source>Can&apos;t sort by inverse relevance</source>
         <translation>Kan&apos;t sorteren op inverse relevantie</translation>
+    </message>
+    <message>
+        <source>Saving to CSV</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Annuleer</translation>
     </message>
 </context>
 <context>
@@ -3203,6 +3248,10 @@ Gebruik &lt;b&gt; Toon Zoekterm &lt;/b&gt; in geval van twijfel over de uitslag 
     </message>
     <message>
         <source> differ from current preferences (kept)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Semantic</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4640,7 +4689,7 @@ This will help searching very big text  files (ie: log files).</source>
     </message>
     <message>
         <source>Start with advanced search dialog open.</source>
-        <translation>Start met geavanceerd zoek dialog open.</translation>
+        <translation type="vanished">Start met geavanceerd zoek dialog open.</translation>
     </message>
     <message>
         <source>Start with sort dialog open.</source>
@@ -4881,7 +4930,7 @@ The default value is 2 (percent). </source>
     </message>
     <message>
         <source>Document filter choice style:</source>
-        <translation>Document filter keuze stijl:</translation>
+        <translation type="vanished">Document filter keuze stijl:</translation>
     </message>
     <message>
         <source>Buttons Panel</source>
@@ -5069,11 +5118,11 @@ The default value is 2 (percent). </source>
     </message>
     <message>
         <source>Simple search type</source>
-        <translation>Eenvoudig zoektype</translation>
+        <translation type="vanished">Eenvoudig zoektype</translation>
     </message>
     <message>
         <source>Clear/Search buttons</source>
-        <translation>Wissen/Zoekknoppen</translation>
+        <translation type="vanished">Wissen/Zoekknoppen</translation>
     </message>
     <message>
         <source>Disable the Ctrl+[0-9]/Shift+[a-z] shortcuts for jumping to table rows.</source>
@@ -5246,6 +5295,46 @@ The default value is 2 (percent). </source>
     <message>
         <source>Use dark background when displaying HTML in dark mode.</source>
         <translation>Gebruik een donkere achtergrond bij het weergeven van HTML in de donkere modus.</translation>
+    </message>
+    <message>
+        <source>Things we open when starting up.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open at start:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Advanced Search dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Query Fragments window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Document category choice style:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear/Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do not show the File Size tool in the side filters section</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File Size side filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;em&gt;Also see the &quot;synthetic abstract&quot; parameters in the Search parameters tab</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

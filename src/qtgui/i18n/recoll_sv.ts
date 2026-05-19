@@ -470,7 +470,7 @@
     </message>
     <message>
         <source>The list of folders/directories to be indexed, recursively with their sub-folders.&lt;br&gt;The &apos;~&apos; character expands to your home directory, which is the default initial value.</source>
-        <translation>Listan över mappar/kataloger som ska indexeras, rekursivt med deras undermappar. Tecknet &apos;~&apos; expanderar till din hemkatalog, vilket är det förvalda initialvärdet.</translation>
+        <translation type="vanished">Listan över mappar/kataloger som ska indexeras, rekursivt med deras undermappar. Tecknet &apos;~&apos; expanderar till din hemkatalog, vilket är det förvalda initialvärdet.</translation>
     </message>
     <message>
         <source> (by default, aspell suggests mispellings when a query has no results).</source>
@@ -482,6 +482,10 @@
     </message>
     <message>
         <source>The name or path for a directory where to store the index&lt;br&gt;A non-absolute path is taken relative to the configuration directory. The default is &apos;xapiandb&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The list of folders/directories to be indexed, recursively with their sub-folders.&lt;br&gt;%USERPROFILE% or the &apos;~&apos; character expand to your user profile, which is the default The &apos;~&apos; character expands to your home directory, which is the default initial value.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -550,7 +554,11 @@ Detta kommer att underlätta vid genomsökning av mycket stora textfiler (t.ex. 
     <name>ConfigSwitchDLG</name>
     <message>
         <source>Switch to other configuration</source>
-        <translation>Byt till annan konfiguration</translation>
+        <translation type="vanished">Byt till annan konfiguration</translation>
+    </message>
+    <message>
+        <source>Dialog</source>
+        <translation type="unfinished">Dialog</translation>
     </message>
 </context>
 <context>
@@ -1195,7 +1203,7 @@ Klicka på Avbryt om du vill redigera konfigurationsfilen innan indexering start
     <message>
         <source>These are file name endings for files which will be indexed by name only 
 (no MIME type identification attempt, no decompression, no content indexing).</source>
-        <translation>Dessa är filnamnsändelser för filer som endast kommer att indexeras efter namn.
+        <translation type="vanished">Dessa är filnamnsändelser för filer som endast kommer att indexeras efter namn.
 (ingen MIME-typidentifiering, ingen dekompression, ingen innehållsindexering).</translation>
     </message>
     <message>
@@ -1205,6 +1213,11 @@ Klicka på Avbryt om du vill redigera konfigurationsfilen innan indexering start
     <message>
         <source>These are patterns for file or directory names which should not be indexed.</source>
         <translation>Dessa är mönster för fil- eller mappnamn som inte ska indexeras.</translation>
+    </message>
+    <message>
+        <source>noContentSuffixes configuration variable: these are file name endings for files which will be indexed by name only 
+(no MIME type identification attempt, no decompression, no content indexing).</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2096,6 +2109,10 @@ Do you want to start the preferences dialog ?</source>
         <source> with additional message: </source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Semantic</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RclMainBase</name>
@@ -2483,6 +2500,26 @@ Do you want to start the preferences dialog ?</source>
         <source>    With failed files retrying</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Filter file sizes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimum size (leave at 0 to disable)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximum size (leave at 0 to disable)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check Recoll Web site for current Windows version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Query Language cheat sheet</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RclTrayIcon</name>
@@ -2572,6 +2609,14 @@ Do you want to start the preferences dialog ?</source>
     <message>
         <source>Can&apos;t sort by inverse relevance</source>
         <translation>Kan inte sortera efter omvänd relevans</translation>
+    </message>
+    <message>
+        <source>Saving to CSV</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Avbryt</translation>
     </message>
 </context>
 <context>
@@ -3210,6 +3255,10 @@ Använd &lt;b&gt;Visa fråga&lt;/b&gt; länk när du är osäker på resultatet 
     </message>
     <message>
         <source> differ from current preferences (kept)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Semantic</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4652,7 +4701,7 @@ Detta kommer att underlätta vid genomsökning av mycket stora textfiler (t.ex. 
     </message>
     <message>
         <source>Start with advanced search dialog open.</source>
-        <translation>Starta med &quot;Avancerad sökning&quot; öppnad.</translation>
+        <translation type="vanished">Starta med &quot;Avancerad sökning&quot; öppnad.</translation>
     </message>
     <message>
         <source>Start with sort dialog open.</source>
@@ -4898,7 +4947,7 @@ Standardvärdet är 2 (procent). </translation>
     </message>
     <message>
         <source>Document filter choice style:</source>
-        <translation>Val av dokumentfilterstil:</translation>
+        <translation type="vanished">Val av dokumentfilterstil:</translation>
     </message>
     <message>
         <source>Buttons Panel</source>
@@ -5086,11 +5135,11 @@ Standardvärdet är 2 (procent). </translation>
     </message>
     <message>
         <source>Simple search type</source>
-        <translation>Enkel söktyp</translation>
+        <translation type="vanished">Enkel söktyp</translation>
     </message>
     <message>
         <source>Clear/Search buttons</source>
-        <translation>Rensa/Sök knappar</translation>
+        <translation type="vanished">Rensa/Sök knappar</translation>
     </message>
     <message>
         <source>Disable the Ctrl+[0-9]/Shift+[a-z] shortcuts for jumping to table rows.</source>
@@ -5263,6 +5312,46 @@ Standardvärdet är 2 (procent). </translation>
     <message>
         <source>Use dark background when displaying HTML in dark mode.</source>
         <translation>Använd mörk bakgrund när du visar HTML i mörkt läge.</translation>
+    </message>
+    <message>
+        <source>Things we open when starting up.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open at start:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Advanced Search dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Query Fragments window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Document category choice style:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear/Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do not show the File Size tool in the side filters section</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File Size side filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;em&gt;Also see the &quot;synthetic abstract&quot; parameters in the Search parameters tab</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

@@ -470,7 +470,7 @@
     </message>
     <message>
         <source>The list of folders/directories to be indexed, recursively with their sub-folders.&lt;br&gt;The &apos;~&apos; character expands to your home directory, which is the default initial value.</source>
-        <translation>Lista folderów/katalogów do zindeksowania, rekurencyjnie wraz z ich podfolderami.&lt;br&gt;Znak &apos;~&apos; rozwija się do katalogu domowego, który jest domyślną wartością początkową.</translation>
+        <translation type="vanished">Lista folderów/katalogów do zindeksowania, rekurencyjnie wraz z ich podfolderami.&lt;br&gt;Znak &apos;~&apos; rozwija się do katalogu domowego, który jest domyślną wartością początkową.</translation>
     </message>
     <message>
         <source> (by default, aspell suggests mispellings when a query has no results).</source>
@@ -482,6 +482,10 @@
     </message>
     <message>
         <source>The name or path for a directory where to store the index&lt;br&gt;A non-absolute path is taken relative to the configuration directory. The default is &apos;xapiandb&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The list of folders/directories to be indexed, recursively with their sub-folders.&lt;br&gt;%USERPROFILE% or the &apos;~&apos; character expand to your user profile, which is the default The &apos;~&apos; character expands to your home directory, which is the default initial value.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -549,7 +553,11 @@ Pomocne przy szukaniu w wielkich plikach (np.: dzienniki systemowe).</translatio
     <name>ConfigSwitchDLG</name>
     <message>
         <source>Switch to other configuration</source>
-        <translation>Przełącz na inną konfigurację.</translation>
+        <translation type="vanished">Przełącz na inną konfigurację.</translation>
+    </message>
+    <message>
+        <source>Dialog</source>
+        <translation type="unfinished">Okno dialogowe</translation>
     </message>
 </context>
 <context>
@@ -1195,7 +1203,7 @@ Indeksując, idź za dowiązaniami symbolicznymi. Domyślnia wartość to NIE, k
     <message>
         <source>These are file name endings for files which will be indexed by name only 
 (no MIME type identification attempt, no decompression, no content indexing).</source>
-        <translation>Są to rozszerzenia nazw plików, które wykluczają indeksowanie na podstawie nazwy typu MIME, bez dekompresji, bez indeksowania zawartości.</translation>
+        <translation type="vanished">Są to rozszerzenia nazw plików, które wykluczają indeksowanie na podstawie nazwy typu MIME, bez dekompresji, bez indeksowania zawartości.</translation>
     </message>
     <message>
         <source>&lt;i&gt;The parameters that follow are set either at the top level, if nothing or an empty line is selected in the listbox above, or for the selected subdirectory. You can add or remove directories by clicking the +/- buttons.</source>
@@ -1204,6 +1212,11 @@ Indeksując, idź za dowiązaniami symbolicznymi. Domyślnia wartość to NIE, k
     <message>
         <source>These are patterns for file or directory names which should not be indexed.</source>
         <translation>To są wzorce nazw plików lub katalogów, które nie będą indeksowane.</translation>
+    </message>
+    <message>
+        <source>noContentSuffixes configuration variable: these are file name endings for files which will be indexed by name only 
+(no MIME type identification attempt, no decompression, no content indexing).</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2096,6 +2109,10 @@ Do you want to start the preferences dialog ?</source>
         <source> with additional message: </source>
         <translation> z dodatkowym komunikatem:</translation>
     </message>
+    <message>
+        <source>Semantic</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RclMainBase</name>
@@ -2473,7 +2490,7 @@ Do you want to start the preferences dialog ?</source>
     </message>
     <message>
         <source>&amp;Online manual (Recoll Web site; HTML)</source>
-        <translation>Podręcznik online (na stronie Recoll; HTML)</translation>
+        <translation type="vanished">Podręcznik online (na stronie Recoll; HTML)</translation>
     </message>
     <message>
         <source>Path translations</source>
@@ -2481,6 +2498,30 @@ Do you want to start the preferences dialog ?</source>
     </message>
     <message>
         <source>    With failed files retrying</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Filter file sizes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimum size (leave at 0 to disable)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximum size (leave at 0 to disable)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check Recoll Web site for current Windows version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Online manual (Recoll Web site)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Query Language cheat sheet</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2572,6 +2613,14 @@ Do you want to start the preferences dialog ?</source>
     <message>
         <source>Can&apos;t sort by inverse relevance</source>
         <translation>Nie można sortować według odwrotnej istotności</translation>
+    </message>
+    <message>
+        <source>Saving to CSV</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Anuluj</translation>
     </message>
 </context>
 <context>
@@ -3210,6 +3259,10 @@ Użyj &lt;b&gt;Pokaż link Zapytania&lt;/b&gt; w razie wątpliwości co do wynik
     </message>
     <message>
         <source> differ from current preferences (kept)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Semantic</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4299,7 +4352,7 @@ To powinno dać pierwszeństwo wynikom, dokładnie tak jak zostały wpisane.</tr
     </message>
     <message>
         <source>Recoll - Index Settings: </source>
-        <translation>Recoll - Konfiguracja indeksu: </translation>
+        <translation type="vanished">Recoll - Konfiguracja indeksu: </translation>
     </message>
 </context>
 <context>
@@ -4651,7 +4704,7 @@ Pomocne przy szukaniu w wielkich plikach (np.: dzienniki systemowe).</translatio
     </message>
     <message>
         <source>Start with advanced search dialog open.</source>
-        <translation>Pokaż okno szukania zaawansowanego przy starcie aplikacji</translation>
+        <translation type="vanished">Pokaż okno szukania zaawansowanego przy starcie aplikacji</translation>
     </message>
     <message>
         <source>Start with sort dialog open.</source>
@@ -4897,7 +4950,7 @@ Domyślna wartość to 2 (%).</translation>
     </message>
     <message>
         <source>Document filter choice style:</source>
-        <translation>Styl filtra dokumentu:</translation>
+        <translation type="vanished">Styl filtra dokumentu:</translation>
     </message>
     <message>
         <source>Buttons Panel</source>
@@ -5085,11 +5138,11 @@ Domyślna wartość to 2 (%).</translation>
     </message>
     <message>
         <source>Simple search type</source>
-        <translation>Prosty typ wyszukiwania</translation>
+        <translation type="vanished">Prosty typ wyszukiwania</translation>
     </message>
     <message>
         <source>Clear/Search buttons</source>
-        <translation>Przyciski Wyczyść/Szukaj</translation>
+        <translation type="vanished">Przyciski Wyczyść/Szukaj</translation>
     </message>
     <message>
         <source>Disable the Ctrl+[0-9]/Shift+[a-z] shortcuts for jumping to table rows.</source>
@@ -5262,6 +5315,46 @@ Domyślna wartość to 2 (%).</translation>
     <message>
         <source>Use dark background when displaying HTML in dark mode.</source>
         <translation>Użyj ciemnego tła podczas wyświetlania HTML w trybie ciemnym.</translation>
+    </message>
+    <message>
+        <source>Things we open when starting up.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open at start:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Advanced Search dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Query Fragments window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Document category choice style:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear/Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do not show the File Size tool in the side filters section</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File Size side filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;em&gt;Also see the &quot;synthetic abstract&quot; parameters in the Search parameters tab</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

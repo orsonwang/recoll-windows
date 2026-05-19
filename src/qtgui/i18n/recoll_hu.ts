@@ -470,7 +470,7 @@
     </message>
     <message>
         <source>The list of folders/directories to be indexed, recursively with their sub-folders.&lt;br&gt;The &apos;~&apos; character expands to your home directory, which is the default initial value.</source>
-        <translation>A könyvtárak/mappák listája, amelyeket rekurzívan indexelni kell az alkönyvtáraikkal együtt.&lt;br&gt;A &apos;~&apos; karakter kiterjesztése a saját otthoni könyvtáradra, ami az alapértelmezett kezdeti érték.</translation>
+        <translation type="vanished">A könyvtárak/mappák listája, amelyeket rekurzívan indexelni kell az alkönyvtáraikkal együtt.&lt;br&gt;A &apos;~&apos; karakter kiterjesztése a saját otthoni könyvtáradra, ami az alapértelmezett kezdeti érték.</translation>
     </message>
     <message>
         <source> (by default, aspell suggests mispellings when a query has no results).</source>
@@ -482,6 +482,10 @@
     </message>
     <message>
         <source>The name or path for a directory where to store the index&lt;br&gt;A non-absolute path is taken relative to the configuration directory. The default is &apos;xapiandb&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The list of folders/directories to be indexed, recursively with their sub-folders.&lt;br&gt;%USERPROFILE% or the &apos;~&apos; character expand to your user profile, which is the default The &apos;~&apos; character expands to your home directory, which is the default initial value.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -555,7 +559,11 @@ Néha előfordul (pl. postscript esetén), hogy a szűrő végtelen ciklusba ker
     <name>ConfigSwitchDLG</name>
     <message>
         <source>Switch to other configuration</source>
-        <translation>Váltás más konfigurációra</translation>
+        <translation type="vanished">Váltás más konfigurációra</translation>
+    </message>
+    <message>
+        <source>Dialog</source>
+        <translation type="unfinished">Párbeszédablak</translation>
     </message>
 </context>
 <context>
@@ -1200,7 +1208,7 @@ Click Cancel if you want to edit the configuration file before indexing starts, 
     <message>
         <source>These are file name endings for files which will be indexed by name only 
 (no MIME type identification attempt, no decompression, no content indexing).</source>
-        <translation>Az ilyen fájlnévvégződésű fájlok csak a nevük alapján indexelendők
+        <translation type="vanished">Az ilyen fájlnévvégződésű fájlok csak a nevük alapján indexelendők
 (nem történik MIME típusfelismerés, kicsomagolás és tartalomindexelés sem).</translation>
     </message>
     <message>
@@ -1210,6 +1218,11 @@ Click Cancel if you want to edit the configuration file before indexing starts, 
     <message>
         <source>These are patterns for file or directory names which should not be indexed.</source>
         <translation>Ezek a minták fájl- vagy könyvtárnév-minták, amelyeket nem szabad indexelni.</translation>
+    </message>
+    <message>
+        <source>noContentSuffixes configuration variable: these are file name endings for files which will be indexed by name only 
+(no MIME type identification attempt, no decompression, no content indexing).</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2100,6 +2113,10 @@ Do you want to start the preferences dialog ?</source>
         <source> with additional message: </source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Semantic</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RclMainBase</name>
@@ -2487,6 +2504,26 @@ Do you want to start the preferences dialog ?</source>
         <source>    With failed files retrying</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Filter file sizes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimum size (leave at 0 to disable)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximum size (leave at 0 to disable)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check Recoll Web site for current Windows version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Query Language cheat sheet</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RclTrayIcon</name>
@@ -2576,6 +2613,14 @@ Do you want to start the preferences dialog ?</source>
     <message>
         <source>Can&apos;t sort by inverse relevance</source>
         <translation>Can&apos;t sort by inverse relevance</translation>
+    </message>
+    <message>
+        <source>Saving to CSV</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Mégsem</translation>
     </message>
 </context>
 <context>
@@ -3215,6 +3260,10 @@ Use &lt;b&gt;Show Query&lt;/b&gt; link when in doubt about result and see manual
     </message>
     <message>
         <source> differ from current preferences (kept)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Semantic</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4666,7 +4715,7 @@ Néha előfordul (pl. postscript esetén), hogy a szűrő végtelen ciklusba ker
     </message>
     <message>
         <source>Start with advanced search dialog open.</source>
-        <translation>Az összetett keresés ablaka is legyen nyitva induláskor</translation>
+        <translation type="vanished">Az összetett keresés ablaka is legyen nyitva induláskor</translation>
     </message>
     <message>
         <source>Start with sort dialog open.</source>
@@ -4917,7 +4966,7 @@ A PRE+wrap valószínűleg a legjobb választás.</translation>
     </message>
     <message>
         <source>Document filter choice style:</source>
-        <translation>A szűrőválasztó stílusa:</translation>
+        <translation type="vanished">A szűrőválasztó stílusa:</translation>
     </message>
     <message>
         <source>Buttons Panel</source>
@@ -5105,11 +5154,11 @@ A PRE+wrap valószínűleg a legjobb választás.</translation>
     </message>
     <message>
         <source>Simple search type</source>
-        <translation>Simple search type</translation>
+        <translation type="vanished">Simple search type</translation>
     </message>
     <message>
         <source>Clear/Search buttons</source>
-        <translation>Törlés/Keresés gombok</translation>
+        <translation type="vanished">Törlés/Keresés gombok</translation>
     </message>
     <message>
         <source>Disable the Ctrl+[0-9]/Shift+[a-z] shortcuts for jumping to table rows.</source>
@@ -5282,6 +5331,46 @@ A PRE+wrap valószínűleg a legjobb választás.</translation>
     <message>
         <source>Use dark background when displaying HTML in dark mode.</source>
         <translation>Használjon sötét háttérképet, amikor sötét módban jeleníti meg az HTML-t.</translation>
+    </message>
+    <message>
+        <source>Things we open when starting up.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open at start:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Advanced Search dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Query Fragments window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Document category choice style:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear/Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do not show the File Size tool in the side filters section</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File Size side filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;em&gt;Also see the &quot;synthetic abstract&quot; parameters in the Search parameters tab</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

@@ -476,7 +476,7 @@
     </message>
     <message>
         <source>The list of folders/directories to be indexed, recursively with their sub-folders.&lt;br&gt;The &apos;~&apos; character expands to your home directory, which is the default initial value.</source>
-        <translation>要递归地索引的文件夹/目录列表及其子文件夹。&lt;br&gt;字符“~”会扩展为您的主目录，这是默认初始值。</translation>
+        <translation type="vanished">要递归地索引的文件夹/目录列表及其子文件夹。&lt;br&gt;字符“~”会扩展为您的主目录，这是默认初始值。</translation>
     </message>
     <message>
         <source> (by default, aspell suggests mispellings when a query has no results).</source>
@@ -488,6 +488,10 @@
     </message>
     <message>
         <source>The name or path for a directory where to store the index&lt;br&gt;A non-absolute path is taken relative to the configuration directory. The default is &apos;xapiandb&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The list of folders/directories to be indexed, recursively with their sub-folders.&lt;br&gt;%USERPROFILE% or the &apos;~&apos; character expand to your user profile, which is the default The &apos;~&apos; character expands to your home directory, which is the default initial value.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -556,7 +560,11 @@ This will help searching very big text  files (ie: log files).</source>
     <name>ConfigSwitchDLG</name>
     <message>
         <source>Switch to other configuration</source>
-        <translation>切换到其他配置</translation>
+        <translation type="vanished">切换到其他配置</translation>
+    </message>
+    <message>
+        <source>Dialog</source>
+        <translation type="unfinished">对话框</translation>
     </message>
 </context>
 <context>
@@ -1254,7 +1262,7 @@ Click Cancel if you want to edit the configuration file before indexing starts, 
     <message>
         <source>These are file name endings for files which will be indexed by name only 
 (no MIME type identification attempt, no decompression, no content indexing).</source>
-        <translation>这些是仅按名称索引的文件的文件名结尾
+        <translation type="vanished">这些是仅按名称索引的文件的文件名结尾
 (没有尝试识别MIME类型，没有解压缩，没有内容索引)</translation>
     </message>
     <message>
@@ -1264,6 +1272,11 @@ Click Cancel if you want to edit the configuration file before indexing starts, 
     <message>
         <source>These are patterns for file or directory names which should not be indexed.</source>
         <translation>这些是文件或目录名称的模式，不应该被索引。</translation>
+    </message>
+    <message>
+        <source>noContentSuffixes configuration variable: these are file name endings for files which will be indexed by name only 
+(no MIME type identification attempt, no decompression, no content indexing).</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2175,6 +2188,10 @@ Do you want to start the preferences dialog ?</source>
         <source> with additional message: </source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Semantic</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RclMainBase</name>
@@ -2564,6 +2581,26 @@ Do you want to start the preferences dialog ?</source>
         <source>    With failed files retrying</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Filter file sizes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimum size (leave at 0 to disable)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximum size (leave at 0 to disable)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check Recoll Web site for current Windows version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Query Language cheat sheet</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RclTrayIcon</name>
@@ -2653,6 +2690,14 @@ Do you want to start the preferences dialog ?</source>
     <message>
         <source>Can&apos;t sort by inverse relevance</source>
         <translation>无法按逆相关性排序</translation>
+    </message>
+    <message>
+        <source>Saving to CSV</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">取消</translation>
     </message>
 </context>
 <context>
@@ -3306,6 +3351,10 @@ Use &lt;b&gt;Show Query&lt;/b&gt; link when in doubt about result and see manual
     </message>
     <message>
         <source> differ from current preferences (kept)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Semantic</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4752,7 +4801,7 @@ This will help searching very big text  files (ie: log files).</source>
     </message>
     <message>
         <source>Start with advanced search dialog open.</source>
-        <translation>启动时打开高级搜索对话框。</translation>
+        <translation type="vanished">启动时打开高级搜索对话框。</translation>
     </message>
     <message>
         <source>Start with sort dialog open.</source>
@@ -4999,7 +5048,7 @@ The default value is 2 (percent). </source>
     </message>
     <message>
         <source>Document filter choice style:</source>
-        <translation>文档过滤器选择样式：</translation>
+        <translation type="vanished">文档过滤器选择样式：</translation>
     </message>
     <message>
         <source>Buttons Panel</source>
@@ -5189,11 +5238,11 @@ The default value is 2 (percent). </source>
     </message>
     <message>
         <source>Simple search type</source>
-        <translation>简单搜索</translation>
+        <translation type="vanished">简单搜索</translation>
     </message>
     <message>
         <source>Clear/Search buttons</source>
-        <translation>清空/搜索 按钮</translation>
+        <translation type="vanished">清空/搜索 按钮</translation>
     </message>
     <message>
         <source>Disable the Ctrl+[0-9]/Shift+[a-z] shortcuts for jumping to table rows.</source>
@@ -5386,6 +5435,46 @@ The default value is 2 (percent). </source>
     <message>
         <source>Use dark background when displaying HTML in dark mode.</source>
         <translation>在暗模式下显示HTML时，请使用深色背景。</translation>
+    </message>
+    <message>
+        <source>Things we open when starting up.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open at start:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Advanced Search dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Query Fragments window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Document category choice style:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear/Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do not show the File Size tool in the side filters section</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File Size side filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;em&gt;Also see the &quot;synthetic abstract&quot; parameters in the Search parameters tab</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

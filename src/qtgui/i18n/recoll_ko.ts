@@ -470,7 +470,7 @@
     </message>
     <message>
         <source>The list of folders/directories to be indexed, recursively with their sub-folders.&lt;br&gt;The &apos;~&apos; character expands to your home directory, which is the default initial value.</source>
-        <translation>색인할 폴더/디렉토리 목록은 하위 폴더와 함께 재귀적으로 색인됩니다. &apos;~&apos; 문자는 홈 디렉토리로 확장되며, 이것이 기본 초기 값입니다.</translation>
+        <translation type="vanished">색인할 폴더/디렉토리 목록은 하위 폴더와 함께 재귀적으로 색인됩니다. &apos;~&apos; 문자는 홈 디렉토리로 확장되며, 이것이 기본 초기 값입니다.</translation>
     </message>
     <message>
         <source> (by default, aspell suggests mispellings when a query has no results).</source>
@@ -482,6 +482,10 @@
     </message>
     <message>
         <source>The name or path for a directory where to store the index&lt;br&gt;A non-absolute path is taken relative to the configuration directory. The default is &apos;xapiandb&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The list of folders/directories to be indexed, recursively with their sub-folders.&lt;br&gt;%USERPROFILE% or the &apos;~&apos; character expand to your user profile, which is the default The &apos;~&apos; character expands to your home directory, which is the default initial value.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -549,7 +553,11 @@ This will help searching very big text  files (ie: log files).</source>
     <name>ConfigSwitchDLG</name>
     <message>
         <source>Switch to other configuration</source>
-        <translation>다른 구성으로 전환</translation>
+        <translation type="vanished">다른 구성으로 전환</translation>
+    </message>
+    <message>
+        <source>Dialog</source>
+        <translation type="unfinished">대화창</translation>
     </message>
 </context>
 <context>
@@ -1194,7 +1202,7 @@ Click Cancel if you want to edit the configuration file before indexing starts, 
     <message>
         <source>These are file name endings for files which will be indexed by name only 
 (no MIME type identification attempt, no decompression, no content indexing).</source>
-        <translation>파일 이름만 색인하고, 파일 내용은 색인하지 않습니다.
+        <translation type="vanished">파일 이름만 색인하고, 파일 내용은 색인하지 않습니다.
 (지원 안되는 MIME 유형, 압축 내 파일, 색인할 컨텐츠 없음)</translation>
     </message>
     <message>
@@ -1207,6 +1215,11 @@ Click Cancel if you want to edit the configuration file before indexing starts, 
     <message>
         <source>These are patterns for file or directory names which should not be indexed.</source>
         <translation>이것은 색인되지 말아야 하는 파일 또는 디렉토리 이름에 대한 패턴입니다.</translation>
+    </message>
+    <message>
+        <source>noContentSuffixes configuration variable: these are file name endings for files which will be indexed by name only 
+(no MIME type identification attempt, no decompression, no content indexing).</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2097,6 +2110,10 @@ Do you want to start the preferences dialog ?</source>
         <source> with additional message: </source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Semantic</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RclMainBase</name>
@@ -2484,6 +2501,26 @@ Do you want to start the preferences dialog ?</source>
         <source>    With failed files retrying</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Filter file sizes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimum size (leave at 0 to disable)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximum size (leave at 0 to disable)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check Recoll Web site for current Windows version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Query Language cheat sheet</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RclTrayIcon</name>
@@ -2573,6 +2610,14 @@ Do you want to start the preferences dialog ?</source>
     <message>
         <source>Can&apos;t sort by inverse relevance</source>
         <translation>관련성 역순으로 정렬할 수 없습니다.</translation>
+    </message>
+    <message>
+        <source>Saving to CSV</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">취소</translation>
     </message>
 </context>
 <context>
@@ -3210,6 +3255,10 @@ Use &lt;b&gt;Show Query&lt;/b&gt; link when in doubt about result and see manual
     </message>
     <message>
         <source> differ from current preferences (kept)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Semantic</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4651,7 +4700,7 @@ This will help searching very big text  files (ie: log files).</source>
     </message>
     <message>
         <source>Start with advanced search dialog open.</source>
-        <translation>Recoll을 시작할 때마다 고급 검색창을 엽니다.</translation>
+        <translation type="vanished">Recoll을 시작할 때마다 고급 검색창을 엽니다.</translation>
     </message>
     <message>
         <source>Start with sort dialog open.</source>
@@ -4896,7 +4945,7 @@ The default value is 2 (percent). </source>
     </message>
     <message>
         <source>Document filter choice style:</source>
-        <translation>검색된 자료의 필터 선택 스타일:</translation>
+        <translation type="vanished">검색된 자료의 필터 선택 스타일:</translation>
     </message>
     <message>
         <source>Buttons Panel</source>
@@ -5084,11 +5133,11 @@ The default value is 2 (percent). </source>
     </message>
     <message>
         <source>Simple search type</source>
-        <translation>단순 검색 유형</translation>
+        <translation type="vanished">단순 검색 유형</translation>
     </message>
     <message>
         <source>Clear/Search buttons</source>
-        <translation>지우기/검색 버튼</translation>
+        <translation type="vanished">지우기/검색 버튼</translation>
     </message>
     <message>
         <source>Disable the Ctrl+[0-9]/Shift+[a-z] shortcuts for jumping to table rows.</source>
@@ -5257,6 +5306,46 @@ The default value is 2 (percent). </source>
     <message>
         <source>Use dark background when displaying HTML in dark mode.</source>
         <translation>다크 모드에서 HTML을 표시할 때는 어두운 배경을 사용하십시오.</translation>
+    </message>
+    <message>
+        <source>Things we open when starting up.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open at start:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Advanced Search dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Query Fragments window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Document category choice style:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clear/Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do not show the File Size tool in the side filters section</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File Size side filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;em&gt;Also see the &quot;synthetic abstract&quot; parameters in the Search parameters tab</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
