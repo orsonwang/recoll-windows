@@ -77,7 +77,7 @@ class SofficeRunner(object):
         # This is also necessary because simultaneous execs by multithreaded recoll *must*
         # use separate install directories, else errors happen.
         sofficeconfig = _path2fileurl(posixpath.join(self.tmpdir.getpath(), "soffice-profile"))
-        self.cmdbase = sofficecmd + ["--norestore", "--safe-mode", "--headless",
+        self.cmdbase = sofficecmd + ["--norestore", "--headless",
                                      f"-env:UserInstallation={sofficeconfig}",
                                      "--convert-to", "html", "--outdir"]
 
