@@ -21,7 +21,7 @@ windows {
 }
 
 mac {
-    XAPIANDIR = ../../../xapian-core-1.4.24/
+    XAPIANDIR = ../../../xapian-core-1.4.29/
     CONFIG += staticlib
     QMAKE_APPLE_DEVICE_ARCHS = x86_64 arm64
 }
