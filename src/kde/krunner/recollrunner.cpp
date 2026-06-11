@@ -24,11 +24,13 @@
 #include <iostream>
 
 #include <KIO/OpenUrlJob>
+#include <KIO/OpenFileManagerWindowJob>
 #include <klocalizedstring.h>
 #include <QIcon>
 #include <QMimeDatabase>
 #if KRUNNER_VERSION_MAJOR >= 6
 #include <KConfigGroup>
+#include <KRunner/Action>
 #endif
 
 #include "rclconfig.h"
@@ -54,16 +56,13 @@ inline QString path2qs(const std::string& us)
 {
     return QString::fromLocal8Bit(us.c_str());
 }
-inline std::string qs2path(const QString& qs)
-{
-    return qs.toLocal8Bit().constData();
-}
 
 #if KRUNNER_VERSION_MAJOR >= 6
 RecollRunner::RecollRunner(QObject *parent, const KPluginMetaData &data)
     : AbstractRunner(parent, data)
 #else
-RecollRunner::RecollRunner(QObject *parent, const KPluginMetaData &data, const QVariantList &args)
+      RecollRunner::RecollRunner(QObject *parent, const KPluginMetaData &data,
+                                 const QVariantList &args)
     : AbstractRunner(parent, data, args)
 #endif
 {
@@ -174,6 +173,10 @@ void RecollRunner::match(KRUNNS::RunnerContext &context)
 
         match.setRelevance(doc.pc/100.0);
 
+        match.addAction(
+            KRUNNS::Action(QLatin1String("open-parent-folder"),
+                           QLatin1String("text-x-generic"), i18n("Open Parent Folder")));
+
         // Could also call context.addMatch() for each match instead of buffering
         matches.append(match);
     }
@@ -182,11 +185,16 @@ void RecollRunner::match(KRUNNS::RunnerContext &context)
 
 void RecollRunner::run(const KRUNNS::RunnerContext & /*context*/, const KRUNNS::QueryMatch &match)
 {
-    // KIO::OpenUrlJob autodeletes itself, so we can just create it and forget it!
-    auto *job = new KIO::OpenUrlJob(QUrl::fromLocalFile(match.data().toString()));
-//    job->setUiDelegate(new KNotificationJobUiDelegate(KJobUiDelegate::AutoErrorHandlingEnabled));
-    job->setRunExecutables(false);
-    job->start();
+    auto url = QUrl::fromLocalFile(match.data().toString());
+    if (match.selectedAction().id() == QLatin1String("open-parent-folder")) {
+        auto *job = new KIO::OpenFileManagerWindowJob();
+        job->setHighlightUrls({url});
+        job->start();
+    } else {
+        auto *job = new KIO::OpenUrlJob(url);
+        job->setRunExecutables(false);
+        job->start();
+    }
 }
 
 void RecollRunner::reloadConfiguration()
