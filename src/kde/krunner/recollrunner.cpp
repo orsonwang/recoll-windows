@@ -175,7 +175,7 @@ void RecollRunner::match(KRUNNS::RunnerContext &context)
 
         match.addAction(
             KRUNNS::Action(QLatin1String("open-parent-folder"),
-                           QLatin1String("text-x-generic"), i18n("Open Parent Folder")));
+                           QLatin1String("system-file-manager"), i18n("Open Parent Folder")));
 
         // Could also call context.addMatch() for each match instead of buffering
         matches.append(match);
