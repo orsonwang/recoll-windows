@@ -124,7 +124,7 @@ class ZipExtractor(ArchiveExtractor):
             #self.em.rclog(f"{err}")
             ok = False
         iseof = rclexecm.RclExecM.noteof
-        if self.currentindex >= len(self.zip.namelist()) - 1:
+        if self.currentindex >= self.namelistlen - 1:
             self.closefile()
             iseof = rclexecm.RclExecM.eofnext
         return (ok, docdata, rclexecm.makebytes(ipath), iseof)
@@ -162,7 +162,6 @@ class ZipExtractor(ArchiveExtractor):
             # surrogateescape thingy, but let's leave well enough alone...
             self.f = open(self.filename, "rb")
             self.zip = ZipFile(self.f, metadata_encoding = metadataencoding)
-            return True
         except Exception as err_1:
             # Sometimes, the detected encoding may be wrong and cause exceptions. Also
             # metadata_encoding is new in Python 3.11 or such, so we want a fallback
@@ -171,14 +170,14 @@ class ZipExtractor(ArchiveExtractor):
                 self.em.rclog("openfile: try again with default encoding")
                 self.f = open(self.filename, "rb")
                 self.zip = ZipFile(self.f)
-                return True
             except Exception as err_2:
                 self.em.rclog("openfile: failed again: [%s]" % err_2)
                 return False
-
-    def namelist(self):
-        return self.zip.namelist()
-
+        self.namelistlen = len(self.zip.namelist())
+        return True
+        
+    def getname(self, index):
+        return self.zip.infolist()[index].filename 
     # getipath from ArchiveExtractor
     # getnext inherited from ArchiveExtractor
 

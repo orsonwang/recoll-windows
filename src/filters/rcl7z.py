@@ -20,7 +20,6 @@ from archivextract import ArchiveExtractor
 usingpy7zr = False
 try:
     from py7zr import SevenZipFile as Archive7z
-
     usingpy7zr = True
 except:
     try:
@@ -51,7 +50,7 @@ class SevenZipExtractor(ArchiveExtractor):
             self.em.rclog("extractone: failed: [%s]" % err)
 
         iseof = rclexecm.RclExecM.noteof
-        if self.currentindex >= len(self.names) - 1:
+        if self.currentindex >= self.namelistlen - 1:
             iseof = rclexecm.RclExecM.eofnext
         return (ok, docdata, rclexecm.makebytes(ipath), iseof)
 
@@ -71,15 +70,19 @@ class SevenZipExtractor(ArchiveExtractor):
             if usingpy7zr:
                 self.sevenzdic = self.sevenzip.readall()
                 self.names = [k[0] for k in self.sevenzdic.items()]
+                self.namelistlen = len(self.names)
             else:
-                self.names = self.sevenzip.getnames()
+                self.namelistlen = len(self.sevenzip.getnames())
             return True
         except Exception as err:
             self.em.rclog("openfile: failed: [%s]" % err)
             return False
 
-    def namelist(self):
-        return self.names
+    def getname(self, index):
+        if usingpy7zr:
+            return  self.names[index]
+        else:
+            return self.sevenzip.getmember(index).filename
 
     # getipath from ArchiveExtractor
     # getnext from ArchiveExtractor

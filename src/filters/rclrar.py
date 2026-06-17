@@ -138,14 +138,15 @@ class RarExtractor(ArchiveExtractor):
                 # binary. Circumvented by passing the open file
                 f = open(filename, "rb")
                 self.rar = RarFile(f)
+            self.namelistlen = len(self.rar.infolist())
             return True
         except Exception as err:
             self.em.rclog("RarFile: %s" % err)
             return False
 
-    def namelist(self):
-        return self.rar.namelist()
-
+    def getname(self, index):
+        return self.rar.infolist()[index].filename 
+    
     # getipath from ArchiveExtractor
     # getnext from ArchiveExtractor
 

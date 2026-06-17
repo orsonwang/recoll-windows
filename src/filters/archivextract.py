@@ -45,19 +45,21 @@ class ArchiveExtractor:
             return (ok, data, ipath, eof)
 
     def getnext(self, params):
+        # Note: currentindex is normally set to -1 by the implementation openfile() method.
         if self.currentindex == -1:
             # Return "self" doc
             self.currentindex = 0
             self.em.setmimetype("text/plain")
-            if len(self.namelist()) == 0:
+            if self.namelistlen == 0:
                 self.closefile()
                 eof = rclexecm.RclExecM.eofnext
             else:
                 eof = rclexecm.RclExecM.noteof
             return (True, "", "", eof)
 
-        while self.currentindex < len(self.namelist()):
-            entryname = self.namelist()[self.currentindex]
+        entryname = None
+        while self.currentindex < self.namelistlen:
+            entryname = self.getname(self.currentindex)
             if self.namefilter.shouldprocess(entryname):
                 break
             entryname = None

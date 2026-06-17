@@ -23,7 +23,6 @@ except:
 
 class TarExtractor(ArchiveExtractor):
     def __init__(self, em: rclexecm.RclExecM) -> None:
-        self.namen: List[bytes] = []
         super().__init__(em)
 
     def extractone(self, ipath: bytes) -> tuple[bool, bytes, bytes, int]:
@@ -36,14 +35,19 @@ class TarExtractor(ArchiveExtractor):
                 self.em.rclog(f"extractone: entry {ipath!r} size {info.size} too big")
                 docdata = b""  # raise TarError("Member too big")
             else:
-                docdata = self.tar.extractfile(ipath).read()
+                f = self.tar.extractfile(ipath)
+                if f:
+                    docdata = f.read()
+                else:
+                    docdata = b""
             self.em.setfield("filename", posixpath.basename(ipath))
             self.em.setfield("modificationdate", str(info.mtime))
             ok = True
         except Exception as err:
+            self.em.rclog(f"Exception: {err}")
             ok = False
         iseof = rclexecm.RclExecM.noteof
-        if self.currentindex >= len(self.namen) - 1:
+        if self.currentindex >= self.namelistlen - 1:
             iseof = rclexecm.RclExecM.eofnext
         # We use fsencode, not makebytes, to convert to bytes. The latter would fail if the ipath
         # was actually binary, because it tries to encode to utf-8 but python3 had used fsdecode for
@@ -61,10 +65,7 @@ class TarExtractor(ArchiveExtractor):
         self.namefilter.setforlocation(filename)
         try:
             self.tar = tarfile.open(name=filename, mode="r")
-            # self.namen = [ y.name for y in filter(lambda z:z.isfile(),self.tar.getmembers())]
-            self.namen = [
-                y.name for y in [z for z in self.tar.getmembers() if z.isfile()]
-            ]
+            self.namelistlen = len(self.tar.getmembers())
             return True
         except:
             return False
@@ -80,9 +81,8 @@ class TarExtractor(ArchiveExtractor):
         except Exception as err:
             return (ok, data, ipath, eof)
 
-    def namelist(self):
-        return self.namen
-
+    def getname(self, index):
+        return self.tar.getmembers()[index].name 
     # getnext from ArchiveExtractor
 
 
