@@ -23,7 +23,7 @@
 #include <cstring>
 
 #include <iostream>
-#include <list>
+#include <vector>
 #include <map>
 
 #include "cstr.h"
@@ -359,7 +359,7 @@ goodpath:
 /** 
  * Index individual files, out of a full tree run. No database purging
  */
-bool FsIndexer::indexFiles(list<string>& files, int flags)
+bool FsIndexer::indexFiles(vector<string>& files, int flags)
 {
     LOGDEB("FsIndexer::indexFiles\n");
     m_noretryfailed = (flags & ConfIndexer::IxFNoRetryFailed) != 0;
@@ -443,14 +443,14 @@ out:
 
 
 /** Purge docs for given files out of the database */
-bool FsIndexer::purgeFiles(list<string>& files)
+bool FsIndexer::purgeFiles(vector<string>& files)
 {
     LOGDEB("FsIndexer::purgeFiles\n");
     bool ret = false;
     if (!init())
         return false;
 
-    for (list<string>::iterator it = files.begin(); it != files.end(); ) {
+    for (auto it = files.begin(); it != files.end(); ) {
         string udi;
         fileUdi::make_udi(*it, cstr_null, udi);
         // rcldb::purgefile returns true if the udi was either not

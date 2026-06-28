@@ -17,7 +17,7 @@
 #ifndef _webqueue_h_included_
 #define _webqueue_h_included_
 
-#include <list>
+#include <vector>
 
 /**
  * Process the WEB indexing queue. 
@@ -54,11 +54,11 @@ public:
 
     /** Index a list of files. No db cleaning or stemdb updating. 
      *  Used by the real time monitor */
-    bool indexFiles(std::list<std::string>& files);
+    bool indexFiles(std::vector<std::string>& files);
     /** Purge a list of files. No way to do this currently and dont want
      *  to do anything as this is mostly called by the monitor when *I* delete
      *  files inside the queue dir */
-    bool purgeFiles(std::list<std::string>&) {return true;}
+    bool purgeFiles(std::vector<std::string>&) {return true;}
 
     /** Called when indexing data from the cache, and from internfile for
      * search result preview */

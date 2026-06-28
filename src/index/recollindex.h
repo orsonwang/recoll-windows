@@ -16,14 +16,14 @@
  */
 #ifndef _recollindex_h_included_
 #define _recollindex_h_included_
-#include <list>
+#include <vector>
 #include <string>
 
 /** Helper methods in recollindex.cpp for initial checks/setup to index 
  * a list of files (either from the monitor or the command line) */
 class RclConfig;
-extern bool indexfiles(RclConfig *config, std::list<std::string> &filenames, int flags = 0);
-extern bool purgefiles(RclConfig *config, std::list<std::string> &filenames);
+extern bool indexfiles(RclConfig *config, std::vector<std::string> &filenames, int flags = 0);
+extern bool purgefiles(RclConfig *config, std::vector<std::string> &filenames);
 extern bool createAuxDbs(RclConfig *config);
 
 /** 

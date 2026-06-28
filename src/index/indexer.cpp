@@ -36,7 +36,6 @@
 #include "rclaspell.h"
 #endif
 
-using std::list;
 using std::string;
 using std::vector;
 
@@ -278,14 +277,14 @@ bool ConfIndexer::index(bool resetbefore, ixType typestorun, int flags)
     return ret;
 }
 
-bool ConfIndexer::indexFiles(list<string>& ifiles, int flags)
+bool ConfIndexer::indexFiles(vector<string>& ifiles, int flags)
 {
-    list<string> myfiles;
+    vector<string> myfiles;
     string origcwd = m_config->getOrigCwd();
     for (const auto& entry : ifiles) {
         myfiles.push_back(path_canon(entry, &origcwd));
     }
-    myfiles.sort();
+    std::sort(myfiles.begin(), myfiles.end());
 
     Rcl::Db::OpenError error;
     int dbflags = 0;
@@ -333,14 +332,14 @@ bool ConfIndexer::indexFiles(list<string>& ifiles, int flags)
     return ret;
 }
 
-bool ConfIndexer::purgeFiles(list<string> &files, int flags)
+bool ConfIndexer::purgeFiles(vector<string> &files, int flags)
 {
-    list<string> myfiles;
+    vector<string> myfiles;
     string origcwd = m_config->getOrigCwd();
     for (const auto& entry : files) {
         myfiles.push_back(path_canon(entry, &origcwd));
     }
-    myfiles.sort();
+    std::sort(myfiles.begin(), myfiles.end());
 
     Rcl::Db::OpenError error;
     if (!m_db.open(Rcl::Db::DbUpd, &error, Rcl::Db::DbOFNoTmpDb)) {

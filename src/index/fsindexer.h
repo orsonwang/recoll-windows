@@ -17,8 +17,7 @@
 #ifndef _fsindexer_h_included_
 #define _fsindexer_h_included_
 
-#include <list>
-#include <mutex>
+#include <vector>
 
 #include "indexer.h"
 #include "fstreewalk.h"
@@ -66,10 +65,10 @@ public:
     bool index(int flags);
 
     /** Index a list of files. No db cleaning or stemdb updating */
-    bool indexFiles(std::list<std::string> &files, int f = ConfIndexer::IxFNone);
+    bool indexFiles(std::vector<std::string> &files, int f = ConfIndexer::IxFNone);
 
     /** Purge a list of files. */
-    bool purgeFiles(std::list<std::string> &files);
+    bool purgeFiles(std::vector<std::string> &files);
 
     /**  Tree walker callback method */
     FsTreeWalker::Status 

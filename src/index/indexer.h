@@ -18,7 +18,6 @@
 #define _INDEXER_H_INCLUDED_
 
 #include <string>
-#include <list>
 #include <vector>
 
 #include "rclconfig.h"
@@ -84,10 +83,10 @@ public:
     static std::vector<std::string> getStemmerNames();
 
     /** Index a list of files. No db cleaning or stemdb updating */
-    bool indexFiles(std::list<std::string> &files, int f = IxFNone);
+    bool indexFiles(std::vector<std::string> &files, int f = IxFNone);
 
     /** Purge a list of files. */
-    bool purgeFiles(std::list<std::string> &files, int f = IxFNone);
+    bool purgeFiles(std::vector<std::string> &files, int f = IxFNone);
 
 private:
     RclConfig *m_config;

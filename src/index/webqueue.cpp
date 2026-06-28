@@ -309,7 +309,7 @@ bool WebQueueIndexer::index()
 }
 
 // Index a list of files (sent by the real time monitor)
-bool WebQueueIndexer::indexFiles(list<string>& files)
+bool WebQueueIndexer::indexFiles(vector<string>& files)
 {
     LOGDEB("WebQueueIndexer::indexFiles\n");
 

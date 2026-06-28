@@ -31,12 +31,12 @@
 #include <cstring>
 #include <cstdio>
 #include <cstdlib>
-#include <list>
 #include <vector>
 #include <thread>
 #include <mutex>
 #include <condition_variable>
 #include <chrono>
+#include <algorithm>
 
 #include "log.h"
 #include "rclmon.h"
@@ -53,7 +53,6 @@
 #include "idxstatus.h"
 #include "powerstatus.h"
 
-using std::list;
 using std::vector;
 using std::map;
 using std::string;
@@ -116,7 +115,7 @@ typedef map<string, RclMonEvent> queue_type;
 // this, the price would be that the RclEQ.empty() call would have to
 // walk the whole queue instead of only looking at the first delays
 // entry.
-typedef list<queue_type::iterator> delays_type;
+typedef vector<queue_type::iterator> delays_type;
 
 // DelayPat stores a path wildcard pattern and a minimum time between
 // reindexes, it is read from the recoll configuration
@@ -479,8 +478,8 @@ bool startMonitor(RclConfig *conf, int opts)
     time_t lastixtime = lastauxtime;
     time_t lastmovetime = 0;
     bool didsomething = false;
-    list<string> modified;
-    list<string> deleted;
+    vector<string> modified;
+    vector<string> deleted;
 
     while (true) {
         time_t now = time(nullptr);
@@ -558,16 +557,18 @@ bool startMonitor(RclConfig *conf, int opts)
             // Used to do the modified list first, but it does seem
             // smarter to make room first...
             if (!deleted.empty()) {
-                deleted.sort();
-                deleted.unique();
+                std::sort(deleted.begin(), deleted.end());
+                auto last = std::unique(deleted.begin(), deleted.end());
+                deleted.erase(last, deleted.end());
                 if (!purgefiles(conf, deleted))
                     break;
                 deleted.clear();
                 didsomething = true;
             }
             if (!modified.empty()) {
-                modified.sort();
-                modified.unique();
+                std::sort(modified.begin(), modified.end());
+                auto last = std::unique(modified.begin(), modified.end());
+                modified.erase(last, modified.end());
                 if (!indexfiles(conf, modified, ConfIndexer::IxFNoTmpDb))
                     break;
                 modified.clear();

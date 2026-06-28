@@ -30,9 +30,9 @@
 #include <getopt.h>
 
 #include <iostream>
-#include <list>
 #include <string>
 #include <cstdlib>
+#include <vector>
 
 using namespace std;
 
@@ -220,7 +220,7 @@ static void setMyPriority(const RclConfig *config)
 
 class MakeListWalkerCB : public FsTreeWalkerCB {
 public:
-    MakeListWalkerCB(list<string>& files, const vector<string>& selpats)
+    MakeListWalkerCB(vector<string>& files, const vector<string>& selpats)
         : m_files(files), m_pats(selpats) {}
     virtual FsTreeWalker::Status processone(
         const string& fn, FsTreeWalker::CbFlag flg, const struct PathStat&) override {
@@ -238,7 +238,7 @@ public:
         }
         return FsTreeWalker::FtwOk;
     }
-    list<string>& m_files;
+    vector<string>& m_files;
     const vector<string>& m_pats;
 };
 
@@ -247,7 +247,7 @@ public:
 // less powerful)
 bool recursive_index(RclConfig *config, const string& top, const vector<string>& selpats)
 {
-    list<string> files;
+    vector<string> files;
     MakeListWalkerCB cb(files, selpats);
     FsTreeWalker walker;
     walker.walk(top, cb);
@@ -271,7 +271,7 @@ bool recursive_index(RclConfig *config, const string& top, const vector<string>&
 // this case we're called repeatedly in the same process, and the
 // confindexer is only created once by makeIndexerOrExit (but the db closed and
 // flushed every time)
-bool indexfiles(RclConfig *config, list<string> &filenames, int flags)
+bool indexfiles(RclConfig *config, vector<string> &filenames, int flags)
 {
     if (filenames.empty())
         return true;
@@ -293,7 +293,7 @@ bool indexfiles(RclConfig *config, list<string> &filenames, int flags)
 }
 
 // Delete a list of files. Same comments about call contexts as indexfiles.
-bool purgefiles(RclConfig *config, list<string> &filenames)
+bool purgefiles(RclConfig *config, vector<string> &filenames)
 {
     if (filenames.empty())
         return true;
@@ -852,7 +852,7 @@ int main(int argc, char *argv[])
         flushIdxReasons();
         exit(status ? 0 : 1);
     } else if (op_flags & (OPT_i|OPT_e)) {
-        list<string> filenames;
+        vector<string> filenames;
         if (aremain == 0) {
             // Read from stdin
             char line[1024];
