@@ -8,8 +8,9 @@
 # 22.04LTS jammy    2027-06
 # 24.04LTS noble    2029-06
 # 25.10    questing 2026-07
+# 26.04    resolute 2031-05
 
-SERIES="jammy noble questing"
+SERIES="jammy noble questing resolute"
 
 PPA_KEYID=7808CE96D38B9201
 
