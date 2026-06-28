@@ -36,6 +36,7 @@ commonoptions=--stringparam section.autolabel 1 \
 # index.html chunk format target replaced by nicer webhelp (needs separate make) in webhelp/ subdir
 all: usermanual.html webh usermanual.pdf
 
+# Webhelp is not packaged on Debian. See readme in webhelp directory to set up
 webh:
 	make -C webhelp
         

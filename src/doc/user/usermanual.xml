@@ -5658,6 +5658,14 @@ for doc in q:
             </varlistentry>
 
             <varlistentry>
+              <term>Query.getfirstmatchpage(doc)</term> <listitem><para>Return a tuple (pagenum,
+              term), pointing to the first match for the document (useful when, e.g. opening a
+              PDF). pagenum is set to -1 if nothing is found (e.g.: the document type has no page
+              numbers). </para></listitem>
+            </varlistentry>
+
+            
+            <varlistentry>
               <term>Query.highlight(text, ishtml = 0, methods = object)</term>
 
               <listitem><para>Will insert <literal>&lt;span "class=rclmatch"></literal>,
