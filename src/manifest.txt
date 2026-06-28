@@ -294,8 +294,8 @@ kde/kioslave/kio_recoll/kio_recoll.h
 kde/kioslave/kio_recoll/recoll.json
 kde/krunner/
 kde/krunner/00README.txt
+kde/krunner/CMakeLists-KF5.txt
 kde/krunner/CMakeLists-KF6.txt
-kde/krunner/CMakeLists.txt
 kde/krunner/recollrunner.cpp
 kde/krunner/recollrunner.h
 kde/krunner/recollrunner.json

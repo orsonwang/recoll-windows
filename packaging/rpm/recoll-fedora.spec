@@ -7,7 +7,7 @@
 
 Summary:        Desktop full text search tool with Qt GUI
 Name:           recoll
-Version:        1.43.17
+Version:        1.44.0
 Release:        4%{?dist}
 # Automatically converted from old format: GPLv2+ - review is highly recommended.
 License:        GPL-2.0-or-later
@@ -23,6 +23,8 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  extra-cmake-modules
 BuildRequires:  file-devel
 BuildRequires:  gcc-c++
+BuildRequires:  jsoncpp-devel
+
 # kio
 %{?kio4:BuildRequires:  kdelibs4-devel}
 BuildRequires:  kf6-kio-devel

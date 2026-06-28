@@ -1,3 +1,18 @@
+recoll (1.44.0-1~ppaPPAVERS~SERIES1) SERIES; urgency=low
+
+  * Archive handlers (zip, rar, 7z, tar): avoid computing the name list
+    multiple times, this is extremely inefficient and could cause an order of
+    magnitude slowdown on, e.g., zip files with a high member count.
+  * krunner: add action to show the result inside its parent folder.
+  * Python extension: add Db.getEnclosing(doc), Db.hasSubDocs(doc), 
+    Db.getSubDocs(doc) and Query.getfirstmatchpage() methods.
+  * Fix (benign) memory leak during querues when simplifying the tree, the
+    pruned subtree was not deleted.
+  * Modify the mbox handler to allow working from memory: avoids creating a
+    temporary file for, e.g., a zipped mbox.
+  
+ -- Jean-Francois Dockes <jf@dockes.org>  Sun, 28 Jun 2026 15:45:00 +0200
+
 recoll (1.43.17-1~ppaPPAVERS~SERIES1) SERIES; urgency=low
 
   * Add disablelibmagic configuration parameter to force mime id command

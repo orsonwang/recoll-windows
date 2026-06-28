@@ -21,6 +21,7 @@ set(qtgui_ui_SOURCES
     webcache.ui
     widgets/editdialog.ui
     widgets/listdialog.ui
+    widgets/htmldialog.ui
     winschedtool.ui
     )
 
@@ -103,6 +104,7 @@ set(qtgui_SOURCES
     webcache.h
     widgets/editdialog.h
     widgets/listdialog.h
+    widgets/htmldialog.h
     widgets/qxtconfirmationmessage.cpp
     widgets/qxtconfirmationmessage.h
     widgets/qxtglobal.h
