@@ -153,7 +153,7 @@
     </message>
     <message>
         <source>Check this to enable filtering on file types</source>
-        <translation>選中這個，以便針對檔案類型進行過濾</translation>
+        <translation>勾選這個，以便針對檔案類型進行過濾</translation>
     </message>
     <message>
         <source>By categories</source>
@@ -161,7 +161,7 @@
     </message>
     <message>
         <source>Check this to use file categories instead of raw mime types</source>
-        <translation>選中這個，以便使用較大的分類，而不使用具體的檔案類型</translation>
+        <translation>勾選這個，以便使用較大的分類，而不使用具體的檔案類型</translation>
     </message>
     <message>
         <source>Close</source>
@@ -209,7 +209,7 @@
     </message>
     <message>
         <source>Check this to enable filtering on dates</source>
-        <translation>選中這個，以便針對日期進行過濾</translation>
+        <translation>勾選這個，以便針對日期進行過濾</translation>
     </message>
     <message>
         <source>Filter dates</source>
@@ -225,7 +225,7 @@
     </message>
     <message>
         <source>Check this to enable filtering on sizes</source>
-        <translation>選中這個，以便針對檔案尺寸進行過濾</translation>
+        <translation>勾選這個，以便針對檔案尺寸進行過濾</translation>
     </message>
     <message>
         <source>Filter sizes</source>
@@ -264,7 +264,7 @@
     </message>
     <message>
         <source>These are pathnames of directories which indexing will not enter.&lt;br&gt;Path elements may contain wildcards. The entries must match the paths seen by the indexer (e.g.: if topdirs includes '/home/me' and '/home' is actually a link to '/usr/home', a correct skippedPath entry would be '/home/me/tmp*', not '/usr/home/me/tmp*')</source>
-        <translation>索引輸入的目錄的路徑名。&lt;br&gt;路徑元素可能包含萬用字元。 條目必須與索引器看到的路徑匹配(例如：如果頂級路徑包含 '/home/me' ，並且 '/home' 實際上是 '/usr/home' 的連結，則正確的相對路徑條目應為 '/home/me/tmp*' ，而不是 '/usr/home/me/tmp*')</translation>
+        <translation>索引輸入的目錄的路徑名。&lt;br&gt;路徑元素可能包含萬用字元。 項目必須與索引器看到的路徑匹配(例如：如果頂級路徑包含 '/home/me' ，並且 '/home' 實際上是 '/usr/home' 的連結，則正確的相對路徑項目應為 '/home/me/tmp*' ，而不是 '/usr/home/me/tmp*')</translation>
     </message>
     <message>
         <source>Stemming languages</source>
@@ -332,7 +332,7 @@
     </message>
     <message>
         <source>&lt;p&gt;These are exceptions to the unac mechanism which, by default, removes all diacritics, and performs canonic decomposition. You can override unaccenting for some characters, depending on your language, and specify additional decompositions, e.g. for ligatures. In each space-separated entry, the first character is the source one, and the rest is the translation.</source>
-        <translation>&lt;p&gt;這是針對unac機制的例外，預設情況下，該機制會刪除所有的判斷資訊，並進行正規的分解。你可以按照自己的語言的特點針對某個字元覆蓋掉口音解除設定，以及指定額外的分解(例如，針對複數)。在每個由空格分隔的條目中，第一個字元是源字元，剩下的就是翻譯。</translation>
+        <translation>&lt;p&gt;這是針對unac機制的例外，預設情況下，該機制會刪除所有的判斷資訊，並進行正規的分解。你可以按照自己的語言的特點針對某個字元覆蓋掉口音解除設定，以及指定額外的分解(例如，針對複數)。在每個由空格分隔的項目中，第一個字元是源字元，剩下的就是翻譯。</translation>
     </message>
     <message>
         <source>Process the WEB history queue</source>
@@ -356,7 +356,7 @@
     </message>
     <message>
         <source>Entries will be recycled once the size is reached.&lt;br&gt;Only increasing the size really makes sense because reducing the value will not truncate an existing file (only waste space at the end).</source>
-        <translation>一旦大小達到，條目將被回收。&lt;br&gt;僅增加大小確實有意義，因為縮小該值不會截斷現有檔案(最後只是浪費空間而已)</translation>
+        <translation>一旦大小達到，項目將被回收。&lt;br&gt;僅增加大小確實有意義，因為縮小該值不會截斷現有檔案(最後只是浪費空間而已)</translation>
     </message>
     <message>
         <source>Automatic diacritics sensitivity</source>
@@ -667,11 +667,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>It seems that manually edited entries exist for recollindex, cannot edit crontab</source>
-        <translation>看起來已經有手動編輯過的recollindex條目了，因此無法編輯crontab</translation>
+        <translation>看起來已經有手動編輯過的recollindex項目了，因此無法編輯crontab</translation>
     </message>
     <message>
         <source>Error installing cron entry. Bad syntax in fields ?</source>
-        <translation>插入cron條目時出錯。請檢查語法。</translation>
+        <translation>插入cron項目時出錯。請檢查語法。</translation>
     </message>
 </context>
 <context>
@@ -722,7 +722,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Select one or several file types, then use the controls in the frame below to change how they are processed</source>
-        <translation type="vanished">選中一個或多個檔案類型，然後使用下面框框中的控制元件來設定要如何處理它們</translation>
+        <translation type="vanished">選取一個或多個檔案類型，然後使用下面框框中的控制元件來設定要如何處理它們</translation>
     </message>
     <message>
         <source>Add</source>
@@ -863,7 +863,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>The tool will let you decide at what time indexing should run and will install a crontab entry.</source>
-        <translation>這個工具幫助你確定一個讓索引執行的時間，它會插入一個crontab條目。</translation>
+        <translation>這個工具幫助你確定一個讓索引執行的時間，它會插入一個crontab項目。</translation>
     </message>
     <message>
         <source>Real time indexing start up</source>
@@ -916,7 +916,7 @@ Click Cancel if you want to edit the configuration file before indexing starts, 
     <message>
         <source>Needs "Show system tray icon" to be set in preferences!
 </source>
-        <translation>需要在偏好設定中選中“顯示工作列圖示”</translation>
+        <translation>需要在偏好設定中選取“顯示工作列圖示”</translation>
     </message>
 </context>
 <context>
@@ -950,7 +950,7 @@ Click Cancel if you want to edit the configuration file before indexing starts, 
     </message>
     <message>
         <source>Select one or several file types, then use the controls in the frame below to change how they are processed</source>
-        <translation>選中一個或多個檔案類型，然後使用下面框框中的控制元件來設定要如何處理它們</translation>
+        <translation>選取一個或多個檔案類型，然後使用下面框框中的控制元件來設定要如何處理它們</translation>
     </message>
     <message>
         <source>Add</source>
@@ -1195,7 +1195,7 @@ Click Cancel if you want to edit the configuration file before indexing starts, 
     </message>
     <message>
         <source>&lt;i&gt;The parameters that follow are set either at the top level, if nothing&lt;br&gt;or an empty line is selected in the listbox above, or for the selected subdirectory.&lt;br&gt;You can add or remove directories by clicking the +/- buttons.</source>
-        <translation type="vanished">&lt;i&gt;以下的引數，當你在上面的列表中不選中任何條目或者選中一個空行時，&lt;br&gt;就是針對頂級目錄起作用的，否則便是對選中的子目錄起作用的。&lt;br&gt;你可以點選+/-按鈕，以便新增或刪除目錄。</translation>
+        <translation type="vanished">&lt;i&gt;以下的引數，當你在上面的列表中不選取任何項目或者選取一個空行時，&lt;br&gt;就是針對頂級目錄起作用的，否則便是對選取的子目錄起作用的。&lt;br&gt;你可以點選+/-按鈕，以便新增或刪除目錄。</translation>
     </message>
     <message>
         <source>Skipped names</source>
@@ -1267,7 +1267,7 @@ Click Cancel if you want to edit the configuration file before indexing starts, 
     </message>
     <message>
         <source>&lt;i&gt;The parameters that follow are set either at the top level, if nothing or an empty line is selected in the listbox above, or for the selected subdirectory. You can add or remove directories by clicking the +/- buttons.</source>
-        <translation>&lt;i&gt;以下的引數，當你在上面的列表中不選中任何條目或者選中一個空行時，&lt;br&gt;就是針對頂級目錄起作用的，否則便是對選中的子目錄起作用的。&lt;br&gt;你可以點選+/-按鈕，以便新增或刪除目錄。</translation>
+        <translation>&lt;i&gt;以下的引數，當你在上面的列表中不選取任何項目或者選取一個空行時，&lt;br&gt;就是針對頂級目錄起作用的，否則便是對選取的子目錄起作用的。&lt;br&gt;你可以點選+/-按鈕，以便新增或刪除目錄。</translation>
     </message>
     <message>
         <source>These are patterns for file or directory names which should not be indexed.</source>
@@ -1331,7 +1331,7 @@ Click Cancel if you want to edit the configuration file before indexing starts, 
     </message>
     <message>
         <source>Save selection to files</source>
-        <translation>將選中內容儲存到檔案中</translation>
+        <translation>將選取內容儲存到檔案中</translation>
     </message>
     <message>
         <source>Preview P&amp;arent document/folder</source>
@@ -1745,7 +1745,7 @@ Do you want to start the  preferences dialog ?</source>
     </message>
     <message>
         <source>Index not up to date for this file. Refusing to risk showing the wrong entry. Click Ok to update the index for this file, then re-run the query when indexing is done. Else, Cancel.</source>
-        <translation type="vanished">此檔案的索引已過時。程式拒絕顯示錯誤的條目。請點選確定以更新此檔案的索引，等待索引完成之後再查詢。或者，取消。</translation>
+        <translation type="vanished">此檔案的索引已過時。程式拒絕顯示錯誤的項目。請點選確定以更新此檔案的索引，等待索引完成之後再查詢。或者，取消。</translation>
     </message>
     <message>
         <source>Can't update index: indexer running</source>
@@ -1779,7 +1779,7 @@ Please check the mimeview file</source>
     </message>
     <message>
         <source>Index not up to date for this file. Refusing to risk showing the wrong entry.</source>
-        <translation type="vanished">此檔案的索引內容不是最新的。如果妳按拒絕，則需要自行承擔顯示錯誤條目的風險。</translation>
+        <translation type="vanished">此檔案的索引內容不是最新的。如果妳按拒絕，則需要自行承擔顯示錯誤項目的風險。</translation>
     </message>
     <message>
         <source>Click Ok to update the index for this file, then re-run the query when indexing is done. Else, Cancel.</source>
@@ -1799,7 +1799,7 @@ Please check the mimeview file</source>
     </message>
     <message>
         <source>Index not up to date for this file. Refusing to risk showing the wrong entry. </source>
-        <translation type="vanished">此檔案的索引不是最新的。拒絕顯示錯誤條目的風險。 </translation>
+        <translation type="vanished">此檔案的索引不是最新的。拒絕顯示錯誤項目的風險。 </translation>
     </message>
     <message>
         <source>Click Ok to update the index for this file, then you will need to re-run the query when indexing is done. </source>
@@ -2000,7 +2000,7 @@ Please check the desktop file</source>
     </message>
     <message>
         <source>Click Cancel to return to the list.&lt;br&gt;Click Ignore to show the preview anyway (and remember for this session). There is a risk of showing the wrong entry.&lt;br/&gt;</source>
-        <translation>點選“取消”返回到列表。&lt;br&gt;點選“忽略”以始終顯示預覽(並記住此會話)，有顯示錯誤條目的風險。&lt;br/&gt;</translation>
+        <translation>點選“取消”返回到列表。&lt;br&gt;點選“忽略”以始終顯示預覽(並記住此會話)，有顯示錯誤項目的風險。&lt;br/&gt;</translation>
     </message>
     <message>
         <source>documents</source>
@@ -3017,7 +3017,7 @@ Do you want to start the preferences dialog ?</source>
     </message>
     <message>
         <source>Save selection to files</source>
-        <translation type="vanished">將選中內容儲存到檔案中</translation>
+        <translation type="vanished">將選取內容儲存到檔案中</translation>
     </message>
     <message>
         <source>Preview P&amp;arent document/folder</source>
@@ -3068,7 +3068,7 @@ Do you want to start the preferences dialog ?</source>
     </message>
     <message>
         <source>Select an item:</source>
-        <translation type="vanished">選擇一個條目：</translation>
+        <translation type="vanished">選擇一個項目：</translation>
     </message>
     <message>
         <source>Too many completions</source>
@@ -3374,7 +3374,7 @@ Use &lt;b&gt;Show Query&lt;/b&gt; link when in doubt about result and see manual
     </message>
     <message>
         <source>Erase search entry</source>
-        <translation>刪除搜尋條目</translation>
+        <translation>刪除搜尋項目</translation>
     </message>
     <message>
         <source>Search</source>
@@ -3441,7 +3441,7 @@ Use &lt;b&gt;Show Query&lt;/b&gt; link when in doubt about result and see manual
     </message>
     <message>
         <source>Number of additional words that may be interspersed with the chosen ones</source>
-        <translation>允許在選中的詞語之間出現的額外詞語的個數</translation>
+        <translation>允許在選取的詞語之間出現的額外詞語的個數</translation>
     </message>
     <message>
         <source>In field</source>
@@ -3806,7 +3806,7 @@ Use &lt;b&gt;Show Query&lt;/b&gt; link when in doubt about result and see manual
     </message>
     <message>
         <source>Item</source>
-        <translation>條目</translation>
+        <translation>項目</translation>
     </message>
     <message>
         <source>Value</source>
@@ -3867,7 +3867,7 @@ Use &lt;b&gt;Show Query&lt;/b&gt; link when in doubt about result and see manual
     <name>UIPrefsDialog</name>
     <message>
         <source>The selected directory does not appear to be a Xapian index</source>
-        <translation>選中的目錄不是Xapian索引</translation>
+        <translation>選取的目錄不是Xapian索引</translation>
     </message>
     <message>
         <source>This is the main/local index!</source>
@@ -3875,7 +3875,7 @@ Use &lt;b&gt;Show Query&lt;/b&gt; link when in doubt about result and see manual
     </message>
     <message>
         <source>The selected directory is already in the index list</source>
-        <translation>選中的目錄已經在索引列表中</translation>
+        <translation>選取的目錄已經在索引列表中</translation>
     </message>
     <message>
         <source>Select xapian index directory (ie: /home/buddy/.recoll/xapiandb)</source>
@@ -3903,11 +3903,11 @@ Use &lt;b&gt;Show Query&lt;/b&gt; link when in doubt about result and see manual
     </message>
     <message>
         <source>The selected directory looks like a Recoll configuration directory but the configuration could not be read</source>
-        <translation>所選中的目錄看起來像是一個Recoll配置目錄，但是其中的配置內容無法讀取</translation>
+        <translation>所選取的目錄看起來像是一個Recoll配置目錄，但是其中的配置內容無法讀取</translation>
     </message>
     <message>
         <source>At most one index should be selected</source>
-        <translation>最多應當選中一個索引</translation>
+        <translation>最多應當選取一個索引</translation>
     </message>
     <message>
         <source>Cant add index with different case/diacritics stripping option</source>
@@ -3982,7 +3982,7 @@ Use &lt;b&gt;Show Query&lt;/b&gt; link when in doubt about result and see manual
     </message>
     <message>
         <source>Number of entries in a result page</source>
-        <translation type="vanished">一個結果頁面中顯示的結果條數</translation>
+        <translation type="vanished">每頁顯示的結果筆數</translation>
     </message>
     <message>
         <source>Result list font</source>
@@ -4031,7 +4031,7 @@ Use &lt;b&gt;Show Query&lt;/b&gt; link when in doubt about result and see manual
     <message>
         <source>Do we try to build abstracts for result list entries by using the context of query terms ? 
 May be slow for big documents.</source>
-        <translation type="vanished">是否要使用查詢詞語周圍的上下文來構造結果列表條目中的摘要？
+        <translation type="vanished">是否要使用查詢詞語周圍的上下文來構造結果列表項目中的摘要？
 對於大的檔案可能會很慢。</translation>
     </message>
     <message>
@@ -4154,7 +4154,7 @@ This should give higher precedence to the results where the search terms appear 
     </message>
     <message>
         <source>If checked, results with the same content under different names will only be shown once.</source>
-        <translation type="vanished">如果選中這個，則擁有相同檔案內容的不同檔名只會顯示一個。</translation>
+        <translation type="vanished">如果勾選這個，則擁有相同檔案內容的不同檔名只會顯示一個。</translation>
     </message>
     <message>
         <source>Hide duplicate results.</source>
@@ -4205,7 +4205,7 @@ This should give higher precedence to the results where the search terms appear 
     </message>
     <message>
         <source>Changing entries with different current values</source>
-        <translation>正在使用不同的目前值來修改條目</translation>
+        <translation>正在使用不同的目前值來修改項目</translation>
     </message>
 </context>
 <context>
@@ -4220,7 +4220,7 @@ This should give higher precedence to the results where the search terms appear 
     </message>
     <message>
         <source>Select one or several file types, then click Change Action to modify the program used to open them</source>
-        <translation type="vanished">選中一個或多個檔案類型，然後點選“修改動作”來修改用來開啟這些檔案的程式</translation>
+        <translation type="vanished">選取一個或多個檔案類型，然後點選“修改動作”來修改用來開啟這些檔案的程式</translation>
     </message>
     <message>
         <source>Change Action</source>
@@ -4236,11 +4236,11 @@ This should give higher precedence to the results where the search terms appear 
     </message>
     <message>
         <source>Select one or several mime types then click "Change Action"&lt;br&gt;You can also close this dialog and check "Use desktop preferences"&lt;br&gt;in the main panel to ignore this list and use your desktop defaults.</source>
-        <translation type="vanished">選中一個或多個檔案類型祟點選“修改動作”&lt;br&gt;或者可以關閉這個對話方塊，而在主面板中選中“使用桌面預設設定”&lt;br&gt;那樣就會無視這個列表而使用桌面的預設設定。</translation>
+        <translation type="vanished">選取一個或多個檔案類型，然後點選“修改動作”&lt;br&gt;或者可以關閉這個對話方塊，而在主面板中選取“使用桌面預設設定”&lt;br&gt;那樣就會無視這個列表而使用桌面的預設設定。</translation>
     </message>
     <message>
         <source>Select one or several mime types then use the controls in the bottom frame to change how they are processed.</source>
-        <translation>選中一個或多個檔案類型，然後使用下面框框中的控制元件來設定要如何處理它們。</translation>
+        <translation>選取一個或多個檔案類型，然後使用下面框框中的控制元件來設定要如何處理它們。</translation>
     </message>
     <message>
         <source>Use Desktop preferences by default</source>
@@ -4248,7 +4248,7 @@ This should give higher precedence to the results where the search terms appear 
     </message>
     <message>
         <source>Select one or several file types, then use the controls in the frame below to change how they are processed</source>
-        <translation>選中一個或多個檔案類型，然後使用下面框框中的控制元件來設定要如何處理它們</translation>
+        <translation>選取一個或多個檔案類型，然後使用下面框框中的控制元件來設定要如何處理它們</translation>
     </message>
     <message>
         <source>Exception to Desktop preferences</source>
@@ -4272,7 +4272,7 @@ This should give higher precedence to the results where the search terms appear 
     </message>
     <message>
         <source>Select same</source>
-        <translation>選中相同的項</translation>
+        <translation>選取相同的項</translation>
     </message>
     <message>
         <source>&lt;b&gt;New Values:&lt;/b&gt;</source>
@@ -4314,7 +4314,7 @@ This should give higher precedence to the results where the search terms appear 
     </message>
     <message>
         <source>Delete selection</source>
-        <translation>刪除選中內容</translation>
+        <translation>刪除選取內容</translation>
     </message>
     <message>
         <source>Webcache was modified, you will need to run the indexer after closing this window.</source>
@@ -4413,7 +4413,7 @@ This should give higher precedence to the results where the search terms appear 
     </message>
     <message>
         <source>Entries will be recycled once the size is reached</source>
-        <translation type="vanished">當尺寸達到設定值時，這些條目會被迴圈使用</translation>
+        <translation type="vanished">當尺寸達到設定值時，這些項目會被迴圈使用</translation>
     </message>
     <message>
         <source>Web page store directory name</source>
@@ -4437,7 +4437,7 @@ This should give higher precedence to the results where the search terms appear 
     </message>
     <message>
         <source>Entries will be recycled once the size is reached.&lt;br&gt;Only increasing the size really makes sense because reducing the value will not truncate an existing file (only waste space at the end).</source>
-        <translation type="vanished">一旦大小達到，條目將被回收。&lt;br&gt;僅增加大小確實有意義，因為縮小該值不會截斷現有檔案(最後只是浪費空間而已)</translation>
+        <translation type="vanished">一旦大小達到，項目將被回收。&lt;br&gt;僅增加大小確實有意義，因為縮小該值不會截斷現有檔案(最後只是浪費空間而已)</translation>
     </message>
 </context>
 <context>
@@ -4474,11 +4474,11 @@ This should give higher precedence to the results where the search terms appear 
     </message>
     <message>
         <source>Add entry</source>
-        <translation>新增條目</translation>
+        <translation>新增項目</translation>
     </message>
     <message>
         <source>Delete selected entries</source>
-        <translation>刪除選中的條目</translation>
+        <translation>刪除選取的項目</translation>
     </message>
     <message>
         <source>~</source>
@@ -4486,7 +4486,7 @@ This should give higher precedence to the results where the search terms appear 
     </message>
     <message>
         <source>Edit selected entries</source>
-        <translation>編輯選中的條目</translation>
+        <translation>編輯選取的項目</translation>
     </message>
 </context>
 <context>
@@ -4618,7 +4618,7 @@ This will help searching very big text  files (ie: log files).</source>
     </message>
     <message>
         <source>These are names of directories which indexing will not enter.&lt;br&gt; May contain wildcards. Must match the paths seen by the indexer (ie: if topdirs includes '/home/me' and '/home' is actually a link to '/usr/home', a correct skippedPath entry would be '/home/me/tmp*', not '/usr/home/me/tmp*')</source>
-        <translation type="vanished">索引程序不會進入具有這些名字的目錄。&lt;br&gt;可以包含萬用字元。必須匹配索引程序自身所見到的路徑(例如：如果topdirs包含'/home/me'，而實際上'/home'是到'/usr/home'的連結，則正確的skippedPath條目應當是'/home/me/tmp*'，而不是'/usr/home/me/tmp*')</translation>
+        <translation type="vanished">索引程序不會進入具有這些名字的目錄。&lt;br&gt;可以包含萬用字元。必須匹配索引程序自身所見到的路徑(例如：如果topdirs包含'/home/me'，而實際上'/home'是到'/usr/home'的連結，則正確的skippedPath項目應當是'/home/me/tmp*'，而不是'/usr/home/me/tmp*')</translation>
     </message>
     <message>
         <source>Stemming languages</source>
@@ -4706,11 +4706,11 @@ This will help searching very big text  files (ie: log files).</source>
     </message>
     <message>
         <source>&lt;p&gt;These are exceptions to the unac mechanism which, by default, removes all diacritics, and performs canonic decomposition. You can override unaccenting for some characters, depending on your language, and specify additional decompositions, e.g. for ligatures. In each space-separated entry, the first character is the source one, and the rest is the translation.</source>
-        <translation type="vanished">&lt;p&gt;這是針對unac機制的例外，預設情況下，該機制會刪除所有的判斷資訊，並進行正規的分解。妳可以按照自己的語言的特點針對某個字元覆蓋掉口音解除設定，以及指定額外的分解(例如，針對複數)。在每個由空格分隔的條目中，第一個字元是源字元，剩下的就是翻譯。</translation>
+        <translation type="vanished">&lt;p&gt;這是針對unac機制的例外，預設情況下，該機制會刪除所有的判斷資訊，並進行正規的分解。妳可以按照自己的語言的特點針對某個字元覆蓋掉口音解除設定，以及指定額外的分解(例如，針對複數)。在每個由空格分隔的項目中，第一個字元是源字元，剩下的就是翻譯。</translation>
     </message>
     <message>
         <source>These are pathnames of directories which indexing will not enter.&lt;br&gt;Path elements may contain wildcards. The entries must match the paths seen by the indexer (e.g.: if topdirs includes '/home/me' and '/home' is actually a link to '/usr/home', a correct skippedPath entry would be '/home/me/tmp*', not '/usr/home/me/tmp*')</source>
-        <translation type="vanished">索引輸入的目錄的路徑名。&lt;br&gt;路徑元素可能包含萬用字元。 條目必須與索引器看到的路徑匹配(例如：如果頂級路徑包含 '/home/me' ，並且 '/home' 實際上是 '/usr/home' 的連結，則正確的相對路徑條目應為 '/home/me/tmp*' ，而不是 '/usr/home/me/tmp*')</translation>
+        <translation type="vanished">索引輸入的目錄的路徑名。&lt;br&gt;路徑元素可能包含萬用字元。 項目必須與索引器看到的路徑匹配(例如：如果頂級路徑包含 '/home/me' ，並且 '/home' 實際上是 '/usr/home' 的連結，則正確的相對路徑項目應為 '/home/me/tmp*' ，而不是 '/usr/home/me/tmp*')</translation>
     </message>
     <message>
         <source>Max disk occupation (%, 0 means no limit)</source>
@@ -4733,11 +4733,11 @@ This will help searching very big text  files (ie: log files).</source>
     </message>
     <message>
         <source>Number of entries in a result page</source>
-        <translation>一個結果頁面中顯示的結果條數</translation>
+        <translation>每頁顯示的結果筆數</translation>
     </message>
     <message>
         <source>If checked, results with the same content under different names will only be shown once.</source>
-        <translation>如果選中這個，則擁有相同檔案內容的不同檔名只會顯示一個。</translation>
+        <translation>如果勾選這個，則擁有相同檔案內容的不同檔名只會顯示一個。</translation>
     </message>
     <message>
         <source>Hide duplicate results.</source>
@@ -4836,7 +4836,7 @@ This should give higher precedence to the results where the search terms appear 
     <message>
         <source>Do we try to build abstracts for result list entries by using the context of query terms ? 
 May be slow for big documents.</source>
-        <translation>是否要使用查詢詞語周圍的上下文來構造結果列表條目中的摘要？
+        <translation>是否要使用查詢詞語周圍的上下文來構造結果列表項目中的摘要？
 對於大的檔案可能會很慢。</translation>
     </message>
     <message>
@@ -5382,7 +5382,7 @@ The default value is 2 (percent). </source>
     </message>
     <message>
         <source>The completion only changes the entry when activated.</source>
-        <translation>只有在啟用時完成才會更改條目。</translation>
+        <translation>只有在啟用時完成才會更改項目。</translation>
     </message>
     <message>
         <source>Completion: no automatic line editing.</source>
