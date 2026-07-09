@@ -186,6 +186,16 @@ class PDFExtractor:
                 self._initextrameta()
         # self.em.rclog(f"PDFINFOVERSION {self.pdfinfoversion}")
 
+        # Use "pdftotext -raw" (keep text in content-stream order) instead of the
+        # default position-based layout analysis. The default algorithm derives word
+        # boundaries from inter-glyph gaps, which mis-fires on PDFs that position each
+        # glyph individually (e.g. justified text or some standards documents),
+        # inserting spurious spaces inside words ("publishing" -> "pu bli sh in g") and
+        # making those words unsearchable. "-raw" reads the actual content-stream
+        # strings, preserving words, at the cost of possibly worse reading order for
+        # complex multi-column layouts. Off by default (upstream behaviour).
+        self.rawtext = rclexecm.configparamtrue(self.config.getConfParam("pdftotextraw"))
+
         # Extracting the outline / bookmarks needs still another poppler command...
         self.dooutline = self.config.getConfParam("pdfoutline")
         if self.dooutline:
@@ -662,8 +672,12 @@ class PDFExtractor:
         else:
             eof = rclexecm.RclExecM.noteof
 
+        cmd = [self.pdftotext, "-htmlmeta", "-enc", "UTF-8", "-eol", "unix", "-q"]
+        if self.rawtext:
+            cmd.append("-raw")
+        cmd += [self.filename, "-"]
         process = subprocess.Popen(
-            [self.pdftotext, "-htmlmeta", "-enc", "UTF-8", "-eol", "unix", "-q", self.filename, "-"],
+            cmd,
             stdout=subprocess.PIPE,
         )
 
