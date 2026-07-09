@@ -63,8 +63,9 @@ using std::map;
 using std::list;
 
 static std::vector<std::pair<QString, QString>> uilanguages{
-    {"", ""},    
-    {"Chinese", "zh_CN"},
+    {"", ""},
+    {"Chinese (Simplified)", "zh_CN"},
+    {"Chinese (Traditional)", "zh_TW"},
     {"Czech", "cs"},
     {"Danish", "da"},
     {"Dutch", "nl"},
