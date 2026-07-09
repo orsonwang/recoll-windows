@@ -25,9 +25,6 @@ HEADERS += \
         fragbuts.h \
         idxmodel.h \
         idxsched.h \
-        preview_load.h \
-        preview_plaintorich.h \
-        preview_w.h \
         ptrans_w.h \
         rclhelp.h \
         rclmain_w.h \
@@ -36,7 +33,6 @@ HEADERS += \
         restable.h \
         scbase.h \
         searchclause_w.h \
-        snippets_w.h \
         specialindex.h \
         spell_w.h \
         ssearch_w.h \
@@ -61,15 +57,10 @@ SOURCES += \
         idxmodel.cpp \
         main.cpp \
         multisave.cpp \
-        preview_load.cpp \
-        preview_plaintorich.cpp \
-        preview_w.cpp \
         ptrans_w.cpp \
-        pv_search.cpp \
         rclhelp.cpp \
         rclm_idx.cpp \
         rclm_menus.cpp \
-        rclm_preview.cpp \
         rclm_saveload.cpp \
         rclm_sidefilters.cpp \
         rclm_view.cpp \
@@ -81,7 +72,6 @@ SOURCES += \
         restable.cpp \
         scbase.cpp \
         searchclause_w.cpp \
-        snippets_w.cpp \
         spell_w.cpp \
         ssearch_w.cpp \
         systray.cpp \
@@ -97,11 +87,9 @@ FORMS   = \
         configswitch.ui \
         firstidx.ui \
         idxsched.ui \
-        preview.ui \
         ptrans.ui \
         rclmain.ui \
         restable.ui \
-        snippets.ui \
         specialindex.ui \
         spell.ui \
         ssearchb.ui \

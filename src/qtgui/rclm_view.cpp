@@ -80,12 +80,12 @@ void RclMain::viewUrl()
     m_source = std::shared_ptr<DocSequence>(src);
 
 
-    // Start a native viewer if the mimetype has one defined, else a preview.
+    // Start a native viewer, opening the file in its external application.
     string apptag;
     doc.getmeta(Rcl::Doc::keyapptg, &apptag);
     string viewer = theconfig->getMimeViewerDef(doc.mimetype, apptag, prefs.useDesktopOpen);
     if (viewer.empty()) {
-        startPreview(doc);
+        startNativeViewer(doc);
     } else {
         hide();
         startNativeViewer(doc);

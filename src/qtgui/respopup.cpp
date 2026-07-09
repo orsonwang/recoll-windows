@@ -55,8 +55,6 @@ QMenu *create(QWidget *me, int opts, std::shared_ptr<DocSequence> source, Rcl::D
     // Is this a top level file system file (accessible by regular utilities)?
     bool isFsTop = doc.ipath.empty() && doc.isFsFile();
 
-    popup->addAction(QWidget::tr("&Preview"), me, SLOT(menuPreview()));
-
     if (!theconfig->getMimeViewerDef(doc.mimetype, apptag, 0).empty()) {
         popup->addAction(QWidget::tr("&Open"), me, SLOT(menuEdit()));
     }
@@ -117,8 +115,6 @@ QMenu *create(QWidget *me, int opts, std::shared_ptr<DocSequence> source, Rcl::D
     Rcl::Doc pdoc;
     bool isEnclosed = source && source->getEnclosing(doc, pdoc);
     if (isEnclosed) {
-        popup->addAction(QWidget::tr("Preview P&arent document/folder"),
-                         me, SLOT(menuPreviewParent()));
         popup->addAction(QWidget::tr("&Open Parent document"), me, SLOT(menuOpenParent()));
     }
     if (doc.isFsFile())
@@ -127,10 +123,7 @@ QMenu *create(QWidget *me, int opts, std::shared_ptr<DocSequence> source, Rcl::D
     if (opts & showExpand)
         popup->addAction(QWidget::tr("Find &similar documents"), me, SLOT(menuExpand()));
 
-    if (doc.haspages && source && source->snippetsCapable()) 
-        popup->addAction(QWidget::tr("Open &Snippets window"), me, SLOT(menuShowSnippets()));
-
-    if ((opts & showSubs) && rcldb && rcldb->hasSubDocs(doc)) 
+    if ((opts & showSubs) && rcldb && rcldb->hasSubDocs(doc))
         popup->addAction(QWidget::tr("Show subdocuments / attachments"),
                          me, SLOT(menuShowSubDocs()));
 

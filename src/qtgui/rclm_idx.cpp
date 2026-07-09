@@ -34,7 +34,6 @@
 #include "rclmain_w.h"
 #include "specialindex.h"
 #include "readfile.h"
-#include "snippets_w.h"
 #include "idxstatus.h"
 #include "conftree.h"
 
@@ -404,7 +403,6 @@ void RclMain::rebuildIndex()
             // !! to restart the GUI to succeed in reindexing.
             if (rcldb) {
                 resetSearch();
-                deleteZ(m_snippets);
                 rcldb->close();
             }
 #endif // _WIN32

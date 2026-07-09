@@ -30,7 +30,6 @@
 #include "crontool.h"
 #include "rtitool.h"
 #endif
-#include "snippets_w.h"
 #include "fragbuts.h"
 #include "specialindex.h"
 #include "rclmain_w.h"
@@ -481,34 +480,6 @@ void RclMain::newDupsW(const Rcl::Doc, const vector<Rcl::Doc> dups)
     m_dupsw->setDocSource(source);
     m_dupsw->readDocSource();
     m_dupsw->show();
-}
-
-void RclMain::showSnippets(Rcl::Doc doc)
-{
-    if (!m_source)
-        return;
-    if (!m_snippets) {
-        m_snippets = new SnippetsW(doc, m_source);
-        connect(m_snippets, SIGNAL(startNativeViewer(Rcl::Doc, int, QString, int)),
-                this, SLOT(startNativeViewer(Rcl::Doc, int, QString, int)));
-        connect(m_snippets, SIGNAL(zoomIn()), this, SLOT(zoomIn()));
-        connect(m_snippets, SIGNAL(zoomOut()), this, SLOT(zoomOut()));
-        connect(this, SIGNAL(uiPrefsChanged()), m_snippets, SLOT(onUiPrefsChanged()));
-        connect(new QShortcut(quitKeySeq, m_snippets), SIGNAL (activated()),
-                this, SLOT (fileExit()));
-        connect(new QShortcut(closeKeySeq, m_snippets), SIGNAL (activated()), 
-                m_snippets, SLOT (close()));
-        if (restable) {
-            connect(
-                restable,
-                SIGNAL(detailDocChanged(Rcl::Doc, std::shared_ptr<DocSequence>)),
-                m_snippets,
-                SLOT(onSetDoc(Rcl::Doc, std::shared_ptr<DocSequence>)));
-        }
-    } else {
-        m_snippets->onSetDoc(doc, m_source);
-    }
-    m_snippets->show();
 }
 
 void RclMain::showActionsSearch()

@@ -781,10 +781,6 @@ void ResTable::onNewShortcuts()
     SETSHORTCUT(this, "restable:706", tr("Result Table"),
                 tr("Open current result and quit"),
                 "Ctrl+Alt+Shift+O", m_openquitsc, menuEditAndQuit);
-    SETSHORTCUT(this, "restable:709", tr("Result Table"), tr("Preview"),
-                "Ctrl+D", m_previewsc, menuPreview);
-    SETSHORTCUT(this, "restable:711", tr("Result Table"), tr("Show snippets"),
-                "Ctrl+E", m_showsnipssc, menuShowSnippets);
     SETSHORTCUT(this, "restable:713", tr("Result Table"), tr("Show header"),
                 "Ctrl+H", m_showheadersc, toggleHeader);
     SETSHORTCUT(this, "restable:715", tr("Result Table"),
@@ -797,7 +793,7 @@ void ResTable::onNewShortcuts()
                 tr("Copy result text and quit"),
                 "Ctrl+Alt+Shift+G", m_copycurtextquitsc, menuCopyTextAndQuit);
     std::vector<QShortcut*> scps={
-        m_opensc, m_openquitsc, m_previewsc, m_showsnipssc, m_showheadersc,
+        m_opensc, m_openquitsc, m_showheadersc,
         m_showvheadersc, m_copycurtextsc, m_copycurtextquitsc};
     for (auto& scp : scps) {
         scp->setContext(Qt::WidgetWithChildrenShortcut);
@@ -835,10 +831,8 @@ void ResTable::setRclMain(RclMain *m, bool ismain)
         new QShortcut(closeKeySeq, this, SLOT (close()));
     }
 
-    connect(this, SIGNAL(previewRequested(Rcl::Doc)), m_rclmain, SLOT(startPreview(Rcl::Doc)));
     connect(this, SIGNAL(editRequested(Rcl::Doc)), m_rclmain, SLOT(startNativeViewer(Rcl::Doc)));
     connect(this, SIGNAL(docSaveToFileClicked(Rcl::Doc)), m_rclmain, SLOT(saveDocToFile(Rcl::Doc)));
-    connect(this, SIGNAL(showSnippets(Rcl::Doc)), m_rclmain, SLOT(showSnippets(Rcl::Doc)));
 }
 
 void ResTable::toggleHeader()
@@ -1163,10 +1157,6 @@ void ResTable::onLinkClicked(const QUrl &qurl)
     }
     
     switch (what) {
-        // Open abstract/snippets window
-    case 'A':
-        emit showSnippets(m_detaildoc);
-        break;
     case 'D':
     {
         vector<Rcl::Doc> dups;
@@ -1186,15 +1176,7 @@ void ResTable::onLinkClicked(const QUrl &qurl)
     case 'P':
     case 'E':
     {
-        if (what == 'P') {
-            if (m_ismainres) {
-                emit docPreviewClicked(docseqnum, m_detaildoc, 0);
-            }  else {
-                emit previewRequested(m_detaildoc);
-            }
-        } else {
-            emit editRequested(m_detaildoc);
-        }
+        emit editRequested(m_detaildoc);
     }
     break;
 
@@ -1277,13 +1259,8 @@ void ResTable::createPopupMenu(const QPoint& pos)
 
 void ResTable::menuPreview()
 {
-    if (m_detaildocnum >= 0) {
-        if (m_ismainres) {
-            emit docPreviewClicked(m_detaildocnum, m_detaildoc, 0);
-        } else {
-            emit previewRequested(m_detaildoc);
-        }
-    }
+    if (m_detaildocnum >= 0)
+        emit editRequested(m_detaildoc);
 }
 
 void ResTable::menuSaveToFile()
@@ -1319,11 +1296,7 @@ void ResTable::menuPreviewParent()
         m_model->getDocSource()) {
         Rcl::Doc pdoc = ResultPopup::getParent(m_model->getDocSource(),
                                                m_detaildoc);
-        if (pdoc.mimetype == "inode/directory") {
-            emit editRequested(pdoc);
-        } else {
-            emit previewRequested(pdoc);
-        }
+        emit editRequested(pdoc);
     }
 }
 
@@ -1427,12 +1400,6 @@ void ResTable::menuExpand()
 {
     if (m_detaildocnum >= 0)
         emit docExpand(m_detaildoc);
-}
-
-void ResTable::menuShowSnippets()
-{
-    if (m_detaildocnum >= 0)
-        emit showSnippets(m_detaildoc);
 }
 
 void ResTable::menuShowSubDocs()

@@ -35,10 +35,8 @@
 #include "rclutil.h"
 #include "htmldialog.h"
 
-class SnippetsW;
 class IdxSchedW;
 class ExecCmd;
-class Preview;
 class ResTable;
 class CronToolW;
 class WinSchedToolW;
@@ -112,7 +110,6 @@ public slots:
     virtual void rebuildIndex();
     virtual void specialIndex();
     virtual void startSearch(std::shared_ptr<Rcl::SearchData> sdata, bool issimple);
-    virtual void previewClosed(Preview *w);
     virtual void showAdvSearchDialog();
     virtual void showSpellDialog();
     virtual void showWebcacheDialog();
@@ -148,18 +145,12 @@ public slots:
     virtual void enablePrevPage(bool);
     virtual void docExpand(Rcl::Doc);
     virtual void showSubDocs(Rcl::Doc);
-    virtual void showSnippets(Rcl::Doc);
     virtual void showActionsSearch();
-    virtual void startPreview(int docnum, Rcl::Doc doc, int keymods);
-    virtual void startPreview(Rcl::Doc);
     virtual void startNativeViewer(Rcl::Doc, int pagenum = -1, QString term = QString(),
                                    int line = -1, bool enterHistory=true);
     virtual void openWith(Rcl::Doc, std::string);
     virtual void saveDocToFile(Rcl::Doc);
     virtual void populateSideFilters(RclMain::SideFilterUpdateReason);
-    virtual void previewNextInTab(Preview *, int sid, int docnum);
-    virtual void previewPrevInTab(Preview *, int sid, int docnum);
-    virtual void previewExposed(Preview *, int sid, int docnum);
     virtual void resetSearch();
     virtual void eraseDocHistory();
     virtual void eraseSearchHistory();
@@ -213,8 +204,6 @@ protected:
 
 
 private:
-    SnippetsW      *m_snippets{0};
-    Preview        *curPreview{0};
     AdvSearch      *asearchform{0};
     UIPrefsDialog  *uiprefs{0};
     ConfIndexW     *indexConfig{0};
@@ -298,8 +287,6 @@ private:
     
     virtual void init();
     virtual void setupResTB(bool combo);
-    virtual void previewPrevOrNextInTab(Preview *, int sid, int docnum,
-                                        bool next);
     // flags may contain ExecCmd::EXF_xx values
     virtual void execViewer(const std::map<std::string, std::string>& subs, bool enterHistory,
                             const std::string& execpath, const std::vector<std::string>& lcmd,
@@ -312,7 +299,6 @@ private:
     virtual void showRTITool(bool modal);
     virtual void updateIdxForDocs(std::vector<Rcl::Doc>&);
     virtual void initiateQuery();
-    virtual bool containerUpToDate(Rcl::Doc& doc);
     virtual bool checkIdxPaths();
     virtual std::vector<std::string> idxTreeGetDirs();
     virtual void resultsSetFixedGeometry();

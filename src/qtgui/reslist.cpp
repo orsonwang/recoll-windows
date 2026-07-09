@@ -51,8 +51,8 @@
 #include "plaintorich.h"
 #include "internfile.h"
 #include "indexer.h"
-#include "snippets_w.h"
 #include "listdialog.h"
+#include "rclmain_w.h"
 #include "reslist.h"
 #include "moc_reslist.cpp"
 #include "rclhelp.h"
@@ -352,9 +352,7 @@ ResList::~ResList()
         QT_TR_NOOP("Previous"),
         QT_TR_NOOP("Next"),
         QT_TR_NOOP("Unavailable document"),
-        QT_TR_NOOP("Preview"),
         QT_TR_NOOP("Open"),
-        QT_TR_NOOP("Snippets"),
         QT_TR_NOOP("(show query)"),
         QT_TR_NOOP("<p><i>Alternate spellings (accents suppressed): </i>"),
         QT_TR_NOOP("<p><i>Alternate spellings: </i>"),
@@ -370,11 +368,9 @@ void ResList::setRclMain(RclMain *m, bool ismain)
     if (!m_ismainres) {
         connect(new QShortcut(closeKeySeq, this), SIGNAL (activated()), 
                 this, SLOT (close()));
-        connect(new QShortcut(quitKeySeq, this), SIGNAL (activated()), 
+        connect(new QShortcut(quitKeySeq, this), SIGNAL (activated()),
                 m_rclmain, SLOT (fileExit()));
-        connect(this, SIGNAL(previewRequested(Rcl::Doc)), 
-                m_rclmain, SLOT(startPreview(Rcl::Doc)));
-        connect(this, SIGNAL(docSaveToFileClicked(Rcl::Doc)), 
+        connect(this, SIGNAL(docSaveToFileClicked(Rcl::Doc)),
                 m_rclmain, SLOT(saveDocToFile(Rcl::Doc)));
         connect(this, SIGNAL(editRequested(Rcl::Doc)), 
                 m_rclmain, SLOT(startNativeViewer(Rcl::Doc)));
@@ -482,7 +478,6 @@ void ResList::setDocSource(std::shared_ptr<DocSequence> nsource)
 void ResList::readDocSource()
 {
     LOGDEB("ResList::readDocSource()\n");
-    m_curPvDoc = -1;
     if (!m_source)
         return;
     m_listId = newListId();
@@ -501,10 +496,9 @@ void ResList::resetList()
     resetView();
 }
 
-void ResList::resetView() 
+void ResList::resetView()
 {
-    m_curPvDoc = -1;
-    // There should be a progress bar for long searches but there isn't 
+    // There should be a progress bar for long searches but there isn't
     // We really want the old result list to go away, otherwise, for a
     // slow search, the user will wonder if anything happened. The
     // following helps making sure that the textedit is really
@@ -889,92 +883,6 @@ void ResList::displayPage()
             " atBot " << scrollIsAtBottom() << " hasPrev " <<
             m_pager->hasPrev() << " at Top " << scrollIsAtTop() << " \n");
     QTimer::singleShot(100, this, SLOT(setupArrows()));
-
-    // Possibly color paragraph of current preview if any
-    previewExposed(m_curPvDoc);
-}
-
-// Color paragraph (if any) of currently visible preview
-void ResList::previewExposed(int docnum)
-{
-    LOGDEB("ResList::previewExposed: doc " << docnum << "\n");
-
-    // Possibly erase old one to white
-    if (m_curPvDoc > -1) {
-#if defined(USING_WEBKIT)
-        QString sel = 
-            QString("div[rcldocnum=\"%1\"]").arg(m_curPvDoc - pageFirstDocNum());
-        LOGDEB2("Searching for element, selector: [" << qs2utf8s(sel) << "]\n");
-        QWebElement elt = page()->mainFrame()->findFirstElement(sel);
-        if (!elt.isNull()) {
-            LOGDEB2("Found\n");
-            elt.removeAttribute("style");
-        } else {
-            LOGDEB2("Not Found\n");
-        }
-#elif defined(USING_WEBENGINE)
-        QString js = QString(
-            "elt=document.getElementById('%1');"
-            "if (elt){elt.removeAttribute('style');}"
-            ).arg(m_curPvDoc - pageFirstDocNum());
-        runJS(js);
-#else
-        std::pair<int,int> blockrange = parnumfromdocnum(m_curPvDoc);
-        if (blockrange.first != -1) {
-            for (int blockn = blockrange.first;
-                 blockn < blockrange.second; blockn++) {
-                QTextBlock block = document()->findBlockByNumber(blockn);
-                QTextCursor cursor(block);
-                QTextBlockFormat format = cursor.blockFormat();
-                format.clearBackground();
-                cursor.setBlockFormat(format);
-            }
-        }
-#endif
-        m_curPvDoc = -1;
-    }
-
-    if ((m_curPvDoc = docnum) < 0) {
-        return;
-    }
-
-    // Set background for active preview's doc entry
-    
-#if defined(USING_WEBKIT)
-    QString sel = QString("div[rcldocnum=\"%1\"]").arg(docnum - pageFirstDocNum());
-    LOGDEB2("Searching for element, selector: [" << qs2utf8s(sel) << "]\n");
-    QWebElement elt = page()->mainFrame()->findFirstElement(sel);
-    if (!elt.isNull()) {
-        LOGDEB2("Found\n");
-        elt.setAttribute("style", "background: LightBlue;}");
-    } else {
-        LOGDEB2("Not Found\n");
-    }
-#elif defined(USING_WEBENGINE)
-    QString js = QString(
-        "elt=document.getElementById('%1');"
-        "if(elt){elt.setAttribute('style', 'background: LightBlue');}"
-        ).arg(docnum - pageFirstDocNum());
-    runJS(js);
-#else
-    std::pair<int,int>  blockrange = parnumfromdocnum(docnum);
-
-    // Maybe docnum is -1 or not in this window, 
-    if (blockrange.first < 0)
-        return;
-    // Color the new active paragraph
-    QColor color("LightBlue");
-    for (int blockn = blockrange.first+1;
-         blockn < blockrange.second; blockn++) {
-        QTextBlock block = document()->findBlockByNumber(blockn);
-        QTextCursor cursor(block);
-        QTextBlockFormat format;
-        format.setBackground(QBrush(color));
-        cursor.mergeBlockFormat(format);
-        setTextCursor(cursor);
-        ensureCursorVisible();
-    }
-#endif
 }
 
 // Double click in res list: add selection to simple search
@@ -1057,13 +965,6 @@ void ResList::onLinkClicked(const QUrl &qurl)
     }
 
     switch (what) {
-    case 'A': // Open abstract/snippets window
-    { 
-        if (!havedoc)
-            return;
-        emit showSnippets(doc);
-    }
-    break;
     case 'D': // Show duplicates
     {
         if (!m_source || !havedoc) 
@@ -1087,20 +988,12 @@ void ResList::onLinkClicked(const QUrl &qurl)
         showQueryDetails();
         break;
     }
-    case 'P': // Preview and edit
-    case 'E': 
+    case 'P': // Preview redirected to open externally
+    case 'E':
     {
         if (!havedoc)
             return;
-        if (what == 'P') {
-            if (m_ismainres) {
-                emit docPreviewClicked(docnum, doc, m_lstClckMod);
-            } else {
-                emit previewRequested(doc);
-            }
-        } else {
-            emit editRequested(doc);
-        }
+        emit editRequested(doc);
     }
     break;
     case 'n': // Next/prev page
@@ -1212,13 +1105,8 @@ void ResList::doCreatePopupMenu()
 void ResList::menuPreview()
 {
     Rcl::Doc doc;
-    if (getDoc(m_popDoc, doc)) {
-        if (m_ismainres) {
-            emit docPreviewClicked(m_popDoc, doc, 0);
-        } else {
-            emit previewRequested(doc);
-        }
-    }
+    if (getDoc(m_popDoc, doc))
+        emit editRequested(doc);
 }
 
 void ResList::menuSaveToFile()
@@ -1233,11 +1121,7 @@ void ResList::menuPreviewParent()
     Rcl::Doc doc;
     if (getDoc(m_popDoc, doc) && m_source)  {
         Rcl::Doc pdoc = ResultPopup::getParent(m_source, doc);
-        if (pdoc.mimetype == "inode/directory") {
-            emit editRequested(pdoc);
-        } else {
-            emit previewRequested(pdoc);
-        }
+        emit editRequested(pdoc);
     }
 }
 
@@ -1261,13 +1145,6 @@ void ResList::menuOpenFolder()
             emit editRequested(pdoc);
         }
     }
-}
-
-void ResList::menuShowSnippets()
-{
-    Rcl::Doc doc;
-    if (getDoc(m_popDoc, doc))
-        emit showSnippets(doc);
 }
 
 void ResList::menuShowSubDocs()

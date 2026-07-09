@@ -91,9 +91,7 @@ public slots:
     virtual void menuPreviewParent();
     virtual void menuOpenParent();
     virtual void menuOpenFolder();
-    virtual void menuShowSnippets();
     virtual void menuShowSubDocs();
-    virtual void previewExposed(int);
     virtual void append(const QString &text);
     virtual void readDocSource();
     virtual void highlighted(const QString& link);
@@ -104,10 +102,7 @@ public slots:
 signals:
     void nextPageAvailable(bool);
     void prevPageAvailable(bool);
-    void docPreviewClicked(int, Rcl::Doc, int);
     void docSaveToFileClicked(Rcl::Doc);
-    void previewRequested(Rcl::Doc);
-    void showSnippets(Rcl::Doc);
     void showSubDocs(Rcl::Doc);
     void editRequested(Rcl::Doc);
     void openWithRequested(Rcl::Doc, std::string cmd);
@@ -142,8 +137,7 @@ private:
     std::shared_ptr<DocSequence> m_source;
     int        m_popDoc{-1}; // Docnum for the popup menu.
     QPoint     m_popPos;
-    int        m_curPvDoc{-1};// Docnum for current preview
-    int        m_lstClckMod{0}; // Last click modifier. 
+    int        m_lstClckMod{0}; // Last click modifier.
     int        m_listId{0}; // query Id for matching with preview windows
 #if defined(USING_WEBKIT) || defined(USING_WEBENGINE)
     // Webview makes it more difficult to append text incrementally,

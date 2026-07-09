@@ -68,7 +68,6 @@
 #include "firstidx.h"
 #include "indexer.h"
 #include "rclzg.h"
-#include "snippets_w.h"
 #include "fragbuts.h"
 #include "systray.h"
 #include "rclmain_w.h"
@@ -78,7 +77,6 @@
 #include "scbase.h"
 #include "idxmodel.h"
 #include "cstr.h"
-#include "preview_w.h"
 
 using std::string;
 using std::vector;
@@ -181,8 +179,6 @@ void RclMain::init()
     showResultsAsTable(prefs.showResultsAsTable);
 
     onNewShortcuts();
-    Preview::listShortcuts();
-    SnippetsW::listShortcuts();
     AdvSearch::listShortcuts();
     
     connect(&SCBase::scBase(), SIGNAL(shortcutsChanged()), this, SLOT(onNewShortcuts()));
@@ -260,8 +256,6 @@ void RclMain::init()
     connect(restable->getModel(), SIGNAL(sortDataChanged(DocSeqSortSpec)),
             this, SLOT(onExtSortDataChanged(DocSeqSortSpec)));
 
-    connect(restable, SIGNAL(docPreviewClicked(int, Rcl::Doc, int)), 
-            this, SLOT(startPreview(int, Rcl::Doc, int)));
     connect(restable, SIGNAL(docExpand(Rcl::Doc)), this, SLOT(docExpand(Rcl::Doc)));
     connect(restable, SIGNAL(showSubDocs(Rcl::Doc)), this, SLOT(showSubDocs(Rcl::Doc)));
     connect(restable, SIGNAL(openWithRequested(Rcl::Doc, std::string)), 
@@ -289,15 +283,11 @@ void RclMain::init()
     connect(reslist, SIGNAL(prevPageAvailable(bool)), this, SLOT(enablePrevPage(bool)));
 
     connect(reslist, SIGNAL(docExpand(Rcl::Doc)), this, SLOT(docExpand(Rcl::Doc)));
-    connect(reslist, SIGNAL(showSnippets(Rcl::Doc)), this, SLOT(showSnippets(Rcl::Doc)));
     connect(reslist, SIGNAL(showSubDocs(Rcl::Doc)), this, SLOT(showSubDocs(Rcl::Doc)));
     connect(reslist, SIGNAL(docSaveToFileClicked(Rcl::Doc)), this, SLOT(saveDocToFile(Rcl::Doc)));
     connect(reslist, SIGNAL(editRequested(Rcl::Doc)), this, SLOT(startNativeViewer(Rcl::Doc)));
     connect(reslist, SIGNAL(openWithRequested(Rcl::Doc, std::string)),
             this, SLOT(openWith(Rcl::Doc, std::string)));
-    connect(reslist, SIGNAL(docPreviewClicked(int, Rcl::Doc, int)), 
-            this, SLOT(startPreview(int, Rcl::Doc, int)));
-    connect(reslist, SIGNAL(previewRequested(Rcl::Doc)), this, SLOT(startPreview(Rcl::Doc)));
 
     setFilterCtlStyle(prefs.filterCtlStyle);
 
@@ -857,8 +847,7 @@ void RclMain::startSearch(std::shared_ptr<Rcl::SearchData> sdata, bool issimple)
         Rcl::Query *query = new Rcl::Query(rcldb.get());
         query->setCollapseDuplicates(prefs.collapseDuplicates);
 
-        curPreview = 0;
-        DocSequenceDb *src = new DocSequenceDb(rcldb, std::shared_ptr<Rcl::Query>(query), 
+        DocSequenceDb *src = new DocSequenceDb(rcldb, std::shared_ptr<Rcl::Query>(query),
                                                qs2utf8s(tr("Query results")), sdata);
         src->setAbstractParams(prefs.queryBuildAbstract, prefs.queryReplaceAbstract);
         m_source = std::shared_ptr<DocSequence>(src);
@@ -1163,7 +1152,6 @@ void RclMain::showDocHistory()
 {
     LOGDEB("RclMain::showDocHistory\n");
     resetSearch();
-    curPreview = 0;
 
     string reason;
     if (!maybeOpenDb(reason, false)) {

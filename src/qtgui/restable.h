@@ -179,7 +179,6 @@ public slots:
     virtual void menuPreviewParent();
     virtual void menuOpenParent();
     virtual void menuOpenFolder();
-    virtual void menuShowSnippets();
     virtual void menuShowSubDocs();
     virtual void createHeaderPopupMenu(const QPoint&);
     virtual void deleteColumn();
@@ -196,15 +195,12 @@ public slots:
     virtual void toggleVHeader();
     
 signals:
-    void docPreviewClicked(int, Rcl::Doc, int);
     void docSaveToFileClicked(Rcl::Doc);
-    void previewRequested(Rcl::Doc);
     void editRequested(Rcl::Doc);
     void openWithRequested(Rcl::Doc, std::string cmd);
     void headerClicked();
     void docExpand(Rcl::Doc);
     void showSubDocs(Rcl::Doc);
-    void showSnippets(Rcl::Doc);
     void detailDocChanged(Rcl::Doc, std::shared_ptr<DocSequence>);
     
     friend class ResTablePager;
@@ -227,8 +223,6 @@ private:
     bool m_rowchangefromkbd{false};
     QShortcut *m_opensc{nullptr};
     QShortcut *m_openquitsc{nullptr};
-    QShortcut *m_previewsc{nullptr};
-    QShortcut *m_showsnipssc{nullptr};
     QShortcut *m_showheadersc{nullptr};
     QShortcut *m_showvheadersc{nullptr};
     QShortcut *m_copycurtextsc{nullptr};
