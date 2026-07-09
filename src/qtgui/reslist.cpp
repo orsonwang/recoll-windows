@@ -115,7 +115,6 @@ function saveLoc(ev)
 
 #endif // WEBENGINE
 
-
 class QtGuiResListPager : public ResListPager {
 public:
     QtGuiResListPager(RclConfig *cnf, ResList *p, int ps, bool alwayssnip) 
@@ -757,7 +756,6 @@ bool ResList::scrollIsAtBottom()
 #endif
 }
 
-
 bool ResList::scrollIsAtTop()
 {
 #if defined(USING_WEBKIT)
@@ -781,13 +779,11 @@ bool ResList::scrollIsAtTop()
 #endif
 }
 
-
 void ResList::setupArrows()
 {
     emit prevPageAvailable(m_pager->hasPrev() || !scrollIsAtTop());
     emit nextPageAvailable(m_pager->hasNext() || !scrollIsAtBottom());
 }
-
 
 // Show previous page of results. We just set the current number back
 // 2 pages and show next page.
@@ -1102,27 +1098,11 @@ void ResList::doCreatePopupMenu()
     popup->popup(mapToGlobal(m_popPos));
 }
 
-void ResList::menuPreview()
-{
-    Rcl::Doc doc;
-    if (getDoc(m_popDoc, doc))
-        emit editRequested(doc);
-}
-
 void ResList::menuSaveToFile()
 {
     Rcl::Doc doc;
     if (getDoc(m_popDoc, doc))
         emit docSaveToFileClicked(doc);
-}
-
-void ResList::menuPreviewParent()
-{
-    Rcl::Doc doc;
-    if (getDoc(m_popDoc, doc) && m_source)  {
-        Rcl::Doc pdoc = ResultPopup::getParent(m_source, doc);
-        emit editRequested(pdoc);
-    }
 }
 
 void ResList::menuOpenParent()

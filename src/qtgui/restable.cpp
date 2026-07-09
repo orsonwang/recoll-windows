@@ -134,7 +134,6 @@ const string& ResTablePager::parFormat()
     return prefs.creslistformat;
 }
 
-
 /////////////////////////////////////////////////////////////////////////////
 /// Detail text area methods
 
@@ -583,7 +582,6 @@ public:
         painter->restore();
     }
 };
-
 
 int ResTable::fontsize()
 {
@@ -1063,7 +1061,6 @@ void ResTable::resetSource()
     readDocSource();
 }
 
-
 void ResTable::saveAsCSV()
 {
     static const QString csvprevdirkey("/Recoll/prefs/restableAsCSVPDir");;
@@ -1257,12 +1254,6 @@ void ResTable::createPopupMenu(const QPoint& pos)
     }
 }
 
-void ResTable::menuPreview()
-{
-    if (m_detaildocnum >= 0)
-        emit editRequested(m_detaildoc);
-}
-
 void ResTable::menuSaveToFile()
 {
     if (m_detaildocnum >= 0)
@@ -1287,16 +1278,6 @@ void ResTable::menuSaveSelection()
         emit docSaveToFileClicked(v[0]);
     } else {
         multiSave(this, v);
-    }
-}
-
-void ResTable::menuPreviewParent()
-{
-    if (m_detaildocnum >= 0 && m_model &&
-        m_model->getDocSource()) {
-        Rcl::Doc pdoc = ResultPopup::getParent(m_model->getDocSource(),
-                                               m_detaildoc);
-        emit editRequested(pdoc);
     }
 }
 

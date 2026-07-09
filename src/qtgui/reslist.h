@@ -79,7 +79,6 @@ public slots:
     virtual void resultPageFirst(); // First page of results
     virtual void resultPageNext(); // Next (or first) page of results
     virtual void resultPageFor(int docnum); // Page containing docnum
-    virtual void menuPreview();
     virtual void menuSaveToFile();
     virtual void menuEdit();
     virtual void menuOpenWith(QAction *);
@@ -88,7 +87,6 @@ public slots:
     virtual void menuCopyURL();
     virtual void menuCopyText();
     virtual void menuExpand();
-    virtual void menuPreviewParent();
     virtual void menuOpenParent();
     virtual void menuOpenFolder();
     virtual void menuShowSubDocs();

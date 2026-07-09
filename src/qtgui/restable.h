@@ -164,7 +164,6 @@ public slots:
     virtual void createPopupMenu(const QPoint& pos);
     virtual void onClicked(const QModelIndex&);
     virtual void onDoubleClick(const QModelIndex&);
-    virtual void menuPreview();
     virtual void menuSaveToFile();
     virtual void menuSaveSelection();
     virtual void menuEdit();
@@ -176,7 +175,6 @@ public slots:
     virtual void menuCopyText();
     virtual void menuCopyTextAndQuit();
     virtual void menuExpand();
-    virtual void menuPreviewParent();
     virtual void menuOpenParent();
     virtual void menuOpenFolder();
     virtual void menuShowSubDocs();
