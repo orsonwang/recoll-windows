@@ -62,14 +62,16 @@ static const char *defaultfontfamily = "";
 // The table should not be necessary, but I found no css way to get
 // qt 4.6 qtextedit to clear the margins after the float img without 
 // introducing blank space.
-const char *PrefsPack::dfltResListFormat = 
-    "<table class=\"respar\">\n"
-    "<tr>\n"
-    "<td><a href='%U'><img draggable=\"false\" src='%I' width='64'></a></td>\n"
-    "<td>%L &nbsp;<i>%S</i> &nbsp;&nbsp;<b>%T</b><br>\n"
-    "<span style='white-space:nowrap'><i>%M</i>&nbsp;%D</span>&nbsp;&nbsp;&nbsp; <i>%U</i>&nbsp;%i<br>\n"
-    "%s %A %K</td>\n"
-    "</tr></table>\n"
+const char *PrefsPack::dfltResListFormat =
+    "<table class=\"respar\"><tr>\n"
+    "<td class=\"rclico\"><a href='E%N'><img draggable=\"false\" src='%I'></a></td>\n"
+    "<td class=\"rclbody\">\n"
+    "<div class=\"rcltitle\"><a href='E%N'>%T</a><span class=\"rclsize\">%S</span></div>\n"
+    "<div class=\"rclmeta\"><span class=\"rcltype\">%M</span>"
+    "<span class=\"rcldate\">%D</span> <span class=\"rclurl\">%U</span> %i "
+    "<span class=\"rclkw\">%K</span></div>\n"
+    "<div class=\"rclsnip\">%s %A</div>\n"
+    "</td></tr></table>\n"
     ;
 
 // The global preferences structure

@@ -1,14 +1,69 @@
-
 <!-- Result list HTML Header insert -->
 
 <style>
+/* ============================================================
+   Recoll result list — dark-mode overrides.
+   Inserted after recoll-common.css when the GUI is in dark mode,
+   so these rules win by source order. Only colours change; the
+   layout comes from recoll-common.css.
 
-a {
-   color: #F0FFFF;
+   Dark colour system:
+     bg   #1F232B   card #262B34   border #333A45
+     ink  #E7EAF0   muted #98A2B3 / faint #79828F
+     accent #97A6FF   accent-tint #2C3350
+     match  #5E4B12 / #FFDE8A
+   ============================================================ */
+
+html, body, form, fieldset, table, tr, td, img, pre {
+    background: #1F232B;
+    color: #E7EAF0;
 }
-html, body, p, form, fieldset, table, tr, td, img, pre {
-   background: #373737;
-   color: #ffffff;
+body { background: #1F232B; color: #E7EAF0; }
+
+body > p { color: #98A2B3; }
+body > p:first-of-type { border-bottom-color: #333A45; }
+body > p a,
+a, a:visited { color: #97A6FF; }
+
+.rclresult {
+    background: #262B34;
+    border-color: #333A45;
+}
+.rclresult:hover {
+    border-color: #414A59;
+    box-shadow: 0 1px 2px rgba(0,0,0,.35), 0 8px 22px rgba(0,0,0,.30);
+}
+.rclresult:hover::before { background: #97A6FF; }
+
+table.respar td { background: transparent; }
+
+td.rclico img {
+    border-color: #333A45;
+    background: #1F232B;
 }
 
+.rcltitle a { color: #E7EAF0; }
+.rcltitle a:hover { color: #97A6FF; }
+.rclsize { color: #79828F; }
+
+.rclmeta { color: #79828F; }
+.rcltype {
+    color: #BFC8FF;
+    background: #2C3350;
+}
+.rcldate { color: #98A2B3; }
+.rclurl  { color: #79828F; }
+.rclkw   { color: #79828F; }
+.rcldate::before,
+.rclurl::before { color: #414A59; }
+
+.rclsnip { color: #C6CCD6; }
+.rclsnip a { color: #97A6FF; }
+
+.rclmatch {
+    background: #5E4B12;
+    color: #FFDE8A !important;
+}
+
+.rclacts a { color: #97A6FF; }
 </style>

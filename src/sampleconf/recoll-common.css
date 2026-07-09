@@ -1,6 +1,179 @@
 <style>
-/* Default font size for the HTML widgets */
+/* ============================================================
+   Recoll result list — default theme (light).
+   Loaded at runtime from Share/examples/recoll-common.css and
+   inserted into the result page <head>. Dark-mode overrides live
+   in recoll-dark.css. Values are inlined (no CSS variables) so the
+   sheet also degrades gracefully on the QTextBrowser fallback.
+
+   Colour system:
+     ink   #191C22   graphite text
+     muted #5B6472 / faint #8A93A2   metadata
+     line  #E7EAEF   hairlines
+     accent #3D4EAE  "you can click this" (links, focus bar)
+     match  #FFE8A3  "the search found this" (highlight)
+   ============================================================ */
+
+/* Base. Keep font-size on its own line: the app rescales pt sizes. */
 html, body, form, fieldset, table, tr, td, img, pre {
     font-size: 12pt;
 }
+body {
+    background: #F5F6F8;
+    color: #191C22;
+    margin: 0;
+    padding: 12px 14px 26px;
+}
+
+/* Result-summary / navigation lines (generated markup, no class). */
+body > p {
+    color: #5B6472;
+    font-size: .92em;
+}
+body > p:first-of-type {
+    border-bottom: 1px solid #E7EAEF;
+    padding-bottom: 9px;
+    margin: 2px 0 15px;
+}
+body > p a { color: #3D4EAE; text-decoration: none; }
+body > p a:hover { text-decoration: underline; }
+
+/* ---- Result card ---- */
+.rclresult {
+    position: relative;
+    background: #FFFFFF;
+    border: 1px solid #E7EAEF;
+    border-radius: 10px;
+    padding: 12px 15px 12px 17px;
+    margin: 0 0 10px;
+    transition: border-color .12s ease, box-shadow .12s ease;
+}
+.rclresult:hover {
+    border-color: #C9CED9;
+    box-shadow: 0 1px 2px rgba(20,25,40,.05), 0 8px 20px rgba(20,25,40,.06);
+}
+/* signature: an accent focus bar that appears on hover */
+.rclresult::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 11px; bottom: 11px;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: transparent;
+    transition: background .12s ease;
+}
+.rclresult:hover::before { background: #3D4EAE; }
+
+/* internal two-column layout reuses the existing table, made invisible */
+table.respar {
+    border: 0;
+    border-collapse: collapse;
+    background: transparent;
+    width: 100%;
+    margin: 0;
+}
+table.respar td { vertical-align: top; padding: 0; border: 0; background: transparent; }
+
+/* icon column */
+td.rclico { width: 54px; padding-right: 15px; }
+td.rclico img {
+    width: 46px; height: auto;
+    border: 1px solid #E7EAEF;
+    border-radius: 10px;
+    background: #FBFCFE;
+    padding: 3px;
+    box-sizing: border-box;
+}
+td.rclico a { text-decoration: none; border: 0; }
+
+/* body column */
+td.rclbody { width: 100%; }
+
+/* title line */
+.rcltitle {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 4px;
+}
+.rcltitle a {
+    font-size: 1.06em;
+    font-weight: 600;
+    line-height: 1.35;
+    color: #191C22;
+    text-decoration: none;
+}
+.rcltitle a:hover { color: #3D4EAE; text-decoration: underline; }
+.rclsize {
+    margin-left: auto;
+    flex: none;
+    font-family: "Cascadia Mono", "Consolas", ui-monospace, monospace;
+    font-size: .76em;
+    color: #8A93A2;
+    white-space: nowrap;
+    padding-top: .12em;
+}
+
+/* metadata row (monospace = "file system" voice) */
+.rclmeta {
+    font-family: "Cascadia Mono", "Consolas", ui-monospace, monospace;
+    font-size: .8em;
+    color: #8A93A2;
+    line-height: 1.55;
+    margin-bottom: 5px;
+    word-break: break-all;
+}
+.rcltype {
+    display: inline-block;
+    color: #3D4EAE;
+    background: #ECEEFB;
+    border-radius: 5px;
+    padding: 1px 7px;
+    margin-right: 8px;
+    white-space: nowrap;
+}
+.rcldate { color: #5B6472; }
+.rclurl  { color: #8A93A2; }
+.rclkw   { color: #8A93A2; }
+.rcldate::before,
+.rclurl::before { content: "\00B7\00A0"; color: #C9CED9; }
+.rcldate:empty::before,
+.rclurl:empty::before { content: ""; }
+
+/* snippet / abstract */
+.rclsnip {
+    font-size: .98em;
+    color: #3B424E;
+    line-height: 1.55;
+    margin: 4px 0 7px;
+}
+.rclsnip:empty { display: none; }
+.rclsnip a { color: #3D4EAE; text-decoration: none; }
+.rclsnip a:hover { text-decoration: underline; }
+
+/* match highlight: the warm "found it" signal.
+   Overrides the inline colour set on span.rclmatch. */
+.rclmatch {
+    background: #FFE8A3;
+    color: #5A4300 !important;
+    border-radius: 3px;
+    padding: 0 .12em;
+    font-weight: 600;
+}
+
+/* action links row */
+.rclacts {
+    font-size: .84em;
+    line-height: 1.7;
+}
+.rclacts:empty { display: none; }
+.rclacts a {
+    color: #3D4EAE;
+    text-decoration: none;
+    margin-right: 4px;
+}
+.rclacts a:hover { text-decoration: underline; }
+
+/* default link colour */
+a, a:visited { color: #3D4EAE; }
 </style>
