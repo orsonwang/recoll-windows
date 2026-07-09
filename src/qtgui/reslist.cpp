@@ -123,6 +123,9 @@ public:
     virtual bool append(const string& data) override;
     virtual bool append(const string& data, int idx, const Rcl::Doc& doc) override;
     virtual string trans(const string& in) override;
+    virtual string mimeDisplayName(const string& mimetype) override {
+        return mimeFriendlyName(mimetype);
+    }
     virtual string detailsLink() override;
     virtual const string &parFormat() override;
     virtual const string &dateFormat() override;

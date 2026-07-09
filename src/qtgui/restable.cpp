@@ -202,6 +202,15 @@ static string sizegetter(const string& fld, const Rcl::Doc& doc)
     return displayableBytes(size) + " (" + it->second + ")";
 }
 
+static string mtypegetter(const string& fld, const Rcl::Doc& doc)
+{
+    const auto it = doc.meta.find(fld);
+    if (it == doc.meta.end()) {
+        return string();
+    }
+    return mimeFriendlyName(it->second);
+}
+
 static string dategetter(const string&, const Rcl::Doc& doc)
 {
     string sdate;
@@ -238,6 +247,8 @@ FieldGetter *RecollModel::chooseGetter(const string& field)
         return datetimegetter;
     else if (!stringlowercmp("bytes", field.substr(1)))
         return sizegetter;
+    else if (!stringlowercmp("mtype", field))
+        return mtypegetter;
     else
         return gengetter;
 }

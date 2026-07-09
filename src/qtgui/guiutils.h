@@ -223,4 +223,10 @@ extern QString g_stringAllStem, g_stringNoStem;
 /** Check that url is one of our internal links. returns char==0 else */
 std::tuple<char, int, std::string, std::string> internal_link(std::string url);
 
+/** Map a raw MIME type (e.g. "application/pdf") to a user-friendly,
+ * localized display name (e.g. "PDF document"). Falls back to a media
+ * family name (image/audio/video) and finally to the raw MIME type for
+ * types not in the table. Returned string is UTF-8. */
+std::string mimeFriendlyName(const std::string& mimetype);
+
 #endif /* _GUIUTILS_H_INCLUDED_ */

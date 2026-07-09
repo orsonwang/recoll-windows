@@ -112,6 +112,13 @@ public:
     // reslistpager.cpp must be reflected in the string table inside
     // reslist.cpp for translation to work.
     virtual std::string trans(const std::string& in);
+    // Map a raw MIME type to a user-friendly, possibly translated,
+    // display name. The base implementation returns the raw MIME type
+    // unchanged (used by the CLI/KIO pagers). The Qt GUI pagers
+    // override this to return a localized human-readable name.
+    virtual std::string mimeDisplayName(const std::string& mimetype) {
+        return mimetype;
+    }
     virtual std::string detailsLink();
     virtual const std::string &parFormat();
     virtual const std::string &dateFormat();

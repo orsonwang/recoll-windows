@@ -304,7 +304,7 @@ void ResListPager::displayDoc(RclConfig *config, int i, Rcl::Doc& doc,
     subs["K"] = !doc.meta[Rcl::Doc::keykw].empty() ?
         string("[") + maybeEscapeHtml(doc.meta[Rcl::Doc::keykw]) + "]" : "";
     subs["L"] = linksbuf;
-    subs["M"] = doc.mimetype;
+    subs["M"] = mimeDisplayName(doc.mimetype);
     subs["N"] = numbuf;
     subs["P"] = parenturl;
     subs["R"] = doc.meta[Rcl::Doc::keyrr];

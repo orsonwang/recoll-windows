@@ -33,6 +33,8 @@
 
 #include <QSettings>
 #include <QStringList>
+#include <QCoreApplication>
+#include <QHash>
 
 #ifdef BUILDING_RECOLLGUI
 #include <QApplication>
@@ -826,3 +828,155 @@ const char *eventTypeToStr(int tp)
     }
 }
 #endif
+
+// User-friendly, translatable display names for common MIME types.
+// The English strings below are the translation source; per-locale
+// translations live in the "MimeName" context of the .ts/.qm files.
+// Each is marked with QT_TRANSLATE_NOOP so that lupdate collects it while
+// the actual lookup key stays a plain (untranslated) const char*.
+std::string mimeFriendlyName(const std::string& mimetype)
+{
+    static const QHash<QString, const char*> tbl = {
+        // Plain text and markup
+        {"text/plain", QT_TRANSLATE_NOOP("MimeName", "Plain text")},
+        {"text/html", QT_TRANSLATE_NOOP("MimeName", "HTML page")},
+        {"text/xml", QT_TRANSLATE_NOOP("MimeName", "XML document")},
+        {"application/xml", QT_TRANSLATE_NOOP("MimeName", "XML document")},
+        {"text/rtf", QT_TRANSLATE_NOOP("MimeName", "Rich text (RTF)")},
+        {"application/rtf", QT_TRANSLATE_NOOP("MimeName", "Rich text (RTF)")},
+        {"text/markdown", QT_TRANSLATE_NOOP("MimeName", "Markdown document")},
+        {"text/csv", QT_TRANSLATE_NOOP("MimeName", "CSV table")},
+        {"text/x-csv", QT_TRANSLATE_NOOP("MimeName", "CSV table")},
+        {"text/calendar", QT_TRANSLATE_NOOP("MimeName", "Calendar")},
+        {"text/css", QT_TRANSLATE_NOOP("MimeName", "CSS stylesheet")},
+
+        // Portable documents / e-books
+        {"application/pdf", QT_TRANSLATE_NOOP("MimeName", "PDF document")},
+        {"application/postscript", QT_TRANSLATE_NOOP("MimeName", "PostScript document")},
+        {"application/epub+zip", QT_TRANSLATE_NOOP("MimeName", "EPUB e-book")},
+        {"application/x-mobipocket-ebook", QT_TRANSLATE_NOOP("MimeName", "Mobipocket e-book")},
+        {"application/x-chm", QT_TRANSLATE_NOOP("MimeName", "CHM help file")},
+        {"text/x-fictionbook", QT_TRANSLATE_NOOP("MimeName", "FictionBook e-book")},
+        {"application/x-tex", QT_TRANSLATE_NOOP("MimeName", "TeX/LaTeX document")},
+        {"text/x-tex", QT_TRANSLATE_NOOP("MimeName", "TeX/LaTeX document")},
+        {"application/x-dvi", QT_TRANSLATE_NOOP("MimeName", "TeX DVI document")},
+
+        // Word processor
+        {"application/msword", QT_TRANSLATE_NOOP("MimeName", "Word document")},
+        {"application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+         QT_TRANSLATE_NOOP("MimeName", "Word document")},
+        {"application/vnd.openxmlformats-officedocument.wordprocessingml.template",
+         QT_TRANSLATE_NOOP("MimeName", "Word template")},
+        {"application/vnd.oasis.opendocument.text",
+         QT_TRANSLATE_NOOP("MimeName", "OpenDocument text")},
+        {"application/vnd.oasis.opendocument.text-flat-xml",
+         QT_TRANSLATE_NOOP("MimeName", "OpenDocument text")},
+        {"application/vnd.oasis.opendocument.text-template",
+         QT_TRANSLATE_NOOP("MimeName", "OpenDocument text template")},
+        {"application/vnd.sun.xml.writer",
+         QT_TRANSLATE_NOOP("MimeName", "OpenOffice writer document")},
+        {"application/vnd.apple.pages", QT_TRANSLATE_NOOP("MimeName", "Pages document")},
+        {"application/vnd.wordperfect", QT_TRANSLATE_NOOP("MimeName", "WordPerfect document")},
+        {"application/x-abiword", QT_TRANSLATE_NOOP("MimeName", "AbiWord document")},
+
+        // Spreadsheet
+        {"application/vnd.ms-excel", QT_TRANSLATE_NOOP("MimeName", "Excel spreadsheet")},
+        {"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+         QT_TRANSLATE_NOOP("MimeName", "Excel spreadsheet")},
+        {"application/vnd.openxmlformats-officedocument.spreadsheetml.template",
+         QT_TRANSLATE_NOOP("MimeName", "Excel template")},
+        {"application/vnd.oasis.opendocument.spreadsheet",
+         QT_TRANSLATE_NOOP("MimeName", "OpenDocument spreadsheet")},
+        {"application/vnd.sun.xml.calc",
+         QT_TRANSLATE_NOOP("MimeName", "OpenOffice spreadsheet")},
+        {"application/x-gnumeric", QT_TRANSLATE_NOOP("MimeName", "Gnumeric spreadsheet")},
+        {"application/vnd.apple.numbers", QT_TRANSLATE_NOOP("MimeName", "Numbers spreadsheet")},
+
+        // Presentation / drawing
+        {"application/vnd.ms-powerpoint", QT_TRANSLATE_NOOP("MimeName", "PowerPoint presentation")},
+        {"application/vnd.openxmlformats-officedocument.presentationml.presentation",
+         QT_TRANSLATE_NOOP("MimeName", "PowerPoint presentation")},
+        {"application/vnd.openxmlformats-officedocument.presentationml.template",
+         QT_TRANSLATE_NOOP("MimeName", "PowerPoint template")},
+        {"application/vnd.oasis.opendocument.presentation",
+         QT_TRANSLATE_NOOP("MimeName", "OpenDocument presentation")},
+        {"application/vnd.oasis.opendocument.graphics",
+         QT_TRANSLATE_NOOP("MimeName", "OpenDocument drawing")},
+        {"application/vnd.sun.xml.impress",
+         QT_TRANSLATE_NOOP("MimeName", "OpenOffice presentation")},
+        {"application/vnd.apple.keynote", QT_TRANSLATE_NOOP("MimeName", "Keynote presentation")},
+        {"application/vnd.ms-visio.drawing", QT_TRANSLATE_NOOP("MimeName", "Visio drawing")},
+
+        // Email / messages
+        {"message/rfc822", QT_TRANSLATE_NOOP("MimeName", "Email message")},
+        {"text/x-mail", QT_TRANSLATE_NOOP("MimeName", "Email message")},
+        {"application/vnd.ms-outlook", QT_TRANSLATE_NOOP("MimeName", "Outlook message")},
+
+        // Source code / data
+        {"application/javascript", QT_TRANSLATE_NOOP("MimeName", "JavaScript source")},
+        {"application/json", QT_TRANSLATE_NOOP("MimeName", "JSON data")},
+        {"application/x-ipynb+json", QT_TRANSLATE_NOOP("MimeName", "Jupyter notebook")},
+        {"application/sql", QT_TRANSLATE_NOOP("MimeName", "SQL script")},
+        {"text/x-python", QT_TRANSLATE_NOOP("MimeName", "Python source")},
+        {"application/x-python", QT_TRANSLATE_NOOP("MimeName", "Python source")},
+        {"text/x-c", QT_TRANSLATE_NOOP("MimeName", "C source")},
+        {"text/x-c++", QT_TRANSLATE_NOOP("MimeName", "C++ source")},
+        {"text/x-java", QT_TRANSLATE_NOOP("MimeName", "Java source")},
+        {"text/x-shellscript", QT_TRANSLATE_NOOP("MimeName", "Shell script")},
+        {"application/x-shellscript", QT_TRANSLATE_NOOP("MimeName", "Shell script")},
+        {"text/x-perl", QT_TRANSLATE_NOOP("MimeName", "Perl source")},
+        {"application/x-perl", QT_TRANSLATE_NOOP("MimeName", "Perl source")},
+        {"text/x-php", QT_TRANSLATE_NOOP("MimeName", "PHP source")},
+        {"application/x-php", QT_TRANSLATE_NOOP("MimeName", "PHP source")},
+        {"text/x-ruby", QT_TRANSLATE_NOOP("MimeName", "Ruby source")},
+        {"application/x-ruby", QT_TRANSLATE_NOOP("MimeName", "Ruby source")},
+
+        // Archives / compressed
+        {"application/zip", QT_TRANSLATE_NOOP("MimeName", "ZIP archive")},
+        {"application/x-7z-compressed", QT_TRANSLATE_NOOP("MimeName", "7z archive")},
+        {"application/x-rar", QT_TRANSLATE_NOOP("MimeName", "RAR archive")},
+        {"application/x-tar", QT_TRANSLATE_NOOP("MimeName", "TAR archive")},
+        {"application/gzip", QT_TRANSLATE_NOOP("MimeName", "Gzip archive")},
+        {"application/x-gzip", QT_TRANSLATE_NOOP("MimeName", "Gzip archive")},
+        {"application/x-bzip2", QT_TRANSLATE_NOOP("MimeName", "Bzip2 archive")},
+        {"application/x-xz", QT_TRANSLATE_NOOP("MimeName", "XZ archive")},
+
+        // Filesystem pseudo-types
+        {"inode/directory", QT_TRANSLATE_NOOP("MimeName", "Folder")},
+        {"inode/symlink", QT_TRANSLATE_NOOP("MimeName", "Symbolic link")},
+        {"inode/x-empty", QT_TRANSLATE_NOOP("MimeName", "Empty file")},
+        {"application/x-zerosize", QT_TRANSLATE_NOOP("MimeName", "Empty file")},
+
+        // A few very common concrete media types
+        {"image/jpeg", QT_TRANSLATE_NOOP("MimeName", "JPEG image")},
+        {"image/png", QT_TRANSLATE_NOOP("MimeName", "PNG image")},
+        {"image/gif", QT_TRANSLATE_NOOP("MimeName", "GIF image")},
+        {"image/tiff", QT_TRANSLATE_NOOP("MimeName", "TIFF image")},
+        {"image/webp", QT_TRANSLATE_NOOP("MimeName", "WebP image")},
+        {"image/svg+xml", QT_TRANSLATE_NOOP("MimeName", "SVG image")},
+        {"image/vnd.djvu", QT_TRANSLATE_NOOP("MimeName", "DjVu document")},
+        {"audio/mpeg", QT_TRANSLATE_NOOP("MimeName", "MP3 audio")},
+        {"audio/flac", QT_TRANSLATE_NOOP("MimeName", "FLAC audio")},
+        {"application/x-flac", QT_TRANSLATE_NOOP("MimeName", "FLAC audio")},
+        {"audio/ogg", QT_TRANSLATE_NOOP("MimeName", "Ogg audio")},
+        {"application/ogg", QT_TRANSLATE_NOOP("MimeName", "Ogg media")},
+        {"video/mp4", QT_TRANSLATE_NOOP("MimeName", "MP4 video")},
+        {"video/x-matroska", QT_TRANSLATE_NOOP("MimeName", "Matroska video")},
+    };
+
+    QString key = QString::fromUtf8(mimetype.c_str());
+    const auto it = tbl.find(key);
+    if (it != tbl.end()) {
+        return qs2utf8s(QCoreApplication::translate("MimeName", it.value()));
+    }
+    // Media family fallbacks (image/*, audio/*, video/* are wildcard
+    // categories, so their concrete subtypes won't all be in the table).
+    if (key.startsWith(QLatin1String("image/")))
+        return qs2utf8s(QCoreApplication::translate("MimeName", "Image"));
+    if (key.startsWith(QLatin1String("audio/")))
+        return qs2utf8s(QCoreApplication::translate("MimeName", "Audio"));
+    if (key.startsWith(QLatin1String("video/")))
+        return qs2utf8s(QCoreApplication::translate("MimeName", "Video"));
+    // Unknown type: keep the raw MIME string so nothing is ever hidden.
+    return mimetype;
+}
