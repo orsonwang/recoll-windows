@@ -291,6 +291,15 @@ int main(int argc, char **argv)
         }
     }
 
+#ifdef _WIN32
+    // Qt6's default DirectWrite font engine can render text without antialiasing in some
+    // environments (e.g. over RDP or without a GPU), which looks like a bitmap font. The FreeType
+    // engine antialiases reliably. Select it here (before the QApplication is created and the
+    // platform plugin is loaded), unless the user overrides QT_QPA_PLATFORM.
+    if (qEnvironmentVariableIsEmpty("QT_QPA_PLATFORM"))
+        qputenv("QT_QPA_PLATFORM", "windows:fontengine=freetype");
+#endif
+
     QCoreApplication::setOrganizationName("Recoll.org");
     QCoreApplication::setApplicationName("recoll");
 

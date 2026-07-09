@@ -4,8 +4,10 @@
 /* Aspell program parameter to findFilter(). */
 #define ASPELL_PROG "aspell-installed/mingw32/bin/aspell"
 
-/* Use libmagic */
-#define ENABLE_LIBMAGIC 1
+/* Use libmagic (disabled on the MSVC build: file/libmagic is hard to build
+   with MSVC and only serves as a last-resort MIME detector; recoll falls back
+   to extension mapping and the configured file-like command). */
+#undef ENABLE_LIBMAGIC
 
 /* No X11 session monitoring support */
 #define DISABLE_X11MON

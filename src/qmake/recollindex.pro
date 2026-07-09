@@ -48,8 +48,6 @@ windows {
       $$RECOLLDEPS/libxslt/libxslt-1.1.29/win32/bin.msvc/libxslt.lib \
       $$PWD/build/libxapian/$$QCBUILDLOC-Release/release/libxapian.lib \
       $$RECOLLDEPS/wlibiconv/build/$$QCBUILDLOC-Release/release/iconv.lib \
-      $$RECOLLDEPS/libmagic/src/lib/libmagic.lib \
-      $$RECOLLDEPS/regex/libregex.lib \
       $$RECOLLDEPS/zlib-1.2.11/zdll.lib \
       -lShell32 -lrpcrt4 -lws2_32 -luser32 -lshlwapi -lpsapi -lkernel32
   }

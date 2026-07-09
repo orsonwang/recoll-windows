@@ -1,8 +1,22 @@
 #!/usr/bin/env python3
+"""RAR archive filter for Recoll.
 
-# Rar file filter for Recoll
-# Adapted from the Zip archive filter by mroark.
-# Copyright (C) 2004 J.F.Dockes + mroark for rar bits
+This version uses the 7-Zip command-line program (7z) to list and extract
+archive members, instead of the python rarfile/unrar modules. 7z can read
+RAR (including RAR5) archives, and is already bundled with the Windows
+distribution, so no separate unrar binary or python module is needed.
+
+7z is located through rclexecm.which(), which searches the filters directory
+first, so dropping 7z.exe into Share/filters is enough.
+
+The archive is decompressed ONCE to a temporary directory (not once per
+member): extracting a member at a time would re-open/re-scan the archive for
+every member and buffer each member fully in memory. Members are then read from
+disk, and members larger than the configured maxmembersize are skipped without
+being read.
+"""
+
+# Copyright (C) 2004-2025 J.F.Dockes
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
 #   the Free Software Foundation; either version 2 of the License, or
@@ -20,136 +34,150 @@
 
 import sys
 import os
+import shutil
 import posixpath
+import subprocess
 
 import rclexecm
 from archivextract import ArchiveExtractor
 
-
-# We can use two different unrar python modules. Either python3-rarfile
-# which is a wrapper over the the unrar command line, or python3-unrar
-# which is a ctypes wrapper of the unrar lib.
-#
-# Python3-rarfile is the one commonly packaged on linux.
-#
-# Python3-unrar needs the libunrar library, built from unrar source
-# code (https://www.rarlab.com/rar_add.htm), which is not packaged on
-# Debian or Fedora, probably because of licensing issues. It is
-# packaged as libunrar5 on Ubuntu, and there are Fedora packages on
-# RPM Fusion, and it's probably easy to build the Ubuntu package on
-# Debian.  Python-unrar works much better and is the right choice if
-# the licensing is not an issue.
-#
-# The interfaces is similar, but python-unrar uses forward slashes
-# in internal file paths while python-rarfile uses backslashes (ipaths
-# are opaque anyway).
-
-using_unrar = False
-try:
-    from unrar import rarfile
-
-    using_unrar = True
-except Exception as ex:
-    try:
-        from rarfile import RarFile
-    except:
-        print("RECFILTERROR HELPERNOTFOUND python3:rarfile/python3:unrar")
-        sys.exit(1)
+# Locate the 7z program. rclexecm.which() searches the filter directory first,
+# so the bundled Share/filters/7z.exe is found without a system install.
+sevenz = rclexecm.which("7z")
+if not sevenz:
+    print("RECFILTERROR HELPERNOTFOUND 7z")
+    sys.exit(1)
 
 
-# Requires RarFile python module. Try "sudo pip install rarfile" or
-# install it with the system package manager
-#
-# Also for many files, you will need the non-free version of unrar
-# (https://www.rarlab.com/rar_add.htm). The unrar-free version fails
-# with the message "Failed the read enough data"
-#
-# This is identical to rclzip.py except I did a search/replace from zip
-# to rar, and changed this comment.
 class RarExtractor(ArchiveExtractor):
     def __init__(self, em):
+        self.filename = None
+        self.names = []
+        self.sizes = {}
+        self.tmpdir = None
+        self.extracted = False
         super().__init__(em)
-
-    def extractone(self, ipath):
-        # self.em.rclog("extractone: [%s]" % ipath)
-        docdata = ""
-        isdir = False
-
-        try:
-            if using_unrar:
-                if type(ipath) == type(b""):
-                    ipath = ipath.decode("UTF-8")
-                rarinfo = self.rar.getinfo(ipath)
-                # dll.hpp RHDF_DIRECTORY: 0x20
-                isdir = (rarinfo.flag_bits & 0x20) != 0
-            else:
-                rarinfo = self.rar.getinfo(ipath)
-                isdir = rarinfo.isdir()
-        except Exception as err:
-            self.em.rclog(
-                "extractone: using_unrar %d rar.getinfo failed: [%s]"
-                % (using_unrar, err)
-            )
-            return (True, docdata, ipath, False)
-
-        if not isdir:
-            try:
-                if rarinfo.file_size > self.em.maxmembersize:
-                    self.em.rclog(
-                        "extractone: entry %s size %d too big"
-                        % (ipath, rarinfo.file_size)
-                    )
-                    docdata = ""
-                else:
-                    docdata = self.rar.read(ipath)
-                ok = True
-            except Exception as err:
-                self.em.rclog("extractone: rar.read failed: [%s]" % err)
-                ok = False
-        else:
-            docdata = ""
-            ok = True
-            self.em.setmimetype("application/x-fsdirectory")
-
-        iseof = rclexecm.RclExecM.noteof
-        if self.currentindex >= len(self.rar.namelist()) - 1:
-            iseof = rclexecm.RclExecM.eofnext
-        filename = posixpath.basename(ipath)
-        self.em.setfield("filename", filename)
-        return (ok, docdata, rclexecm.makebytes(ipath), iseof)
-
-    def closefile(self):
-        self.rar = None
 
     ###### File type handler api, used by rclexecm ---------->
     def openfile(self, params):
+        self.filename = params["filename"]
         self.currentindex = -1
-        filename = params["filename"]
-        self.namefilter.setforlocation(filename)
+        self.extracted = False
+        self.namefilter.setforlocation(self.filename)
         try:
-            if using_unrar:
-                # There might be a way to avoid the decoding which is
-                # wrong on Unix, but I'd have to dig further in the
-                # lib than I wish to. This is used on Windows anyway,
-                # where all Recoll paths are utf-8
-                fn = filename.decode("UTF-8")
-                self.rar = rarfile.RarFile(fn, "rb")
-            else:
-                # The previous versions passed the file name to
-                # RarFile. But the py3 version of this wants an str as
-                # input, which is wrong of course, as filenames are
-                # binary. Circumvented by passing the open file
-                f = open(filename, "rb")
-                self.rar = RarFile(f)
-            self.namelistlen = len(self.rar.infolist())
+            self.names, self.sizes = self._listnames(self.filename)
+            self.namelistlen = len(self.names)
             return True
         except Exception as err:
-            self.em.rclog("RarFile: %s" % err)
+            self.em.rclog("openfile: failed: [%s]" % err)
             return False
 
+    def _listnames(self, fn):
+        """Return (names, sizes) for the non-directory members, parsed from the
+        '7z l -slt' technical listing output."""
+        out = subprocess.check_output(
+            [sevenz, "l", "-slt", "-ba", fn],
+            stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        )
+        names = []
+        sizes = {}
+        cur = {}
+        for raw in out.split(b"\n"):
+            line = raw.rstrip(b"\r")
+            if line == b"":
+                self._addname(cur, names, sizes)
+                cur = {}
+                continue
+            key, sep, val = line.partition(b" = ")
+            if sep:
+                cur[key] = val
+        self._addname(cur, names, sizes)
+        return names, sizes
+
+    @staticmethod
+    def _isdir(cur):
+        if cur.get(b"Folder", b"") == b"+":
+            return True
+        return cur.get(b"Attributes", b"")[:1] == b"D"
+
+    def _addname(self, cur, names, sizes):
+        path = cur.get(b"Path")
+        if path is None or self._isdir(cur):
+            return
+        name = path.decode("utf-8", "replace")
+        names.append(name)
+        try:
+            sizes[name] = int(cur.get(b"Size", b"0") or b"0")
+        except ValueError:
+            sizes[name] = 0
+
     def getname(self, index):
-        return self.rar.infolist()[index].filename 
-    
+        return self.names[index]
+
+    def _ensure_extracted(self):
+        """Decompress the whole archive to a temp dir, once. Best effort: the
+        return code is ignored so that a single bad/unreadable member does not
+        abort extraction of the others. stdin=DEVNULL makes a password prompt on
+        an encrypted archive fail fast instead of blocking forever."""
+        if self.extracted:
+            return
+        if self.tmpdir is None:
+            self.tmpdir = rclexecm.SafeTmpDir("rclrar")
+        dest = self.tmpdir.getpath()
+        self._cleartmp(dest)
+        subprocess.run(
+            [sevenz, "x", "-y", "-o" + dest, self.filename],
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        )
+        self.extracted = True
+
+    @staticmethod
+    def _cleartmp(d):
+        # SafeTmpDir.vacuumdir() only removes top-level files; extracted
+        # members may live in subdirectories, so clear recursively to avoid
+        # accumulating them across the many archives one filter process handles.
+        for fn in os.listdir(d):
+            p = os.path.join(d, fn)
+            try:
+                if os.path.isdir(p) and not os.path.islink(p):
+                    shutil.rmtree(p, True)
+                else:
+                    os.unlink(p)
+            except OSError:
+                pass
+
+    def _memberpath(self, member):
+        parts = member.replace("\\", "/").split("/")
+        return os.path.join(self.tmpdir.getpath(), *parts)
+
+    def extractone(self, ipath):
+        # ipath may be str (from getname) or bytes (from getipath round-trip).
+        member = ipath.decode("utf-8", "replace") if isinstance(ipath, bytes) else ipath
+        docdata = b""
+        ok = False
+        try:
+            if self.sizes.get(member, 0) > self.em.maxmembersize:
+                self.em.rclog("extractone: [%s] over maxmembersize, skipped" % member)
+                ok = True
+            else:
+                self._ensure_extracted()
+                with open(self._memberpath(member), "rb") as f:
+                    docdata = f.read()
+                ok = True
+        except Exception as err:
+            self.em.rclog("extractone: failed: [%s]" % err)
+
+        iseof = rclexecm.RclExecM.noteof
+        if self.currentindex >= self.namelistlen - 1:
+            iseof = rclexecm.RclExecM.eofnext
+        self.em.setfield("filename", posixpath.basename(member))
+        return (ok, docdata, rclexecm.makebytes(ipath), iseof)
+
+    def closefile(self):
+        if self.extracted and self.tmpdir is not None:
+            self._cleartmp(self.tmpdir.getpath())
+
     # getipath from ArchiveExtractor
     # getnext from ArchiveExtractor
 

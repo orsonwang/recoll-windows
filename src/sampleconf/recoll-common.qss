@@ -8,5 +8,6 @@
  */
 
 * {
+      font-family: "Microsoft JhengHei UI", "Microsoft JhengHei", "Segoe UI", sans-serif;
       font-size: 12pt;
 }

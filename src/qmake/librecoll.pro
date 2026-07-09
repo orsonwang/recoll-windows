@@ -152,8 +152,8 @@ windows {
       $$RECOLLDEPS/msvc/zlib-1.2.11/ \
       $$RECOLLDEPS/msvc/libxslt/libxslt-1.1.29/ \
       $$RECOLLDEPS/msvc/libxml2/libxml2-2.9.4+dfsg1/include \
-      $$RECOLLDEPS/msvc/wlibiconv/include \
-      $$RECOLLDEPS/msvc/libmagic/src
+      $$RECOLLDEPS/msvc/wlibiconv/include
+    # libmagic disabled on MSVC build (ENABLE_LIBMAGIC undefined)
   }
 
 }
